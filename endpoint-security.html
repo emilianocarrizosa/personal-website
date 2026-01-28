@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Layer Endpoint Security Architecture - Emiliano Carrizosa</title>
+    <style>
+        /* Matching Index Page Theme with Animations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Fixed Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(13, 17, 23, 0.95);
+            border-bottom: 1px solid #30363d;
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 16px;
+            font-weight: 700;
+            color: #58a6ff;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #58a6ff;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+
+        /* Project Header */
+        .project-header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            padding: 50px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-title {
+            font-size: 42px;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .project-subtitle {
+            font-size: 20px;
+            color: #8b949e;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .project-meta {
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .tag {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #30363d;
+            color: #58a6ff;
+            padding: 6px 12px;
+            border-radius: 12px;
+            margin: 0 6px 6px 0;
+            font-size: 12px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Content Styling */
+        .content {
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .content h2 {
+            font-size: 28px;
+            color: #f0f6fc;
+            margin: 70px 0 30px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #30363d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .content h3 {
+            font-size: 22px;
+            color: #f0f6fc;
+            margin: 45px 0 20px;
+            font-weight: 600;
+        }
+
+        .content h4 {
+            font-size: 18px;
+            color: #58a6ff;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 15px;
+            color: #c9d1d9;
+        }
+
+        .content ul {
+            margin: 20px 0;
+            padding-left: 25px;
+        }
+
+        .content li {
+            margin: 12px 0;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+
+        .content strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+
+        /* Section Boxes with Animations */
+        .section-box {
+            background: #161b22;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 35px 0;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border-left-width: 6px;
+        }
+
+        .section-box.success {
+            border-left-color: #3fb950;
+        }
+
+        .section-box.success:hover {
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        .section-box.highlight {
+            border-left-color: #d29922;
+        }
+
+        .section-box.highlight:hover {
+            background: rgba(210, 153, 34, 0.05);
+        }
+
+        .section-box.warning {
+            border-left-color: #f85149;
+        }
+
+        .section-box.warning:hover {
+            background: rgba(248, 81, 73, 0.05);
+        }
+
+        .section-box h3,
+        .section-box h4 {
+            margin-top: 0;
+            color: #f0f6fc;
+        }
+
+        /* Info Grid with Staggered Animation */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .info-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.1s; }
+        .info-card:nth-child(2) { animation-delay: 0.2s; }
+        .info-card:nth-child(3) { animation-delay: 0.3s; }
+        .info-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .info-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .info-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 17px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: #c9d1d9;
+            margin: 8px 0;
+        }
+
+        .info-card li {
+            font-size: 14px;
+            color: #c9d1d9;
+        }
+
+        /* Tech Specs Box */
+        .tech-specs {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 35px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-specs:hover {
+            border-color: #58a6ff;
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.1);
+        }
+
+        .tech-specs h4 {
+            color: #58a6ff;
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tech-specs p {
+            color: #c9d1d9;
+            margin: 10px 0;
+            font-size: 14px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .tech-specs p:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #58a6ff;
+        }
+
+        /* Scenario Boxes */
+        .scenario-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #a371f7;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .scenario-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(163, 113, 247, 0.15);
+            background: rgba(163, 113, 247, 0.05);
+            border-left-width: 6px;
+        }
+
+        .scenario-box h4 {
+            color: #a371f7;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+
+        .scenario-box p {
+            color: #c9d1d9;
+            line-height: 1.8;
+        }
+
+        /* Layer Cards */
+        .layer-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .layer-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.15);
+            border-left-width: 6px;
+        }
+
+        .layer-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+
+        /* Metrics */
+        .metric-highlight {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 3px solid #58a6ff;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #58a6ff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-highlight:hover {
+            background: rgba(88, 166, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid #30363d;
+            text-align: center;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .project-header {
+                padding: 30px;
+            }
+
+            .project-title {
+                font-size: 32px;
+            }
+
+            .project-subtitle {
+                font-size: 18px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">EMILIANO CARRIZOSA</div>
+            <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Project Header -->
+        <div class="project-header">
+            <h1 class="project-title">Multi-Layer Endpoint Security Architecture</h1>
+            <p class="project-subtitle">Defense-in-Depth System Hardening for Business Workstations</p>
+            <div class="project-meta">
+                November 2025 :: 
+                <span class="tag">#endpoint-security</span>
+                <span class="tag">#hardening</span>
+                <span class="tag">#defense-in-depth</span>
+                <span class="tag">#sandboxing</span>
+            </div>
+        </div>
+
+        <div class="content">
+            
+            <!-- EXECUTIVE SUMMARY -->
+            <div class="section-box success">
+                <h3>Executive Summary</h3>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Problem:</strong> Single compromised endpoint can expose all sensitive data and enable network-wide attacks through lack of compartmentalization.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Solution:</strong> Multi-layer defense-in-depth architecture with user compartmentalization, application sandboxing, browser hardening, and network controls.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                    <strong>Impact:</strong> Significantly reduces attack surface while maintaining complete usability for daily operations through multiple independent security layers.
+                </p>
+            </div>
+
+            <!-- THE BUSINESS CHALLENGE -->
+            <h2>The Business Challenge</h2>
+            <p>
+                Organizations face threats from both external attackers and insider risks. A single compromised endpoint can expose sensitive data, provide network access, or enable lateral movement to other systems. Traditional single-user, single-profile systems lack compartmentalization, meaning one compromised application or credential grants access to everything.
+            </p>
+
+            <div class="section-box highlight">
+                <h4>Common Endpoint Vulnerabilities:</h4>
+                <ul style="margin: 15px 0;">
+                    <li>Browser-based attacks and drive-by downloads compromising user sessions</li>
+                    <li>Credential theft from compromised applications exposing authentication tokens</li>
+                    <li>Cross-site tracking and fingerprinting revealing user behavior and identity</li>
+                    <li>Insider threats through unrestricted access to all system resources</li>
+                    <li>Network-based attacks and traffic interception capturing sensitive communications</li>
+                    <li>Physical device compromise through unencrypted storage</li>
+                </ul>
+            </div>
+
+            <p class="metric-highlight">
+                Core Principle: Multiple independent security layers - if one protection fails, others continue protecting the system
+            </p>
+
+            <!-- THE SOLUTION -->
+            <h2>The Solution</h2>
+            <p>
+                Implemented comprehensive endpoint hardening using defense-in-depth principles: user profile compartmentalization, application sandboxing, browser hardening, and network security controls. This multi-layer architecture ensures that compromise of any single component doesn't result in total system breach.
+            </p>
+
+            <!-- SECURITY ARCHITECTURE -->
+            <h2>Security Architecture</h2>
+
+            <div class="layer-card">
+                <h4>Layer 1: User Profile Compartmentalization</h4>
+                <p style="margin-bottom: 15px;">Created isolated user environments for different security contexts:</p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li><strong>Admin Profile:</strong> System administration only (sudo access restricted to this profile)</li>
+                    <li><strong>Work Profile:</strong> Daily operations and business applications</li>
+                    <li><strong>Personal Profile:</strong> Isolated from work activities with separate browser profiles</li>
+                    <li><strong>Experimental Profile:</strong> Sandboxed environment for untrusted software testing</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Isolation Benefits:</strong> Separate home directories, profile-specific credentials and browser sessions, file permission boundaries preventing cross-profile access, different security policies per profile
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 2: Application Sandboxing (Firejail)</h4>
+                <p style="margin-bottom: 15px;">Deployed application-level isolation:</p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Restricted filesystem access for browsers and high-risk applications</li>
+                    <li>Isolated execution environment for untrusted software</li>
+                    <li>Default security profiles for common applications</li>
+                    <li>Experimental profile for safe testing of potentially unsafe software</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Application-level isolation prevents malware from accessing filesystem or other applications even if browser is fully compromised
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 3: Browser Security Hardening (arkenfox)</h4>
+                <p style="margin-bottom: 15px;">Implemented Firefox hardening template:</p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Disabled WebRTC preventing IP address leakage</li>
+                    <li>Enabled first-party isolation blocking cross-site tracking</li>
+                    <li>Configured DNS-over-HTTPS (DoH) for encrypted DNS queries</li>
+                    <li>Enabled resist fingerprinting features</li>
+                    <li>Disabled all telemetry and data collection</li>
+                    <li>HTTPS-only mode enforced across all connections</li>
+                    <li>Minimal extension stack: uBlock Origin + Container tabs</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Browser hardening prevents tracking, fingerprinting, and common web-based attacks at application layer
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 4: Network Security</h4>
+                <p style="margin-bottom: 15px;">Multiple network protection layers:</p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>ProtonVPN with kill switch preventing traffic leaks if VPN disconnects</li>
+                    <li>UFW firewall with default-deny policy</li>
+                    <li>LUKS full-disk encryption (from OS migration project)</li>
+                    <li>Encrypted swap preventing memory dump data exposure</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Network-level controls protect data in transit and at rest, maintaining security even outside corporate network
+                </div>
+            </div>
+
+            <!-- BUSINESS IMPACT -->
+            <h2>Business Impact</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Protects Against</h4>
+                    <p>• Browser-based attacks</p>
+                    <p>• Cross-site tracking</p>
+                    <p>• Credential theft</p>
+                    <p>• Insider threats</p>
+                    <p>• Network attacks</p>
+                    <p>• Physical compromise</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Use Cases</h4>
+                    <p>• Executive endpoints</p>
+                    <p>• Regulated industries</p>
+                    <p>• Remote workers</p>
+                    <p>• BYOD environments</p>
+                    <p>• Development teams</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Key Outcomes</h4>
+                    <p>• Reduced attack surface</p>
+                    <p>• Fingerprinting resistance</p>
+                    <p>• Zero cross-profile leakage</p>
+                    <p>• Encrypted network traffic</p>
+                    <p>• Isolated untrusted software</p>
+                </div>
+            </div>
+
+            <!-- REAL-WORLD SCENARIOS -->
+            <h2>Real-World Application Scenarios</h2>
+
+            <div class="scenario-box">
+                <h4>Scenario 1: Compromised Browser</h4>
+                <p>
+                    Employee clicks malicious link. Sandboxed browser prevents malware from accessing filesystem or other applications. <strong>Even if browser is fully compromised, attack is contained to sandboxed environment.</strong> No access to credentials, documents, or network resources.
+                </p>
+            </div>
+
+            <div class="scenario-box">
+                <h4>Scenario 2: Testing Untrusted Software</h4>
+                <p>
+                    Developer needs to evaluate third-party tool of unknown trustworthiness. <strong>Experimental profile with Firejail isolation allows testing without risking production work environment.</strong> Any malicious behavior is contained to isolated profile with no access to work data.
+                </p>
+            </div>
+
+            <div class="scenario-box">
+                <h4>Scenario 3: Work/Personal Separation</h4>
+                <p>
+                    Employee uses same device for work and personal activities. <strong>Profile compartmentalization ensures personal browsing habits don't correlate with work identity.</strong> Personal account compromise doesn't expose work credentials or business data.
+                </p>
+            </div>
+
+            <!-- TECHNICAL IMPLEMENTATION -->
+            <h2>Technical Implementation</h2>
+
+            <div class="tech-specs">
+                <h4>Platform Stack:</h4>
+                <p>OS: Arch Linux (hardened configuration)</p>
+                <p>Sandboxing: Firejail with custom profiles</p>
+                <p>Browser: Firefox with arkenfox user.js hardening</p>
+                <p>VPN: ProtonVPN with kill switch</p>
+                <p>Encryption: LUKS full-disk encryption</p>
+                <p>Firewall: UFW (Uncomplicated Firewall)</p>
+            </div>
+
+            <h3>Implementation Highlights</h3>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Profile Management</h4>
+                    <p style="line-height: 1.7;">
+                        Configured efficient profile switching with profile-specific shortcuts, maintaining security compartmentalization while preserving productivity. Each profile has independent environment variables, SSH keys, and application configurations.
+                    </p>
+                </div>
+
+                <div class="info-card">
+                    <h4>Ongoing Enhancements</h4>
+                    <p>• Per-profile SSH key isolation</p>
+                    <p>• Custom Firejail profiles for application-specific restrictions</p>
+                    <p>• LUKS key management with header backups and recovery keys</p>
+                    <p>• Automated security verification scripts</p>
+                </div>
+            </div>
+
+            <!-- CHALLENGES OVERCOME -->
+            <h2>Challenges Overcome</h2>
+
+            <div class="section-box highlight">
+                <p><strong>Challenge:</strong> Balancing privacy hardening with daily workflow usability</p>
+                <p><strong>Solution:</strong> Created custom arkenfox overrides allowing necessary functionality while maintaining security posture. Learned that aggressive hardening without use case consideration breaks workflows - security must enable work, not prevent it.</p>
+            </div>
+
+            <div class="section-box highlight">
+                <p><strong>Challenge:</strong> Managing multiple user profiles efficiently across different contexts</p>
+                <p><strong>Solution:</strong> Developed profile-specific configurations and shortcuts enabling quick context switching without security compromise. Automated profile selection based on task type.</p>
+            </div>
+
+            <!-- SKILLS DEMONSTRATED -->
+            <h2>Skills Demonstrated</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Security Architecture</h4>
+                    <p>• Defense-in-depth design</p>
+                    <p>• Threat modeling</p>
+                    <p>• Risk assessment</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>System Administration</h4>
+                    <p>• Linux user management</p>
+                    <p>• Access controls</p>
+                    <p>• Firewall configuration</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Application Security</h4>
+                    <p>• Browser hardening</p>
+                    <p>• Sandboxing</p>
+                    <p>• VPN configuration</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Usability Balance</h4>
+                    <p>• Security vs. productivity</p>
+                    <p>• Workflow optimization</p>
+                    <p>• User experience</p>
+                </div>
+            </div>
+
+            <!-- COMPARISON -->
+            <h2>Mobile Security Principles Applied to Desktop</h2>
+            <p style="font-size: 15px; line-height: 1.8;">
+                This implementation adapts mobile security concepts (Android's application sandboxes, user profiles) to desktop Linux environments. While hardware-backed security features (verified boot, hardware keystore) aren't fully replicable on standard laptops, the compartmentalization and sandboxing principles achieve similar isolation goals through software controls.
+            </p>
+
+            <!-- OUTCOME -->
+            <div class="section-box success">
+                <h3>Outcome</h3>
+                <p style="font-size: 16px; line-height: 1.8;">
+                    Successfully created a hardened Linux laptop environment that provides strong security and privacy for daily use. The compartmentalized approach allows different security postures for different activities while maintaining usability for productive work.
+                </p>
+                <p style="font-size: 15px; line-height: 1.8; margin-top: 15px;">
+                    This project demonstrates the ability to apply mobile security concepts to desktop environments, implement defense-in-depth strategies, and balance security requirements with practical usability - skills essential for IT security roles.
+                </p>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2025 Emiliano Carrizosa &lt;emiliano.carrizosa@proton.me&gt; :: New York, NY</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private AI Processing Environment - Emiliano Carrizosa</title>
+    <style>
+        /* Matching Index Page Theme with Animations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Fixed Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(13, 17, 23, 0.95);
+            border-bottom: 1px solid #30363d;
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 16px;
+            font-weight: 700;
+            color: #58a6ff;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #58a6ff;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+
+        /* Project Header */
+        .project-header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            padding: 50px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-title {
+            font-size: 42px;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .project-subtitle {
+            font-size: 20px;
+            color: #8b949e;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .project-meta {
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .tag {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #30363d;
+            color: #58a6ff;
+            padding: 6px 12px;
+            border-radius: 12px;
+            margin: 0 6px 6px 0;
+            font-size: 12px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Content Styling */
+        .content {
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .content h2 {
+            font-size: 28px;
+            color: #f0f6fc;
+            margin: 70px 0 30px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #30363d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .content h3 {
+            font-size: 22px;
+            color: #f0f6fc;
+            margin: 45px 0 20px;
+            font-weight: 600;
+        }
+
+        .content h4 {
+            font-size: 18px;
+            color: #58a6ff;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 15px;
+            color: #c9d1d9;
+        }
+
+        .content ul {
+            margin: 20px 0;
+            padding-left: 25px;
+        }
+
+        .content li {
+            margin: 12px 0;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+
+        .content strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+
+        /* Section Boxes with Animations */
+        .section-box {
+            background: #161b22;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 35px 0;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border-left-width: 6px;
+        }
+
+        .section-box.success {
+            border-left-color: #3fb950;
+        }
+
+        .section-box.success:hover {
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        .section-box.highlight {
+            border-left-color: #d29922;
+        }
+
+        .section-box.highlight:hover {
+            background: rgba(210, 153, 34, 0.05);
+        }
+
+        .section-box.warning {
+            border-left-color: #f85149;
+        }
+
+        .section-box.warning:hover {
+            background: rgba(248, 81, 73, 0.05);
+        }
+
+        .section-box h3,
+        .section-box h4 {
+            margin-top: 0;
+            color: #f0f6fc;
+        }
+
+        /* Info Grid with Staggered Animation */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .info-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.1s; }
+        .info-card:nth-child(2) { animation-delay: 0.2s; }
+        .info-card:nth-child(3) { animation-delay: 0.3s; }
+        .info-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .info-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .info-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 17px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: #c9d1d9;
+            margin: 8px 0;
+        }
+
+        .info-card li {
+            font-size: 14px;
+            color: #c9d1d9;
+        }
+
+        /* Tech Specs Box */
+        .tech-specs {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 35px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-specs:hover {
+            border-color: #58a6ff;
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.1);
+        }
+
+        .tech-specs h4 {
+            color: #58a6ff;
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tech-specs p {
+            color: #c9d1d9;
+            margin: 10px 0;
+            font-size: 14px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .tech-specs p:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #58a6ff;
+        }
+
+        /* Scenario Boxes */
+        .scenario-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #a371f7;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .scenario-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(163, 113, 247, 0.15);
+            background: rgba(163, 113, 247, 0.05);
+            border-left-width: 6px;
+        }
+
+        .scenario-box h4 {
+            color: #a371f7;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+
+        .scenario-box p {
+            color: #c9d1d9;
+            line-height: 1.8;
+        }
+
+        /* Layer Cards */
+        .layer-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .layer-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.15);
+            border-left-width: 6px;
+        }
+
+        .layer-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+
+        /* Metrics */
+        .metric-highlight {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 3px solid #58a6ff;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #58a6ff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-highlight:hover {
+            background: rgba(88, 166, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid #30363d;
+            text-align: center;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .project-header {
+                padding: 30px;
+            }
+
+            .project-title {
+                font-size: 32px;
+            }
+
+            .project-subtitle {
+                font-size: 18px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">EMILIANO CARRIZOSA</div>
+            <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Project Header -->
+        <div class="project-header">
+            <h1 class="project-title">Private AI Processing Environment</h1>
+            <p class="project-subtitle">Zero-Trust Local LLM Deployment for Confidential Data</p>
+            <div class="project-meta">
+                October 2025 :: 
+                <span class="tag">#airgap</span>
+                <span class="tag">#compliance</span>
+                <span class="tag">#privacy</span>
+                <span class="tag">#data-sovereignty</span>
+            </div>
+        </div>
+
+        <div class="content">
+            
+            <!-- EXECUTIVE SUMMARY -->
+            <div class="section-box success">
+                <h3>Executive Summary</h3>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Problem:</strong> Organizations cannot use AI tools like ChatGPT on confidential data due to compliance violations and data sovereignty concerns.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Solution:</strong> Completely air-gapped local AI environment processing sensitive data with zero external network transmission, running entirely on isolated infrastructure.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                    <strong>Impact:</strong> Enables AI adoption in regulated industries while maintaining 100% data sovereignty, compliance with attorney-client privilege, HIPAA, and financial confidentiality requirements.
+                </p>
+            </div>
+
+            <!-- THE BUSINESS CHALLENGE -->
+            <h2>The Business Challenge</h2>
+            <p>
+                Organizations across legal, healthcare, financial, and corporate sectors need AI capabilities but cannot risk sending sensitive data to third-party cloud services. Traditional AI tools like ChatGPT, Claude, and Copilot require internet connectivity and process user data on external servers - creating unacceptable legal, regulatory, and competitive risks.
+            </p>
+
+            <div class="section-box highlight">
+                <h4>Unacceptable Risks for Regulated Industries:</h4>
+                <ul style="margin: 15px 0;">
+                    <li><strong>Legal Sector:</strong> Attorney-client privilege violations, ethics rule breaches under Model Rule 1.6</li>
+                    <li><strong>Healthcare:</strong> HIPAA violations from transmitting Protected Health Information (PHI) to unauthorized third parties</li>
+                    <li><strong>Financial Services:</strong> Material non-public information exposure, insider trading risks, GLBA violations</li>
+                    <li><strong>Corporate R&D:</strong> Trade secret disclosure, competitive intelligence leakage, intellectual property loss</li>
+                    <li><strong>Government Contractors:</strong> Security clearance violations, classified/CUI information exposure, federal contract breach</li>
+                </ul>
+            </div>
+
+            <p class="metric-highlight">
+                Critical Requirement: AI processing capabilities without any data leaving organizational control
+            </p>
+
+            <!-- THE SOLUTION -->
+            <h2>The Solution</h2>
+            <p>
+                Deployed completely air-gapped local Large Language Model (LLM) infrastructure enabling AI-powered document analysis, legal research, medical literature review, and contract analysis without internet connectivity. Zero data transmission to external services ensures absolute confidentiality and regulatory compliance.
+            </p>
+
+            <!-- ARCHITECTURE -->
+            <h2>Security Architecture</h2>
+
+            <div class="layer-card">
+                <h4>Layer 1: Network Isolation (Air-Gap Implementation)</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>All network interfaces physically disabled at hardware level</li>
+                    <li>Firewall rules blocking all outbound traffic at kernel level</li>
+                    <li>Network namespace isolation preventing process network access</li>
+                    <li>No WiFi, Bluetooth, or cellular hardware present</li>
+                    <li>Verification: Network monitoring confirms zero packets transmitted</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Physical and logical network isolation guarantees no data exfiltration possible even if application layer is compromised.
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 2: Local LLM Deployment</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Open-source LLM running entirely on local hardware (Llama 3, Mistral, or similar)</li>
+                    <li>Model weights and inference engine stored on encrypted local filesystem</li>
+                    <li>All processing occurs in local memory - no cloud API calls</li>
+                    <li>Text generation, summarization, and analysis without external dependencies</li>
+                    <li>Customizable system prompts for domain-specific tasks (legal, medical, financial)</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Complete control over AI model and inference process eliminates third-party data processing risks.
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 3: Data Encryption at Rest</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Full-disk encryption (LUKS) protecting all stored data</li>
+                    <li>Document inputs encrypted on disk before processing</li>
+                    <li>LLM outputs encrypted immediately after generation</li>
+                    <li>Encrypted swap preventing memory data exposure</li>
+                    <li>Passphrase-protected boot process requiring authentication</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Physical device compromise (theft, seizure) does not expose confidential data.
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 4: Application Sandboxing</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>LLM inference process isolated in restricted sandbox environment</li>
+                    <li>Limited filesystem access preventing unauthorized document retrieval</li>
+                    <li>Resource limits preventing system resource exhaustion</li>
+                    <li>Process isolation preventing lateral movement if compromised</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Defense-in-depth containment limits damage from potential vulnerabilities in AI software.
+                </div>
+            </div>
+
+            <!-- BUSINESS IMPACT -->
+            <h2>Business Impact</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Enables AI Adoption</h4>
+                    <p>Organizations can leverage AI productivity benefits without compliance violations</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Maintains Compliance</h4>
+                    <p>Zero external data transmission preserves attorney-client privilege, HIPAA, and financial confidentiality requirements</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Complete Data Control</h4>
+                    <p>Organizations retain 100% sovereignty over sensitive information throughout AI processing</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Cost-Effective</h4>
+                    <p>Provides alternative to expensive enterprise AI platforms while maintaining superior data protection</p>
+                </div>
+            </div>
+
+            <!-- INDUSTRY APPLICATIONS -->
+            <h2>Industry-Specific Applications</h2>
+
+            <div class="scenario-box">
+                <h4>Legal Sector: M&A Due Diligence</h4>
+                <p>
+                    <strong>Challenge:</strong> Law firm needs to analyze thousands of confidential contracts during merger due diligence. Using cloud AI would violate attorney-client privilege.<br><br>
+                    <strong>Solution:</strong> Air-gapped LLM processes contracts locally, extracting key terms, identifying risks, and summarizing obligations without any data leaving firm's infrastructure.<br><br>
+                    <strong>Result:</strong> 10x faster contract review while maintaining ethical obligations and client confidentiality.
+                </p>
+            </div>
+
+            <div class="scenario-box">
+                <h4>Healthcare: Medical Literature Review</h4>
+                <p>
+                    <strong>Challenge:</strong> Research hospital needs AI assistance analyzing patient data against medical literature but cannot transmit PHI externally due to HIPAA.<br><br>
+                    <strong>Solution:</strong> Local LLM processes de-identified patient records and medical literature, generating treatment insights without any patient information leaving facility.<br><br>
+                    <strong>Result:</strong> Improved clinical decision support while maintaining HIPAA compliance and patient privacy.
+                </p>
+            </div>
+
+            <div class="scenario-box">
+                <h4>Financial Services: Investment Analysis</h4>
+                <p>
+                    <strong>Challenge:</strong> Investment firm analyzes material non-public information but cannot use cloud AI due to insider trading regulations and competitive intelligence risks.<br><br>
+                    <strong>Solution:</strong> Air-gapped LLM processes proprietary financial models, earnings data, and strategic documents entirely on isolated infrastructure.<br><br>
+                    <strong>Result:</strong> AI-powered analysis without regulatory violations or information leakage to competitors.
+                </p>
+            </div>
+
+            <div class="scenario-box">
+                <h4>Corporate R&D: Trade Secret Protection</h4>
+                <p>
+                    <strong>Challenge:</strong> Technology company developing proprietary algorithms needs AI assistance but cannot risk trade secret exposure through cloud services.<br><br>
+                    <strong>Solution:</strong> Local LLM reviews code, suggests optimizations, and generates documentation without any source code transmitted externally.<br><br>
+                    <strong>Result:</strong> Maintained competitive advantage while leveraging AI development productivity gains.
+                </p>
+            </div>
+
+            <!-- TECHNICAL IMPLEMENTATION -->
+            <h2>Technical Implementation</h2>
+
+            <div class="tech-specs">
+                <h4>Platform Architecture:</h4>
+                <p>Hardware: Dedicated workstation with GPU acceleration (NVIDIA RTX for inference)</p>
+                <p>OS: Linux (Arch) with hardened kernel and security policies</p>
+                <p>LLM Framework: Ollama / llama.cpp for efficient local inference</p>
+                <p>Models: Llama 3, Mistral, or domain-specific fine-tuned variants</p>
+                <p>Encryption: LUKS full-disk encryption with hardware-backed authentication</p>
+                <p>Network: All interfaces disabled, firewall rules blocking all traffic</p>
+            </div>
+
+            <h3>Implementation Process</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Phase 1: Hardware Setup</h4>
+                    <p>• Procure dedicated machine</p>
+                    <p>• Remove/disable network hardware</p>
+                    <p>• Install GPU for inference acceleration</p>
+                    <p>• Configure BIOS security settings</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Phase 2: OS Hardening</h4>
+                    <p>• Install minimal Linux system</p>
+                    <p>• Deploy full-disk encryption</p>
+                    <p>• Configure firewall drop-all rules</p>
+                    <p>• Disable unnecessary services</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Phase 3: LLM Deployment</h4>
+                    <p>• Install inference framework</p>
+                    <p>• Download model weights offline</p>
+                    <p>• Configure system prompts</p>
+                    <p>• Test inference capabilities</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Phase 4: Validation</h4>
+                    <p>• Network isolation verification</p>
+                    <p>• Encryption functionality testing</p>
+                    <p>• Performance benchmarking</p>
+                    <p>• Security audit and documentation</p>
+                </div>
+            </div>
+
+            <!-- SECURITY VERIFICATION -->
+            <h2>Security Verification</h2>
+
+            <div class="section-box success">
+                <h4>Validated Security Controls:</h4>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ Zero network packets transmitted (verified via packet capture monitoring)</p>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ All data encrypted at rest (verified via filesystem inspection)</p>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ LLM inference operates without external dependencies (verified via process monitoring)</p>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ Application sandboxing prevents unauthorized filesystem access (verified via security audit)</p>
+            </div>
+
+            <!-- SKILLS DEMONSTRATED -->
+            <h2>Skills Demonstrated</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Security Architecture</h4>
+                    <p>• Air-gap implementation and verification</p>
+                    <p>• Defense-in-depth security design</p>
+                    <p>• Threat modeling for regulated industries</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>System Administration</h4>
+                    <p>• Linux system hardening</p>
+                    <p>• Full-disk encryption deployment</p>
+                    <p>• Network isolation configuration</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>AI/ML Infrastructure</h4>
+                    <p>• Local LLM deployment</p>
+                    <p>• GPU-accelerated inference</p>
+                    <p>• Model optimization and tuning</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Compliance Understanding</h4>
+                    <p>• HIPAA privacy requirements</p>
+                    <p>• Attorney-client privilege</p>
+                    <p>• Financial data confidentiality</p>
+                </div>
+            </div>
+
+            <!-- OUTCOME -->
+            <div class="section-box success">
+                <h3>Outcome</h3>
+                <p style="font-size: 16px; line-height: 1.8;">
+                    Successfully deployed fully air-gapped AI processing environment enabling organizations to leverage AI capabilities on confidential data without compliance violations. This project demonstrates understanding of both technical security implementation and business compliance requirements - skills essential for roles protecting sensitive information in regulated industries.
+                </p>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2025 Emiliano Carrizosa &lt;emiliano.carrizosa@proton.me&gt; :: New York, NY</p>
+        </footer>
+    </div>
+</body>
+</html>

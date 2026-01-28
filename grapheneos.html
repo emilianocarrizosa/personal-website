@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Device Security Hardening - Emiliano Carrizosa</title>
+    <style>
+        /* Matching Index Page Theme with Animations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Fixed Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(13, 17, 23, 0.95);
+            border-bottom: 1px solid #30363d;
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 16px;
+            font-weight: 700;
+            color: #58a6ff;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #58a6ff;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+
+        /* Project Header */
+        .project-header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            padding: 50px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-title {
+            font-size: 42px;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .project-subtitle {
+            font-size: 20px;
+            color: #8b949e;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .project-meta {
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .tag {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #30363d;
+            color: #58a6ff;
+            padding: 6px 12px;
+            border-radius: 12px;
+            margin: 0 6px 6px 0;
+            font-size: 12px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Content Styling */
+        .content {
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .content h2 {
+            font-size: 28px;
+            color: #f0f6fc;
+            margin: 70px 0 30px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #30363d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .content h3 {
+            font-size: 22px;
+            color: #f0f6fc;
+            margin: 45px 0 20px;
+            font-weight: 600;
+        }
+
+        .content h4 {
+            font-size: 18px;
+            color: #58a6ff;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 15px;
+            color: #c9d1d9;
+        }
+
+        .content ul {
+            margin: 20px 0;
+            padding-left: 25px;
+        }
+
+        .content li {
+            margin: 12px 0;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+
+        .content strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+
+        /* Section Boxes with Animations */
+        .section-box {
+            background: #161b22;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 35px 0;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border-left-width: 6px;
+        }
+
+        .section-box.success {
+            border-left-color: #3fb950;
+        }
+
+        .section-box.success:hover {
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        .section-box.highlight {
+            border-left-color: #d29922;
+        }
+
+        .section-box.highlight:hover {
+            background: rgba(210, 153, 34, 0.05);
+        }
+
+        .section-box.warning {
+            border-left-color: #f85149;
+        }
+
+        .section-box.warning:hover {
+            background: rgba(248, 81, 73, 0.05);
+        }
+
+        .section-box h3,
+        .section-box h4 {
+            margin-top: 0;
+            color: #f0f6fc;
+        }
+
+        /* Info Grid with Staggered Animation */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .info-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.1s; }
+        .info-card:nth-child(2) { animation-delay: 0.2s; }
+        .info-card:nth-child(3) { animation-delay: 0.3s; }
+        .info-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .info-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .info-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 17px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: #c9d1d9;
+            margin: 8px 0;
+        }
+
+        .info-card li {
+            font-size: 14px;
+            color: #c9d1d9;
+        }
+
+        /* Tech Specs Box */
+        .tech-specs {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 35px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-specs:hover {
+            border-color: #58a6ff;
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.1);
+        }
+
+        .tech-specs h4 {
+            color: #58a6ff;
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tech-specs p {
+            color: #c9d1d9;
+            margin: 10px 0;
+            font-size: 14px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .tech-specs p:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #58a6ff;
+        }
+
+        /* Scenario Boxes */
+        .scenario-box {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #a371f7;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .scenario-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(163, 113, 247, 0.15);
+            background: rgba(163, 113, 247, 0.05);
+            border-left-width: 6px;
+        }
+
+        .scenario-box h4 {
+            color: #a371f7;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+
+        .scenario-box p {
+            color: #c9d1d9;
+            line-height: 1.8;
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #3fb950;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(63, 185, 80, 0.15);
+            border-left-width: 6px;
+        }
+
+        .feature-card h4 {
+            color: #3fb950;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+
+        /* Metrics */
+        .metric-highlight {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 3px solid #58a6ff;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #58a6ff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-highlight:hover {
+            background: rgba(88, 166, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid #30363d;
+            text-align: center;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .project-header {
+                padding: 30px;
+            }
+
+            .project-title {
+                font-size: 32px;
+            }
+
+            .project-subtitle {
+                font-size: 18px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">EMILIANO CARRIZOSA</div>
+            <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Project Header -->
+        <div class="project-header">
+            <h1 class="project-title">Mobile Device Security Hardening</h1>
+            <p class="project-subtitle">Enterprise-Grade Privacy Through Hardened Android OS</p>
+            <div class="project-meta">
+                October 2025 :: 
+                <span class="tag">#mobile-security</span>
+                <span class="tag">#android</span>
+                <span class="tag">#grapheneos</span>
+                <span class="tag">#privacy</span>
+            </div>
+        </div>
+
+        <div class="content">
+            
+            <!-- EXECUTIVE SUMMARY -->
+            <div class="section-box success">
+                <h3>Executive Summary</h3>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Problem:</strong> Stock Android continuously collects location data, communication metadata, and behavioral information - exposing business intelligence and client relationships.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Solution:</strong> Deployed GrapheneOS hardened operating system eliminating manufacturer surveillance while maintaining mobile functionality.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                    <strong>Impact:</strong> Complete data sovereignty with hardware-backed security protecting executive communications and sensitive business data.
+                </p>
+            </div>
+
+            <!-- THE BUSINESS CHALLENGE -->
+            <h2>The Business Challenge</h2>
+            <p>
+                Corporate mobile devices represent a significant security and privacy risk. Stock Android with Google services continuously collects location data, communication metadata, app usage patterns, and behavioral information - data that could expose business intelligence, client relationships, or strategic initiatives.
+            </p>
+
+            <div class="section-box highlight">
+                <h4>Mobile Security Risks:</h4>
+                <ul style="margin: 15px 0;">
+                    <li>Location tracking and behavioral profiling revealing executive travel and meeting patterns</li>
+                    <li>Communication metadata collection exposing business relationships and contact networks</li>
+                    <li>Third-party app data harvesting from installed business applications</li>
+                    <li>Unauthorized sensor access (microphone, camera, location) enabling surveillance</li>
+                    <li>Supply chain attacks in manufacturer firmware compromising device security</li>
+                    <li>Over-the-air surveillance and remote access through carrier or manufacturer backdoors</li>
+                </ul>
+            </div>
+
+            <!-- THE SOLUTION -->
+            <h2>The Solution</h2>
+            <p>
+                Deployed GrapheneOS, a hardened Android operating system, eliminating manufacturer surveillance infrastructure while maintaining essential mobile functionality. Configured user profile compartmentalization for different security contexts and implemented granular permission controls preventing unauthorized data access.
+            </p>
+
+            <div class="tech-specs">
+                <h4>Implementation Details:</h4>
+                <p>Platform: Google Pixel device (official GrapheneOS support)</p>
+                <p>Deployment: Official web installer with cryptographic verification</p>
+                <p>Security: Relocked bootloader with verified boot enabled</p>
+                <p>Hardware: Titan M chip integration for hardware-backed security</p>
+            </div>
+
+            <!-- SECURITY ENHANCEMENTS -->
+            <h2>Security Enhancements Over Stock Android</h2>
+
+            <div class="feature-card">
+                <h4>Core Security Features</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Hardened kernel and system components resistant to exploitation</li>
+                    <li>Verified boot with custom key ensuring system integrity</li>
+                    <li>Enhanced application sandboxing and isolation</li>
+                    <li>Network permission toggle (unique to GrapheneOS)</li>
+                    <li>Sensors permission toggle preventing unauthorized microphone/camera access</li>
+                    <li>Regular security updates independent of manufacturer</li>
+                    <li>Complete removal of Google Play Services surveillance</li>
+                    <li>Hardware-backed security (Pixel Titan M chip integration)</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <h4>Privacy Controls</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Per-application network permissions controlling internet access</li>
+                    <li>Granular sensor access controls for camera, microphone, location</li>
+                    <li>Temporary permission grants expiring after single use</li>
+                    <li>Storage scopes limiting app filesystem access</li>
+                    <li>Enhanced permission dashboard with usage monitoring</li>
+                    <li>Automatic device reboot after timeout (clearing memory)</li>
+                    <li>Scrambled PIN layout (anti-shoulder-surfing)</li>
+                </ul>
+            </div>
+
+            <!-- USER PROFILE ARCHITECTURE -->
+            <h2>User Profile Architecture</h2>
+            <p style="font-size: 15px; line-height: 1.8; margin-bottom: 25px;">
+                Created separate profiles for security compartmentalization:
+            </p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Admin Profile</h4>
+                    <p style="line-height: 1.7;">Device administration and permission management only. Minimal app installation, maximum security controls.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>General-Use Profile</h4>
+                    <p style="line-height: 1.7;">Professional communications, productivity apps, social media. Balanced security and functionality.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Experimental Profile</h4>
+                    <p style="line-height: 1.7;">Untrusted software testing in isolated environment. Contains risk to single profile.</p>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <h4>Profile Isolation Benefits:</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Separate application sandboxes per profile preventing cross-profile data access</li>
+                    <li>Independent notification and privacy settings for each security context</li>
+                    <li>Compartmentalized credentials preventing lateral access if one profile compromised</li>
+                    <li>Reduced per-profile attack surface through minimal app installation</li>
+                </ul>
+            </div>
+
+            <!-- APPLICATION ECOSYSTEM -->
+            <h2>Application Ecosystem</h2>
+
+            <h3>Open-Source Priority</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Privacy-Respecting Apps</h4>
+                    <p>• F-Droid app store</p>
+                    <p>• Signal (encrypted messaging)</p>
+                    <p>• Vanadium (hardened browser)</p>
+                    <p>• Standard Notes (encrypted notes)</p>
+                    <p>• KeePassDX (password manager)</p>
+                    <p>• Organic Maps (no tracking)</p>
+                </div>
+            </div>
+
+            <h3>Sandboxed Google Play (When Necessary)</h3>
+            <p style="line-height: 1.7;">For profiles requiring unavoidable Google Play apps:</p>
+            <div class="section-box">
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Installed in isolated profile only</li>
+                    <li>Minimal permissions granted</li>
+                    <li>Contained to specific use cases</li>
+                    <li>Conscious privacy trade-offs understood</li>
+                </ul>
+            </div>
+
+            <!-- BUSINESS IMPACT -->
+            <h2>Business Impact</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Protects Against</h4>
+                    <p>• Location tracking</p>
+                    <p>• Metadata collection</p>
+                    <p>• App data harvesting</p>
+                    <p>• Unauthorized sensor access</p>
+                    <p>• Supply chain attacks</p>
+                    <p>• Remote surveillance</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Use Cases</h4>
+                    <p>• Executive protection</p>
+                    <p>• Investigative journalism</p>
+                    <p>• Legal professionals</p>
+                    <p>• Healthcare providers</p>
+                    <p>• Government contractors</p>
+                    <p>• High-net-worth individuals</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Key Outcomes</h4>
+                    <p>• Eliminated Google data collection</p>
+                    <p>• Reduced system app count</p>
+                    <p>• Per-app network control</p>
+                    <p>• Verified boot integrity</p>
+                    <p>• Rapid security updates</p>
+                </div>
+            </div>
+
+            <!-- REAL-WORLD SCENARIOS -->
+            <h2>Real-World Application Scenarios</h2>
+
+            <div class="scenario-box">
+                <h4>Scenario 1: Executive Travel</h4>
+                <p>
+                    C-suite executive travels internationally with sensitive M&A negotiations. <strong>GrapheneOS prevents location tracking, communications metadata collection, and potential foreign intelligence surveillance through manufacturer backdoors.</strong> Business discussions remain confidential.
+                </p>
+            </div>
+
+            <div class="scenario-box">
+                <h4>Scenario 2: Remote Workforce (BYOD)</h4>
+                <p>
+                    Employee accesses business systems from personal device under BYOD policy. <strong>Profile compartmentalization ensures work credentials and data remain isolated from personal apps.</strong> Cross-context data leakage prevented through system-level separation.
+                </p>
+            </div>
+
+            <div class="scenario-box">
+                <h4>Scenario 3: Investigative Research</h4>
+                <p>
+                    Journalist communicating with confidential sources. <strong>GrapheneOS network permission controls and sensor toggles ensure communication apps can't secretly record or transmit location data.</strong> Source protection maintained through technical controls.
+                </p>
+            </div>
+
+            <!-- DEPLOYMENT CONSIDERATIONS -->
+            <h2>Deployment Considerations</h2>
+
+            <div class="section-box highlight">
+                <h4>Security Trade-offs:</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Unlocked bootloader during installation (temporarily reduced security)</li>
+                    <li>Relocked after installation (restores verified boot protection)</li>
+                    <li>Some Google Play Store apps may have compatibility issues</li>
+                    <li>Banking apps may detect "rooted" device (GrapheneOS has bypasses)</li>
+                </ul>
+            </div>
+
+            <div class="section-box">
+                <h4>Usability Balance:</h4>
+                <p style="line-height: 1.7;">Successfully balanced security requirements with practical mobile needs:</p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Location services enabled temporarily for navigation only</li>
+                    <li>Google Play available in isolated profile for necessary apps</li>
+                    <li>Pragmatic risk acceptance for unavoidable compromises</li>
+                    <li>Maintained productivity while maximizing privacy</li>
+                </ul>
+            </div>
+
+            <!-- TECHNICAL SKILLS -->
+            <h2>Technical Skills Demonstrated</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Mobile Device Management</h4>
+                    <p>• Device flashing and bootloader management</p>
+                    <p>• Cryptographic verification of system images</p>
+                    <p>• Android security architecture understanding</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Security Engineering</h4>
+                    <p>• User compartmentalization strategies</p>
+                    <p>• Risk assessment and threat modeling</p>
+                    <p>• Privacy-enhancing technologies</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>System Administration</h4>
+                    <p>• Permission system configuration</p>
+                    <p>• Application vetting and security assessment</p>
+                    <p>• Documentation and compliance</p>
+                </div>
+            </div>
+
+            <!-- ONGOING MAINTENANCE -->
+            <h2>Ongoing Maintenance</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Update Strategy</h4>
+                    <p>• Automatic security updates configured</p>
+                    <p>• Update verification over WiFi only</p>
+                    <p>• Regular backup schedule before major updates</p>
+                    <p>• Review of update changelog for significant changes</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Permission Auditing</h4>
+                    <p>• Regular review of all application permissions</p>
+                    <p>• Minimal permission grants (temporary when possible)</p>
+                    <p>• Active monitoring through Privacy Dashboard</p>
+                    <p>• Storage scope configuration for each application</p>
+                </div>
+            </div>
+
+            <!-- ENTERPRISE APPLICATION -->
+            <h2>Enterprise Mobile Device Management Applicability</h2>
+            <p style="font-size: 15px; line-height: 1.8;">
+                This project demonstrates capabilities directly applicable to Mobile Device Management (MDM) and enterprise security roles:
+            </p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>MDM Understanding</h4>
+                    <p>• Mobile threat landscape knowledge</p>
+                    <p>• Security-hardened OS deployment experience</p>
+                    <p>• User profile management and compartmentalization</p>
+                </div>
+                <div class="info-card">
+                    <h4>Security Assessment</h4>
+                    <p>• Application vetting and security evaluation</p>
+                    <p>• Privacy-focused technology implementation</p>
+                    <p>• Documentation and compliance considerations</p>
+                </div>
+            </div>
+
+            <!-- LESSONS LEARNED -->
+            <h2>Lessons Learned</h2>
+            <div class="section-box highlight">
+                <p style="font-size: 15px; line-height: 1.8;">
+                    The most valuable insight was understanding the trade-offs between maximum privacy and practical functionality. Absolute security is often incompatible with real-world needs - effective security engineering means implementing the strongest protections possible while maintaining necessary functionality. <strong>This balance is critical in enterprise environments where security requirements must coexist with business operations.</strong>
+                </p>
+            </div>
+
+            <!-- OUTCOME -->
+            <div class="section-box success">
+                <h3>Outcome</h3>
+                <p style="font-size: 16px; line-height: 1.8;">
+                    Successfully deployed GrapheneOS as primary mobile operating system, achieving significant improvement in privacy and security over stock Android. The device provides essential mobile functionality while minimizing surveillance, data collection, and security vulnerabilities.
+                </p>
+                <p style="font-size: 15px; line-height: 1.8; margin-top: 15px;">
+                    This project demonstrates understanding of mobile security architecture, ability to implement privacy-enhancing technologies, and commitment to data privacy principles - skills increasingly valuable in IT security and privacy-focused roles.
+                </p>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2025 Emiliano Carrizosa &lt;emiliano.carrizosa@proton.me&gt; :: New York, NY</p>
+        </footer>
+    </div>
+</body>
+</html>

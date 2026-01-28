@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Cross-Platform OS Migration - Emiliano Carrizosa</title>
+    <style>
+        /* Matching Index Page Theme with Animations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Fixed Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(13, 17, 23, 0.95);
+            border-bottom: 1px solid #30363d;
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 16px;
+            font-weight: 700;
+            color: #58a6ff;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #58a6ff;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+
+        /* Project Header */
+        .project-header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            padding: 50px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-title {
+            font-size: 42px;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .project-subtitle {
+            font-size: 20px;
+            color: #8b949e;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .project-meta {
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .tag {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #30363d;
+            color: #58a6ff;
+            padding: 6px 12px;
+            border-radius: 12px;
+            margin: 0 6px 6px 0;
+            font-size: 12px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Content Styling */
+        .content {
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .content h2 {
+            font-size: 28px;
+            color: #f0f6fc;
+            margin: 70px 0 30px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #30363d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .content h3 {
+            font-size: 22px;
+            color: #f0f6fc;
+            margin: 45px 0 20px;
+            font-weight: 600;
+        }
+
+        .content h4 {
+            font-size: 18px;
+            color: #58a6ff;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 15px;
+            color: #c9d1d9;
+        }
+
+        .content ul {
+            margin: 20px 0;
+            padding-left: 25px;
+        }
+
+        .content li {
+            margin: 12px 0;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+
+        .content strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+
+        /* Section Boxes with Animations */
+        .section-box {
+            background: #161b22;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 35px 0;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border-left-width: 6px;
+        }
+
+        .section-box.success {
+            border-left-color: #3fb950;
+        }
+
+        .section-box.success:hover {
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        .section-box.highlight {
+            border-left-color: #d29922;
+        }
+
+        .section-box.highlight:hover {
+            background: rgba(210, 153, 34, 0.05);
+        }
+
+        .section-box.warning {
+            border-left-color: #f85149;
+        }
+
+        .section-box.warning:hover {
+            background: rgba(248, 81, 73, 0.05);
+        }
+
+        .section-box h3,
+        .section-box h4 {
+            margin-top: 0;
+            color: #f0f6fc;
+        }
+
+        /* Info Grid with Staggered Animation */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .info-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.1s; }
+        .info-card:nth-child(2) { animation-delay: 0.2s; }
+        .info-card:nth-child(3) { animation-delay: 0.3s; }
+        .info-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .info-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .info-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 17px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: #c9d1d9;
+            margin: 8px 0;
+        }
+
+        .info-card li {
+            font-size: 14px;
+            color: #c9d1d9;
+        }
+
+        /* Tech Specs Box */
+        .tech-specs {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 35px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-specs:hover {
+            border-color: #58a6ff;
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.1);
+        }
+
+        .tech-specs h4 {
+            color: #58a6ff;
+            margin: 0 0 20px 0;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tech-specs p {
+            color: #c9d1d9;
+            margin: 10px 0;
+            font-size: 14px;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .tech-specs p:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #58a6ff;
+        }
+
+        /* Phase Cards */
+        .phase-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .phase-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.15);
+            border-left-width: 6px;
+        }
+
+        .phase-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+
+        /* Metrics */
+        .metric-highlight {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 3px solid #58a6ff;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #58a6ff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-highlight:hover {
+            background: rgba(88, 166, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid #30363d;
+            text-align: center;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .project-header {
+                padding: 30px;
+            }
+
+            .project-title {
+                font-size: 32px;
+            }
+
+            .project-subtitle {
+                font-size: 18px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">EMILIANO CARRIZOSA</div>
+            <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Project Header -->
+        <div class="project-header">
+            <h1 class="project-title">Secure Cross-Platform OS Migration</h1>
+            <p class="project-subtitle">Windows to Linux with Zero Data Loss and Full Encryption</p>
+            <div class="project-meta">
+                September 2025 :: 
+                <span class="tag">#migration</span>
+                <span class="tag">#encryption</span>
+                <span class="tag">#linux</span>
+                <span class="tag">#system-administration</span>
+            </div>
+        </div>
+
+        <div class="content">
+            
+            <!-- EXECUTIVE SUMMARY -->
+            <div class="section-box success">
+                <h3>Executive Summary</h3>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Challenge:</strong> OS migrations risk data loss, downtime, and application incompatibility - failed migrations result in lost productivity and expensive recovery operations.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Solution:</strong> Systematic migration methodology with comprehensive backups, LUKS encryption implementation, and hardware compatibility resolution.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                    <strong>Result:</strong> Zero data loss, complete system transition with enhanced security through full-disk encryption implemented during migration window.
+                </p>
+            </div>
+
+            <!-- THE BUSINESS CHALLENGE -->
+            <h2>The Business Challenge</h2>
+            <p>
+                Organizations frequently need to migrate systems between operating systems - whether transitioning legacy Windows infrastructure to Linux servers, moving workstations to more secure platforms, or consolidating heterogeneous environments. These migrations carry significant risk.
+            </p>
+
+            <div class="section-box highlight">
+                <h4>Migration Risks:</h4>
+                <ul style="margin: 15px 0;">
+                    <li><strong>Data loss</strong> during destructive operations permanently destroying business-critical information</li>
+                    <li><strong>Downtime</strong> impacting productivity and revenue during extended migration windows</li>
+                    <li><strong>Application incompatibility</strong> breaking critical workflows and business processes</li>
+                    <li><strong>Hardware compatibility</strong> issues requiring driver troubleshooting and potential hardware replacement</li>
+                    <li><strong>User disruption</strong> from unfamiliar environments reducing productivity during adjustment period</li>
+                </ul>
+                <p style="margin: 15px 0 0 0;"><strong>Failed migrations can result in lost productivity, corrupted data, and expensive recovery operations.</strong></p>
+            </div>
+
+            <!-- THE SOLUTION -->
+            <h2>The Solution</h2>
+            <p>
+                Executed complete operating system migration from Windows 10 to Arch Linux with zero data loss, implementing full-disk encryption during the transition. This project demonstrates systematic migration planning, comprehensive backup strategies, hardware compatibility resolution, and security hardening throughout the process.
+            </p>
+
+            <!-- MIGRATION METHODOLOGY -->
+            <h2>Migration Methodology</h2>
+
+            <div class="phase-card">
+                <h4>Phase 1: Pre-Migration Planning</h4>
+                
+                <p style="margin-bottom: 15px;"><strong>System Audit:</strong></p>
+                <ul style="line-height: 1.7; margin-bottom: 20px;">
+                    <li>Catalogued all critical data, applications, and configurations</li>
+                    <li>Identified Windows-specific software requiring Linux alternatives or virtualization</li>
+                    <li>Documented hardware specifications and driver requirements</li>
+                    <li>Created comprehensive inventory of files and settings to preserve</li>
+                </ul>
+                
+                <p style="margin: 20px 0 15px 0;"><strong>Backup Strategy:</strong></p>
+                <ul style="line-height: 1.7;">
+                    <li>Created encrypted container on external USB using VeraCrypt</li>
+                    <li>Verified backup integrity before proceeding with destructive operations</li>
+                    <li>Ensured all critical data protected and retrievable</li>
+                    <li>Established rollback plan in case of migration failure</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <h4>Phase 2: Installation & Configuration</h4>
+                
+                <p style="margin-bottom: 15px;"><strong>Partitioning Strategy:</strong></p>
+                <ul style="line-height: 1.7; margin-bottom: 20px;">
+                    <li>Designed custom partition layout optimized for encrypted systems</li>
+                    <li>Separated boot, root, and home partitions for security and maintainability</li>
+                    <li>Allocated appropriate space for system, user data, and swap</li>
+                </ul>
+                
+                <p style="margin: 20px 0 15px 0;"><strong>LUKS Encryption Implementation:</strong></p>
+                <ul style="line-height: 1.7; margin-bottom: 20px;">
+                    <li>Deployed Linux Unified Key Setup (LUKS) for full-disk encryption</li>
+                    <li>Configured secure passphrase authentication at boot time</li>
+                    <li>Created encrypted swap partition preventing memory data leakage</li>
+                    <li>Configured GRUB bootloader with initramfs hooks for encrypted root partition</li>
+                </ul>
+                
+                <p style="margin: 20px 0 15px 0;"><strong>Base System Deployment:</strong></p>
+                <ul style="line-height: 1.7;">
+                    <li>Installed Arch Linux from minimal installation media</li>
+                    <li>Configured network connectivity and package repositories</li>
+                    <li>Deployed essential system packages and utilities</li>
+                    <li>Set up bootloader with LUKS support</li>
+                </ul>
+            </div>
+
+            <div class="phase-card">
+                <h4>Phase 3: Hardware Compatibility</h4>
+                
+                <p style="margin-bottom: 15px;"><strong>Driver Configuration:</strong></p>
+                <ul style="line-height: 1.7; margin-bottom: 20px;">
+                    <li>Installed NVIDIA proprietary graphics drivers for discrete GPU</li>
+                    <li>Configured GPU switching (nvidia-prime/optimus) for laptop power management</li>
+                    <li>Set up PulseAudio for audio management</li>
+                    <li>Deployed power management utilities (TLP/powertop) for battery optimization</li>
+                    <li>Verified functionality of wireless, touchpad, audio, and input devices</li>
+                </ul>
+                
+                <div style="background: rgba(210, 153, 34, 0.1); padding: 15px; margin-top: 20px; border-radius: 6px; border-left: 4px solid #d29922;">
+                    <strong>Challenge Overcome:</strong> MSI GS66 Stealth required specific handling:
+                    <ul style="margin: 10px 0 0 20px; color: #c9d1d9;">
+                        <li>NVIDIA discrete graphics needed proprietary drivers post-installation</li>
+                        <li>Optimus switching configuration for integrated/discrete GPU management</li>
+                        <li>Multiple USB creation tools failed before finding compatible bootable media approach</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="phase-card">
+                <h4>Phase 4: Post-Migration Configuration</h4>
+                
+                <p style="margin-bottom: 15px;"><strong>Environment Setup:</strong></p>
+                <ul style="line-height: 1.7; margin-bottom: 20px;">
+                    <li>Installed and configured desktop environment</li>
+                    <li>Migrated user data from encrypted backup</li>
+                    <li>Established development environment and workflow tools</li>
+                    <li>Set up Oracle VirtualBox for Windows-only applications when needed</li>
+                </ul>
+                
+                <p style="margin: 20px 0 15px 0;"><strong>Security Hardening:</strong></p>
+                <ul style="line-height: 1.7; margin-bottom: 20px;">
+                    <li>Configured firewall (ufw/iptables) with default-deny policy</li>
+                    <li>Set up AppArmor/SELinux mandatory access control profiles</li>
+                    <li>Implemented application sandboxing with Firejail for high-risk software</li>
+                    <li>Disabled unnecessary services reducing attack surface</li>
+                </ul>
+                
+                <p style="margin: 20px 0 15px 0;"><strong>Data Verification:</strong></p>
+                <ul style="line-height: 1.7;">
+                    <li>Successfully transferred all critical files from Windows installation</li>
+                    <li>Verified data integrity and accessibility</li>
+                    <li>Confirmed zero data loss throughout migration process</li>
+                    <li>Validated application functionality and workflow compatibility</li>
+                </ul>
+            </div>
+
+            <!-- BUSINESS IMPACT -->
+            <h2>Business Impact</h2>
+
+            <div class="section-box success">
+                <h4>Migration Success Metrics:</h4>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ Zero data loss - 100% of critical data preserved and accessible</p>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ Minimal downtime - planned migration window, no unexpected delays</p>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ Hardware compatibility achieved - all components functional</p>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ Security enhanced - full-disk encryption implemented during migration</p>
+                <p class="metric-highlight" style="margin: 15px 0;">✓ Functional environment - productivity restored with improved security posture</p>
+            </div>
+
+            <h3>Real-World Applications</h3>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Corporate Workstation Migration</h4>
+                    <p style="line-height: 1.7;">Organization transitioning from Windows to Linux workstations for cost savings and security improvements. This migration methodology ensures smooth transition with minimal business disruption.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Server Infrastructure Modernization</h4>
+                    <p style="line-height: 1.7;">Company migrating legacy Windows servers to Linux for improved performance and reduced licensing costs. Demonstrates planning approach applicable to server migrations.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Development Environment Standardization</h4>
+                    <p style="line-height: 1.7;">Development teams moving to Linux-based environments for consistency with production infrastructure. Shows ability to execute technical transitions systematically.</p>
+                </div>
+            </div>
+
+            <!-- TECHNICAL SKILLS -->
+            <h2>Technical Skills Demonstrated</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>System Administration</h4>
+                    <p>• Linux installation and configuration</p>
+                    <p>• Boot process architecture</p>
+                    <p>• Package management (pacman)</p>
+                    <p>• Service management and hardening</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Data Management</h4>
+                    <p>• Backup strategy development</p>
+                    <p>• Encrypted storage (VeraCrypt, LUKS)</p>
+                    <p>• Data migration techniques</p>
+                    <p>• Integrity verification</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Hardware Troubleshooting</h4>
+                    <p>• Driver installation (NVIDIA)</p>
+                    <p>• Compatibility resolution</p>
+                    <p>• Power management optimization</p>
+                    <p>• Bootable media creation</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Security Implementation</h4>
+                    <p>• Full-disk encryption (LUKS)</p>
+                    <p>• Secure boot configuration</p>
+                    <p>• Firewall configuration</p>
+                    <p>• Attack surface reduction</p>
+                </div>
+            </div>
+
+            <!-- LESSONS LEARNED -->
+            <h2>Lessons Learned</h2>
+
+            <div class="section-box highlight">
+                <h4>Critical Success Factors:</h4>
+                <ol style="line-height: 1.7; margin: 15px 0;">
+                    <li><strong>Comprehensive pre-migration planning</strong> - thorough audit prevented surprises and ensured nothing was forgotten</li>
+                    <li><strong>Robust backup strategy</strong> - encrypted external backup enabled confidence in destructive operations</li>
+                    <li><strong>Hardware research</strong> - understanding NVIDIA requirements prevented driver issues and boot failures</li>
+                    <li><strong>Incremental validation</strong> - verifying each phase before proceeding minimized risk of compounding errors</li>
+                </ol>
+            </div>
+
+            <div class="section-box highlight">
+                <h4>If Repeating This Migration:</h4>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Test bootable media on target hardware before beginning full migration</li>
+                    <li>Establish clearer Windows application alternatives before migration to reduce friction</li>
+                    <li>Consider dual-boot interim period for critical Windows-only workflows during transition</li>
+                </ul>
+            </div>
+
+            <!-- APPLICABILITY -->
+            <h2>Enterprise Applicability</h2>
+            <p style="font-size: 15px; line-height: 1.8;">
+                This migration methodology scales to enterprise scenarios:
+            </p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Workstation Migrations</h4>
+                    <p>Same planning approach applies to fleet transitions with automation for deployment at scale</p>
+                </div>
+                <div class="info-card">
+                    <h4>Server Migrations</h4>
+                    <p>Systematic methodology prevents production disruptions during infrastructure transitions</p>
+                </div>
+                <div class="info-card">
+                    <h4>Security Upgrades</h4>
+                    <p>Demonstrates implementing encryption during migration windows without separate projects</p>
+                </div>
+                <div class="info-card">
+                    <h4>Cost Reduction</h4>
+                    <p>Moving from licensed to open-source platforms reduces ongoing licensing expenses</p>
+                </div>
+            </div>
+
+            <!-- OUTCOME -->
+            <div class="section-box success">
+                <h3>Outcome</h3>
+                <p style="font-size: 16px; line-height: 1.8;">
+                    Successfully transitioned to fully encrypted Arch Linux system serving as primary development environment and daily driver. The migration demonstrates ability to plan and execute complex system transitions systematically, preserve data integrity through destructive operations, troubleshoot hardware compatibility challenges, and implement security improvements during migration windows.
+                </p>
+                <p style="font-size: 15px; line-height: 1.8; margin-top: 15px;">
+                    This project showcases the systematic planning, risk management, and technical execution required for successful enterprise OS migration projects.
+                </p>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2025 Emiliano Carrizosa &lt;emiliano.carrizosa@proton.me&gt; :: New York, NY</p>
+        </footer>
+    </div>
+</body>
+</html>

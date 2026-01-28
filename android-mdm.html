@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Layer Mobile Device Management Implementation - Emiliano Carrizosa</title>
+    <style>
+        /* Matching Index Page Theme with Animations */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Monaco', 'Courier New', monospace;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        /* Fixed Navigation Bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(13, 17, 23, 0.95);
+            border-bottom: 1px solid #30363d;
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 16px;
+            font-weight: 700;
+            color: #58a6ff;
+            letter-spacing: 1px;
+        }
+
+        .back-link {
+            color: #8b949e;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #58a6ff;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 120px 40px 80px;
+        }
+
+        /* Project Header */
+        .project-header {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            padding: 50px;
+            border-radius: 12px;
+            margin-bottom: 60px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-title {
+            font-size: 42px;
+            color: #f0f6fc;
+            margin-bottom: 15px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .project-subtitle {
+            font-size: 20px;
+            color: #8b949e;
+            margin-bottom: 25px;
+            font-weight: 400;
+        }
+
+        .project-meta {
+            font-size: 14px;
+            color: #8b949e;
+        }
+
+        .tag {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid #30363d;
+            color: #58a6ff;
+            padding: 6px 12px;
+            border-radius: 12px;
+            margin: 0 6px 6px 0;
+            font-size: 12px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Content Styling */
+        .content {
+            animation: fadeIn 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .content h2 {
+            font-size: 28px;
+            color: #f0f6fc;
+            margin: 70px 0 30px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #30363d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .content h3 {
+            font-size: 22px;
+            color: #f0f6fc;
+            margin: 45px 0 20px;
+            font-weight: 600;
+        }
+
+        .content h4 {
+            font-size: 18px;
+            color: #58a6ff;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        .content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 15px;
+            color: #c9d1d9;
+        }
+
+        .content ul {
+            margin: 20px 0;
+            padding-left: 25px;
+        }
+
+        .content li {
+            margin: 12px 0;
+            line-height: 1.7;
+            color: #c9d1d9;
+        }
+
+        .content strong {
+            color: #f0f6fc;
+            font-weight: 600;
+        }
+
+        /* Section Boxes with Animations */
+        .section-box {
+            background: #161b22;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 35px 0;
+            border-radius: 8px;
+            border: 1px solid #30363d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .section-box:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border-left-width: 6px;
+        }
+
+        .section-box.success {
+            border-left-color: #3fb950;
+        }
+
+        .section-box.success:hover {
+            background: rgba(63, 185, 80, 0.05);
+        }
+
+        .section-box.highlight {
+            border-left-color: #d29922;
+        }
+
+        .section-box.highlight:hover {
+            background: rgba(210, 153, 34, 0.05);
+        }
+
+        .section-box.warning {
+            border-left-color: #f85149;
+        }
+
+        .section-box.warning:hover {
+            background: rgba(248, 81, 73, 0.05);
+        }
+
+        .section-box h3,
+        .section-box h4 {
+            margin-top: 0;
+            color: #f0f6fc;
+        }
+
+        /* Info Grid with Staggered Animation */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .info-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.1s; }
+        .info-card:nth-child(2) { animation-delay: 0.2s; }
+        .info-card:nth-child(3) { animation-delay: 0.3s; }
+        .info-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .info-card:hover {
+            border-color: #58a6ff;
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .info-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 17px;
+        }
+
+        .info-card p {
+            font-size: 14px;
+            color: #c9d1d9;
+            margin: 8px 0;
+        }
+
+        .info-card li {
+            font-size: 14px;
+            color: #c9d1d9;
+        }
+
+        /* Tech Table */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 35px 0;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .tech-table th {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #58a6ff;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        .tech-table td {
+            border: 1px solid #30363d;
+            padding: 15px;
+            line-height: 1.6;
+            color: #c9d1d9;
+        }
+
+        .tech-table tr {
+            transition: background 0.2s ease;
+        }
+
+        .tech-table tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        /* Layer Cards */
+        .layer-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-left: 4px solid #58a6ff;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .layer-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(88, 166, 255, 0.15);
+            border-left-width: 6px;
+        }
+
+        .layer-card h4 {
+            color: #58a6ff;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+
+        /* Metrics */
+        .metric-highlight {
+            background: rgba(88, 166, 255, 0.1);
+            border-left: 3px solid #58a6ff;
+            padding: 20px 25px;
+            margin: 25px 0;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #58a6ff;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .metric-highlight:hover {
+            background: rgba(88, 166, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid #30363d;
+            text-align: center;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .project-header {
+                padding: 30px;
+            }
+
+            .project-title {
+                font-size: 32px;
+            }
+
+            .project-subtitle {
+                font-size: 18px;
+            }
+
+            .content h2 {
+                font-size: 24px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-table {
+                font-size: 13px;
+            }
+
+            .tech-table th,
+            .tech-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">EMILIANO CARRIZOSA</div>
+            <a href="../index.html#projects" class="back-link">← Back to Projects</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Project Header -->
+        <div class="project-header">
+            <h1 class="project-title">Multi-Layer Mobile Device Management</h1>
+            <p class="project-subtitle">Defense-in-Depth Content Filtering and Policy Enforcement</p>
+            <div class="project-meta">
+                October 2024 :: 
+                <span class="tag">#mdm</span>
+                <span class="tag">#emm</span>
+                <span class="tag">#android</span>
+                <span class="tag">#defense-in-depth</span>
+            </div>
+        </div>
+
+        <div class="content">
+            
+            <!-- EXECUTIVE SUMMARY -->
+            <div class="section-box success">
+                <h3>Executive Summary</h3>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Problem:</strong> Single-layer mobile security controls are easily bypassed by users through VPNs, factory resets, or developer options.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
+                    <strong>Solution:</strong> Four-layer defense-in-depth architecture combining EMM, DNS filtering, kernel-level firewall, and automated enforcement.
+                </p>
+                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
+                    <strong>Impact:</strong> Resilient policy enforcement persisting even when individual security layers are compromised.
+                </p>
+            </div>
+
+            <!-- THE BUSINESS CHALLENGE -->
+            <h2>The Business Challenge</h2>
+            <p>
+                Organizations implementing BYOD (Bring Your Own Device) policies or managing corporate-owned mobile devices need reliable content filtering and policy enforcement that cannot be easily circumvented by end users.
+            </p>
+
+            <div class="section-box highlight">
+                <h4>Single-Layer Solutions Fail Through Common Bypasses:</h4>
+                <ul style="margin: 15px 0;">
+                    <li><strong>DNS filtering alone:</strong> Easily disabled through VPN usage or DNS setting changes</li>
+                    <li><strong>MDM/EMM only:</strong> Circumvented through developer options or factory reset</li>
+                    <li><strong>Application-level controls:</strong> Bypassed through sideloading or alternative app stores</li>
+                    <li><strong>Network-based filtering:</strong> Circumvented when devices leave corporate network</li>
+                </ul>
+            </div>
+
+            <p class="metric-highlight">
+                Solution Required: Defense-in-depth approach where multiple independent security layers provide redundancy
+            </p>
+
+            <!-- THE SOLUTION -->
+            <h2>The Solution</h2>
+            <p>
+                Implemented multi-layer mobile device management architecture combining Enterprise Mobile Device Management (EMM), DNS-level filtering, and kernel-level firewall rules. This defense-in-depth approach ensures policy enforcement persists even if individual layers are compromised.
+            </p>
+
+            <!-- ARCHITECTURE OVERVIEW -->
+            <h2>Architecture Overview</h2>
+            <p style="font-size: 15px; line-height: 1.8; margin-bottom: 25px;">
+                Layered security model where each layer operates independently:
+            </p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Layer 1: EMM</h4>
+                    <p style="line-height: 1.7;">Enterprise Mobile Device Management prevents configuration changes at user level</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Layer 2: DNS</h4>
+                    <p style="line-height: 1.7;">DNS-level filtering blocks content at resolution level, protected by EMM lock</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Layer 3: Firewall</h4>
+                    <p style="line-height: 1.7;">Kernel-level iptables rules enforce blocking at network layer below applications</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Layer 4: Enforcement</h4>
+                    <p style="line-height: 1.7;">Automated monitoring and restoration provides self-healing capability</p>
+                </div>
+            </div>
+
+            <!-- TECHNICAL IMPLEMENTATION -->
+            <h2>Technical Implementation</h2>
+
+            <div class="layer-card">
+                <h4>Layer 1: Enterprise Mobile Device Management (Wizy EMM)</h4>
+                <p style="margin-bottom: 15px;"><strong>Configuration Capabilities:</strong></p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Disabled developer options preventing ADB access and debugging bypasses</li>
+                    <li>Locked DNS configuration preventing user modification of filtering settings</li>
+                    <li>Restricted user profile creation preventing isolation-based circumvention</li>
+                    <li>Implemented application installation controls through Play Store restrictions</li>
+                    <li>Configured domain blocklists as additional content control layer</li>
+                    <li>Established remote device management and monitoring capabilities</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> EMM provides foundational control layer preventing users from modifying system settings that would compromise other security layers.
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 2: DNS-Level Content Filtering (ControlD)</h4>
+                <p style="margin-bottom: 15px;"><strong>Implementation:</strong></p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Configured DNS server with comprehensive filtering rulesets</li>
+                    <li>Implemented keyword-based content blocking for pattern matching</li>
+                    <li>Deployed curated blocklists for known content categories</li>
+                    <li>Configured wildcard domain matching for broader pattern-based filtering</li>
+                    <li>System-level DNS configuration (protected by EMM Layer 1)</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> DNS filtering provides network-level content control operating before applications can establish connections.
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 3: Root-Level Firewall Rules (iptables)</h4>
+                
+                <p style="margin-bottom: 15px;"><strong>Device Preparation:</strong></p>
+                <p style="line-height: 1.7; margin-bottom: 15px;">To implement kernel-level filtering, device required rooting using Magisk:</p>
+                
+                <ul style="line-height: 1.7; margin-bottom: 20px;">
+                    <li>Downgraded OxygenOS from version 15.x to 14.x (version 15.x lacked compatible boot.img)</li>
+                    <li>Located and verified boot.img file for OxygenOS 14.x from trusted source</li>
+                    <li>Performed cryptographic hash verification of boot image before flashing</li>
+                    <li>Conducted security analysis assessing risks of third-party boot image</li>
+                    <li>Successfully flashed verified boot.img to gain root access</li>
+                    <li>Installed Magisk for persistent root management</li>
+                </ul>
+                
+                <p style="margin: 20px 0 15px 0;"><strong>iptables Configuration:</strong></p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Direct modification of iptables rules at kernel level (requires root privileges)</li>
+                    <li>Configured packet DROP rules for restricted destinations before DNS resolution</li>
+                    <li>Implemented rule persistence mechanisms surviving system reboots</li>
+                    <li>Created firewall policies operating at network layer below application level</li>
+                </ul>
+                
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Kernel-level filtering provides enforcement even when DNS or application-level controls are bypassed.
+                </div>
+            </div>
+
+            <div class="layer-card">
+                <h4>Layer 4: Automated Policy Enforcement</h4>
+                <p style="margin-bottom: 15px;"><strong>Implementation:</strong> Shell script monitoring and enforcement system (Termux)</p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>Continuous monitoring of iptables configuration for unauthorized changes</li>
+                    <li>Automatic detection of rule modifications or deletions</li>
+                    <li>Automated re-application of firewall policies when tampering detected</li>
+                    <li>Background execution maintaining continuous enforcement</li>
+                    <li>Logging of modification attempts for security monitoring</li>
+                </ul>
+                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
+                    <strong>Security Value:</strong> Automated enforcement creates self-healing security architecture where policy violations are detected and corrected without manual intervention.
+                </div>
+            </div>
+
+            <!-- DEFENSE-IN-DEPTH MODEL -->
+            <h2>Defense-in-Depth Security Model</h2>
+
+            <table class="tech-table">
+                <tr>
+                    <th>Layer</th>
+                    <th>Protection Mechanism</th>
+                    <th>Bypass Resistance</th>
+                </tr>
+                <tr>
+                    <td><strong>Layer 1 (EMM)</strong></td>
+                    <td>Prevents configuration changes at user level</td>
+                    <td>Resists settings modification, developer options</td>
+                </tr>
+                <tr>
+                    <td><strong>Layer 2 (DNS)</strong></td>
+                    <td>Blocks content at DNS resolution level</td>
+                    <td>Protected by Layer 1 DNS lock</td>
+                </tr>
+                <tr>
+                    <td><strong>Layer 3 (iptables)</strong></td>
+                    <td>Enforces blocking at kernel/network level</td>
+                    <td>Operates below application layer</td>
+                </tr>
+                <tr>
+                    <td><strong>Layer 4 (Enforcement)</strong></td>
+                    <td>Automatically restores compromised configurations</td>
+                    <td>Provides self-healing capability</td>
+                </tr>
+            </table>
+
+            <div class="section-box">
+                <h4>Redundancy Principle:</h4>
+                <p style="line-height: 1.7;">If any single layer is bypassed, remaining layers continue enforcement. For example:</p>
+                <ul style="line-height: 1.7; margin: 15px 0;">
+                    <li>If DNS is changed via VPN: iptables rules still block at packet level</li>
+                    <li>If iptables rules are modified: automated enforcement restores them</li>
+                    <li>If device leaves corporate network: local filtering remains active</li>
+                </ul>
+            </div>
+
+            <!-- BUSINESS APPLICATIONS -->
+            <h2>Real-World Business Applications</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Corporate BYOD Policies</h4>
+                    <p style="line-height: 1.7;">Organizations allowing personal devices for business use need content filtering that persists even when devices leave corporate premises and users have administrative access.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Managed Corporate Devices</h4>
+                    <p style="line-height: 1.7;">Companies issuing phones to employees require policy enforcement preventing inappropriate usage. Multi-layer approach ensures policies remain effective despite circumvention attempts.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Regulated Industries</h4>
+                    <p style="line-height: 1.7;">Organizations in healthcare, finance, or government sectors requiring content restrictions for compliance. Defense-in-depth provides assurance that policies remain enforced.</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Educational Institutions</h4>
+                    <p style="line-height: 1.7;">Schools and universities deploying devices to students need filtering that cannot be easily bypassed. Technical enforcement provides more reliable protection than honor-system policies.</p>
+                </div>
+            </div>
+
+            <!-- SECURITY CONSIDERATIONS -->
+            <h2>Security Considerations</h2>
+
+            <div class="section-box warning">
+                <h4>Root Access Trade-offs:</h4>
+                <p style="line-height: 1.7; margin-bottom: 15px;">Implementing kernel-level filtering required rooting the device, which introduces security considerations:</p>
+                
+                <p style="margin: 15px 0 10px 0;"><strong>Security Risks of Rooting:</strong></p>
+                <ul style="line-height: 1.7; margin-bottom: 20px;">
+                    <li>Breaks Android's security model by granting root access</li>
+                    <li>Potentially exposes device to privilege escalation attacks</li>
+                    <li>Requires trust in third-party boot image source</li>
+                    <li>May void device warranty and disable certain security features</li>
+                </ul>
+                
+                <p style="margin: 15px 0 10px 0;"><strong>Risk Mitigation:</strong></p>
+                <ul style="line-height: 1.7;">
+                    <li>Cryptographic verification of boot image before installation</li>
+                    <li>Security analysis assessing reputation and trustworthiness of source</li>
+                    <li>Magisk implementation provides managed root access vs. full system compromise</li>
+                    <li>Conscious risk acceptance for specific use case requirements</li>
+                </ul>
+            </div>
+
+            <div class="section-box highlight">
+                <h4>Business Context:</h4>
+                <p style="font-size: 15px; line-height: 1.8;">
+                    In enterprise environments, rooted devices would typically be prohibited due to security risks. This project demonstrates understanding of security trade-offs and when technical controls create more risk than they mitigate. <strong>In production environments, non-root MDM solutions would be preferred for most use cases.</strong>
+                </p>
+            </div>
+
+            <!-- TECHNICAL SKILLS -->
+            <h2>Technical Skills Demonstrated</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Mobile Device Management</h4>
+                    <p>• EMM configuration and deployment</p>
+                    <p>• Mobile device policy creation</p>
+                    <p>• Remote management capabilities</p>
+                    <p>• MDM/EMM architecture understanding</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Android System Admin</h4>
+                    <p>• Android rooting procedures (Magisk)</p>
+                    <p>• Bootloader management</p>
+                    <p>• Boot image verification</p>
+                    <p>• System-level configuration</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Network Security</h4>
+                    <p>• iptables firewall configuration</p>
+                    <p>• DNS filtering implementation</p>
+                    <p>• Packet-level traffic filtering</p>
+                    <p>• Network policy enforcement</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Security Architecture</h4>
+                    <p>• Defense-in-depth model design</p>
+                    <p>• Multi-layer security architecture</p>
+                    <p>• Security bypass resistance</p>
+                    <p>• Risk assessment for security controls</p>
+                </div>
+            </div>
+
+            <!-- LESSONS LEARNED -->
+            <h2>Lessons Learned</h2>
+
+            <div class="section-box highlight">
+                <p style="font-size: 15px; line-height: 1.8; margin-bottom: 15px;"><strong>Defense-in-Depth Effectiveness:</strong></p>
+                <p style="line-height: 1.7;">Single-layer security controls are inherently vulnerable to bypass. This project reinforced that meaningful security requires multiple independent layers operating at different levels of the system architecture.</p>
+            </div>
+
+            <div class="section-box highlight">
+                <p style="font-size: 15px; line-height: 1.8; margin-bottom: 15px;"><strong>Root Access Risk Assessment:</strong></p>
+                <p style="line-height: 1.7;">Gaining kernel-level control provides powerful security capabilities but introduces significant security trade-offs. Understanding when technical controls create more risk than they solve is critical for practical security engineering.</p>
+            </div>
+
+            <div class="section-box highlight">
+                <p style="font-size: 15px; line-height: 1.8; margin-bottom: 15px;"><strong>Automated Enforcement Value:</strong></p>
+                <p style="line-height: 1.7;">Manual security enforcement is unsustainable - automated monitoring and remediation creates resilient systems that maintain security posture without constant manual intervention.</p>
+            </div>
+
+            <!-- ENTERPRISE MDM COMPARISON -->
+            <h2>Enterprise MDM Comparison</h2>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Similarities</h4>
+                    <p>• Multi-layer policy enforcement</p>
+                    <p>• DNS and network-level filtering</p>
+                    <p>• Remote management capabilities</p>
+                    <p>• Policy persistence across modifications</p>
+                </div>
+                
+                <div class="info-card">
+                    <h4>Differences</h4>
+                    <p>• Enterprise solutions avoid rooting</p>
+                    <p>• Commercial MDM provides centralized console</p>
+                    <p>• Enterprise platforms offer broader policies</p>
+                    <p>• Production systems prioritize security over control</p>
+                </div>
+            </div>
+
+            <div class="section-box">
+                <h4>Value for Learning:</h4>
+                <p style="font-size: 15px; line-height: 1.8;">
+                    Building ground-up MDM architecture demonstrates understanding of underlying security mechanisms that commercial platforms abstract away. This technical foundation enables effective troubleshooting, custom policy creation, and informed vendor selection in professional environments.
+                </p>
+            </div>
+
+            <!-- OUTCOME -->
+            <div class="section-box success">
+                <h3>Project Outcomes</h3>
+                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 20px;"><strong>Successfully Implemented:</strong></p>
+                <ul style="line-height: 1.7; margin-bottom: 25px;">
+                    <li>Four-layer defense-in-depth mobile security architecture</li>
+                    <li>EMM-based configuration lock preventing user-level bypasses</li>
+                    <li>DNS filtering with system-level protection</li>
+                    <li>Kernel-level firewall rules operating below application layer</li>
+                    <li>Automated enforcement providing self-healing capability</li>
+                    <li>Comprehensive understanding of Android security model</li>
+                </ul>
+                
+                <p style="font-size: 15px; line-height: 1.8;">
+                    This project demonstrates practical experience with mobile device management, defense-in-depth security principles, and policy enforcement mechanisms - skills directly applicable to IT security, mobile device management, and security architecture roles in enterprise environments.
+                </p>
+            </div>
+
+        </div>
+
+        <footer>
+            <p>© 2025 Emiliano Carrizosa &lt;emiliano.carrizosa@proton.me&gt; :: New York, NY</p>
+        </footer>
+    </div>
+</body>
+</html>
