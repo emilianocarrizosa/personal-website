@@ -4,337 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Control & Audit System - Emiliano Carrizosa</title>
-    <style>
-        /* Matching Portfolio Theme */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Monaco', 'Courier New', monospace;
-            background-color: #0d1117;
-            color: #c9d1d9;
-            line-height: 1.7;
-            font-size: 16px;
-        }
-
-        /* Fixed Navigation Bar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(13, 17, 23, 0.95);
-            border-bottom: 1px solid #30363d;
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-logo {
-            font-size: 16px;
-            font-weight: 700;
-            color: #58a6ff;
-            letter-spacing: 1px;
-            text-decoration: none;
-        }
-
-        .back-link {
-            color: #8b949e;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-        .back-link:hover {
-            color: #58a6ff;
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 120px 40px 80px;
-        }
-
-        /* Project Header */
-        .project-header {
-            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
-            border: 1px solid #30363d;
-            padding: 50px;
-            border-radius: 12px;
-            margin-bottom: 60px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .project-title {
-            font-size: 42px;
-            color: #f0f6fc;
-            margin-bottom: 15px;
-            font-weight: 700;
-            line-height: 1.2;
-        }
-
-        .project-subtitle {
-            font-size: 20px;
-            color: #8b949e;
-            margin-bottom: 25px;
-            font-weight: 400;
-        }
-
-        .project-meta {
-            font-size: 14px;
-            color: #8b949e;
-            margin-bottom: 20px;
-        }
-
-        .tag {
-            background: rgba(88, 166, 255, 0.1);
-            border: 1px solid #30363d;
-            color: #58a6ff;
-            padding: 6px 12px;
-            border-radius: 12px;
-            margin: 0 6px 6px 0;
-            font-size: 12px;
-            display: inline-block;
-            transition: all 0.3s ease;
-        }
-
-        .tag:hover {
-            background: rgba(88, 166, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        /* Content Styling */
-        .content {
-            animation: fadeIn 0.8s ease-out 0.2s both;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .content h2 {
-            font-size: 28px;
-            color: #f0f6fc;
-            margin: 70px 0 30px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid #30363d;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 700;
-        }
-
-        .content h3 {
-            font-size: 22px;
-            color: #f0f6fc;
-            margin: 45px 0 20px;
-            font-weight: 600;
-        }
-
-        .content h4 {
-            font-size: 18px;
-            color: #58a6ff;
-            margin: 30px 0 15px;
-            font-weight: 600;
-        }
-
-        .content p {
-            margin-bottom: 20px;
-            line-height: 1.8;
-            font-size: 15px;
-            color: #c9d1d9;
-        }
-
-        .content ul {
-            margin: 20px 0;
-            padding-left: 25px;
-        }
-
-        .content li {
-            margin: 12px 0;
-            line-height: 1.7;
-            color: #c9d1d9;
-        }
-
-        .content strong {
-            color: #f0f6fc;
-            font-weight: 600;
-        }
-
-        /* Section Boxes */
-        .section-box {
-            background: #161b22;
-            border: 1px solid #30363d;
-            padding: 30px;
-            border-radius: 8px;
-            margin: 30px 0;
-        }
-
-        .section-box.alert {
-            border-left: 4px solid #f85149;
-            background: rgba(248, 81, 73, 0.05);
-        }
-
-        .section-box.success {
-            border-left: 4px solid #3fb950;
-            background: rgba(63, 185, 80, 0.05);
-        }
-
-        .section-box.info {
-            border-left: 4px solid #58a6ff;
-            background: rgba(88, 166, 255, 0.05);
-        }
-
-        /* Info Grid */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-
-        .info-card {
-            background: #161b22;
-            border: 1px solid #30363d;
-            padding: 25px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            border-color: #58a6ff;
-            transform: translateY(-4px);
-        }
-
-        .info-card h4 {
-            margin-top: 0;
-        }
-
-        /* Metric Highlight */
-        .metric-highlight {
-            font-size: 36px;
-            font-weight: 700;
-            color: #58a6ff;
-            text-align: center;
-            margin: 30px 0;
-        }
-
-        .metric-label {
-            font-size: 14px;
-            color: #8b949e;
-            text-align: center;
-            margin-top: -15px;
-        }
-
-        /* Code Block */
-        .code-block {
-            background: #0d1117;
-            border: 1px solid #30363d;
-            padding: 20px;
-            border-radius: 6px;
-            font-family: 'Monaco', monospace;
-            font-size: 14px;
-            overflow-x: auto;
-            margin: 20px 0;
-            color: #c9d1d9;
-        }
-
-        /* Architecture Diagram */
-        .arch-layer {
-            background: #161b22;
-            border: 1px solid #30363d;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 6px;
-            border-left: 4px solid #58a6ff;
-        }
-
-        /* Footer */
-        footer {
-            background-color: #010409;
-            padding: 30px 40px;
-            border-top: 1px solid #30363d;
-            margin-top: 80px;
-            text-align: center;
-        }
-
-        footer p {
-            color: #8b949e;
-            font-size: 14px;
-        }
-
-        footer a {
-            color: #58a6ff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            color: #79c0ff;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 100px 20px 60px;
-            }
-
-            .project-header {
-                padding: 30px;
-            }
-
-            .project-title {
-                font-size: 32px;
-            }
-
-            .content h2 {
-                font-size: 24px;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/project.css">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">EMILIANO CARRIZOSA</a>
+            <a href="index.html" class="nav-logo">Emiliano Carrizosa</a>
             <a href="index.html#projects" class="back-link">← Back to Projects</a>
         </div>
     </nav>
@@ -468,7 +145,7 @@
 
             <h3>Dashboard & Real-Time Monitoring</h3>
             <div class="section-box">
-                <img src="images/PrototypeDashboard.png" alt="Access Control Dashboard" style="width: 100%; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px;">
+                <img src="images/PrototypeDashboard.png" alt="Access Control Dashboard" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
                 <h4>Real-Time Security Overview</h4>
                 <p>
                     The main dashboard provides at-a-glance visibility into system activity with key security metrics:
@@ -492,7 +169,7 @@
 
             <h3>Permission Management Interface</h3>
             <div class="section-box">
-                <img src="images/PrototypePermissions.png" alt="Permissions Management" style="width: 100%; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px;">
+                <img src="images/PrototypePermissions.png" alt="Permissions Management" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
                 <h4>Granular Access Control Administration</h4>
                 <p>
                     The permissions interface demonstrates role-based access control (RBAC) in action, showing 
@@ -513,7 +190,7 @@
 
             <h3>Permission Grant Workflow</h3>
             <div class="section-box">
-                <img src="images/PrototypeGrantPermissions.png" alt="Grant Permission Dialog" style="width: 100%; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px;">
+                <img src="images/PrototypeGrantPermissions.png" alt="Grant Permission Dialog" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
                 <h4>Streamlined Access Provisioning</h4>
                 <p>
                     The permission grant dialog demonstrates how new access rights are created with built-in security controls:
@@ -533,7 +210,7 @@
 
             <h3>Investigation & Forensic Analysis</h3>
             <div class="section-box">
-                <img src="images/PrototypeInvestigation.png" alt="Investigation Interface" style="width: 100%; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px;">
+                <img src="images/PrototypeInvestigation.png" alt="Investigation Interface" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
                 <h4>Sub-Second Access Event Queries</h4>
                 <p>
                     The investigation interface demonstrates the system's core value proposition: reducing investigation 
@@ -570,7 +247,7 @@
 
             <h3>Behavioral Analytics & Anomaly Detection</h3>
             <div class="section-box">
-                <img src="images/PrototypeAnalytics.png" alt="Analytics Dashboard" style="width: 100%; border-radius: 8px; border: 1px solid #30363d; margin-bottom: 20px;">
+                <img src="images/PrototypeAnalytics.png" alt="Analytics Dashboard" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
                 <h4>Automated Threat Detection Through Pattern Analysis</h4>
                 <p>
                     The analytics interface demonstrates machine learning-driven behavioral analysis that identifies 
@@ -845,4 +522,7 @@ Log Entry N:
 
     <!-- Footer -->
     <footer>
-        <p>© 2025 Emiliano Carrizosa &lt;<a href="/cdn
+        <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
+    </footer>
+</body>
+</html>
