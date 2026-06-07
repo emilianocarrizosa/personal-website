@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Access Control & Audit System - Emiliano Carrizosa</title>
+    <meta name="description" content="A working prototype of a role-based access control system with tamper-evident audit logging for high-value inventory. Case study by Emiliano Carrizosa.">
+    <link rel="canonical" href="https://emilianocar.com/access-control-system.html">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Emiliano Carrizosa">
+    <meta property="og:title" content="Access Control &amp; Audit System">
+    <meta property="og:description" content="A working prototype of a role-based access control system with tamper-evident audit logging for high-value inventory. Case study by Emiliano Carrizosa.">
+    <meta property="og:url" content="https://emilianocar.com/access-control-system.html">
+    <meta property="og:image" content="https://emilianocar.com/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Access Control &amp; Audit System">
+    <meta name="twitter:description" content="A working prototype of a role-based access control system with tamper-evident audit logging for high-value inventory. Case study by Emiliano Carrizosa.">
+    <meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -43,11 +58,11 @@
         <div class="content">
             <h2>Overview</h2>
             <p>
-                I designed and built a role-based access control (RBAC) system with tamper-evident audit
-                logging for environments holding high-value inventory. The problem I set out to solve is a
-                familiar one in luxury retail: staff need fast access to merchandise, but when something goes
-                missing, reconstructing who touched what from manual logs can take hours — and everyone knows
-                the logs are inconsistent, so they don't deter much.
+                I designed and built a working prototype of a role-based access control (RBAC) system with
+                tamper-evident audit logging for environments holding high-value inventory. The problem I set
+                out to solve is a familiar one in luxury retail: staff need fast access to merchandise, but when
+                something goes missing, reconstructing who touched what from manual logs can take hours — and
+                everyone knows the logs are inconsistent, so they don't deter much.
             </p>
             <p>
                 My approach was to make every access event answer five questions automatically — who, what,
@@ -55,24 +70,27 @@
                 put a query interface on top so an investigation that used to take an afternoon takes seconds.
             </p>
 
-            <h2>Results</h2>
+            <h2>What It's Built To Do</h2>
             <div class="info-grid">
                 <div class="info-card">
-                    <div class="metric-highlight">99%+</div>
-                    <div class="metric-label">Faster Investigations</div>
-                    <p>Hours of manual log review collapse into sub-second queries.</p>
+                    <div class="metric-highlight">Seconds</div>
+                    <div class="metric-label">Investigation Time</div>
+                    <p>An access query returns in under a second what used to mean hours of manual log review.</p>
                 </div>
                 <div class="info-card">
-                    <div class="metric-highlight">100%</div>
-                    <div class="metric-label">Event Coverage</div>
-                    <p>Every inventory interaction is logged with cryptographic integrity.</p>
+                    <div class="metric-highlight">Every</div>
+                    <div class="metric-label">Event Logged</div>
+                    <p>All access runs through the system, so by construction nothing happens off the record.</p>
                 </div>
                 <div class="info-card">
-                    <div class="metric-highlight">Zero</div>
-                    <div class="metric-label">Silent Edits</div>
-                    <p>Append-only hash chaining makes after-the-fact tampering detectable.</p>
+                    <div class="metric-highlight">Verifiable</div>
+                    <div class="metric-label">Audit Trail</div>
+                    <p>Append-only hash chaining makes any after-the-fact edit detectable.</p>
                 </div>
             </div>
+            <p style="color: var(--mute); font-size: 14px;">
+                These describe how the prototype is designed to behave — not a measured production benchmark.
+            </p>
 
             <h2>How I Built It</h2>
 
@@ -175,6 +193,14 @@ Frontend:   React</div>
                 firms (file-access walls), healthcare (HIPAA access trails), and finance (MNPI controls) — any
                 place that needs to prove who reached what, and when.
             </p>
+            <div class="section-box info">
+                <h4>Evidence &amp; availability</h4>
+                <p>
+                    This is a prototype built on synthetic data — there are no real client details to protect, so
+                    a live walkthrough of the working build is available on request.
+                    <!-- When a public repo / demo is ready, add it here, e.g.: try the demo at github.com/USER/REPO -->
+                </p>
+            </div>
         </div>
     </div>
     <!-- Footer -->
