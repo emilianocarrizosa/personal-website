@@ -4,21 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Cross-Platform OS Migration - Emiliano Carrizosa</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/project.css">
 </head>
 <body>
     <!-- Fixed Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="index.html" class="nav-logo">Emiliano Carrizosa</a>
-            <a href="./index.html#projects" class="back-link">← Back to Projects</a>
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">Emiliano Carrizosa</a>
+        <div class="nav-links">
+            <a href="index.html#work">Work</a>
+            <a href="index.html#services">Services</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#contact">Contact</a>
         </div>
     </nav>
 
     <div class="container">
         <!-- Project Header -->
         <div class="project-header">
+            <a href="index.html#work" class="back-link">← Back to Work</a>
             <h1 class="project-title">Secure Cross-Platform OS Migration</h1>
             <p class="project-subtitle">Windows to Linux with Zero Data Loss and Full Encryption</p>
             <div class="project-meta">
@@ -299,7 +305,23 @@
 
         <footer>
             <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
+        <a href="index.html#work">← Back to Work</a>
         </footer>
     </div>
+    <script>
+        // staggered reveal on scroll (matches index)
+        const blocks = document.querySelectorAll(
+            ".project-header, .content h2, " +
+            ".content .section-box, .content .info-grid, .content .arch-layer, " +
+            ".content .layer-card, .content .phase-card, .content .scenario-box, " +
+            ".content .feature-card, .content .tech-specs, .content .code-block, " +
+            ".content .tech-table");
+        blocks.forEach(el => el.classList.add("reveal"));
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+        }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+        blocks.forEach(el => io.observe(el));
+    </script>
+
 </body>
 </html>
