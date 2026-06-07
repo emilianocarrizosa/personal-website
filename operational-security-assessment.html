@@ -41,364 +41,104 @@
 
         <!-- Content -->
         <div class="content">
-            <!-- Overview -->
-            <h2>Project Overview</h2>
+            <h2>Overview</h2>
             <p>
-                Independent security assessment of e-commerce infrastructure demonstrating OSINT analysis, 
-                infrastructure forensics, and compliance evaluation capabilities. This portfolio case study showcases 
-                my methodology for identifying security gaps, quantifying business risk, and developing actionable 
-                remediation strategies.
+                I ran an independent security assessment of an e-commerce company's infrastructure using only
+                passive OSINT — Certificate Transparency logs, DNS records, and other publicly accessible data.
+                No unauthorized access, ever. The goal was to see what an attacker could learn about the
+                company before touching anything, then turn that into findings the business could act on, with
+                the risk translated into dollars rather than jargon.
             </p>
 
             <div class="section-box info">
-                <h4>Assessment Scope</h4>
+                <h4>Method &amp; ethics</h4>
                 <p>
-                    Conducted passive reconnaissance using Certificate Transparency logs, DNS enumeration, and publicly 
-                    available infrastructure data to identify security vulnerabilities and compliance gaps. Analysis 
-                    focused on legacy infrastructure management, credential exposure risks, and regulatory compliance 
-                    posture under NY SHIELD Act requirements.
-                </p>
-                <p>
-                    <strong>Methodology:</strong> All findings derived from non-invasive OSINT techniques using publicly 
-                    accessible information. No unauthorized access attempted or gained. This approach demonstrates 
-                    professional security assessment capabilities while maintaining strict ethical standards.
+                    Everything came from non-invasive reconnaissance: <strong>dig</strong> and DNS history for
+                    enumeration and SPF analysis, <strong>crt.sh</strong> and Censys for certificate forensics,
+                    Shodan and SecurityTrails for fingerprinting, and the NVD/MITRE databases for CVE research.
+                    I scoped it deliberately to mirror real threat-actor reconnaissance while staying entirely
+                    within public information — the line that separates legitimate security research from
+                    intrusion.
                 </p>
             </div>
 
-            <!-- Key Findings -->
-            <h2>Assessment Summary</h2>
-
+            <h2>Results</h2>
             <div class="info-grid">
                 <div class="info-card">
                     <div class="metric-highlight">$17K+</div>
-                    <div class="metric-label">Annual Cost Savings Identified</div>
-                    <p style="margin-top: 15px; font-size: 14px;">Abandoned infrastructure consuming unnecessary resources</p>
+                    <div class="metric-label">Annual Waste Identified</div>
+                    <p>Abandoned infrastructure still running and billing after migration.</p>
                 </div>
                 <div class="info-card">
                     <div class="metric-highlight">40+</div>
-                    <div class="metric-label">Page Technical Report</div>
-                    <p style="margin-top: 15px; font-size: 14px;">Comprehensive analysis with remediation roadmap</p>
+                    <div class="metric-label">Page Report</div>
+                    <p>Findings, risk quantification, and a phased remediation roadmap.</p>
                 </div>
                 <div class="info-card">
                     <div class="metric-highlight">Multiple</div>
-                    <div class="metric-label">Critical Vulnerabilities</div>
-                    <p style="margin-top: 15px; font-size: 14px;">Infrastructure, credential, and compliance gaps identified</p>
+                    <div class="metric-label">Critical Gaps</div>
+                    <p>Infrastructure, credential, and compliance exposures.</p>
                 </div>
             </div>
 
-            <h3>Key Findings Categories</h3>
+            <h2>What I Found</h2>
+
             <div class="section-box alert">
-                <ul style="line-height: 1.8;">
-                    <li><strong>Infrastructure Management:</strong> Legacy "ghost" servers continuing to operate after migration, creating security exposure and unnecessary costs</li>
-                    <li><strong>DNS Security:</strong> Dangling DNS records and SPF misconfigurations exposing infrastructure topology</li>
-                    <li><strong>Credential Management:</strong> Hardcoded API credentials in legacy systems and migration artifacts</li>
-                    <li><strong>Vulnerability Exposure:</strong> Unpatched systems with known CVEs remaining accessible</li>
-                    <li><strong>Compliance Gaps:</strong> Regulatory exposure under NY SHIELD Act requirements</li>
-                </ul>
-            </div>
-
-            <!-- Capabilities Demonstrated -->
-            <h2>Skills Demonstrated</h2>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Infrastructure Forensics</h4>
-                    <span class="capability-badge">✓ Certificate Transparency</span>
-                    <span class="capability-badge">✓ DNS Analysis</span>
-                    <span class="capability-badge">✓ SPF Records</span>
-                    <span class="capability-badge">✓ Asset Discovery</span>
-                    <p style="margin-top: 15px;">Passive OSINT using crt.sh, DNS tools, and public records to map infrastructure</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Security Analysis</h4>
-                    <span class="capability-badge">✓ OSINT Collection</span>
-                    <span class="capability-badge">✓ Risk Assessment</span>
-                    <span class="capability-badge">✓ Attack Vectors</span>
-                    <span class="capability-badge">✓ CVE Research</span>
-                    <p style="margin-top: 15px;">Systematic vulnerability identification and security risk evaluation</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Compliance & Risk</h4>
-                    <span class="capability-badge">✓ NY SHIELD Act</span>
-                    <span class="capability-badge">✓ Risk Modeling</span>
-                    <span class="capability-badge">✓ Cost Analysis</span>
-                    <span class="capability-badge">✓ Reporting</span>
-                    <p style="margin-top: 15px;">Regulatory compliance assessment and financial impact quantification</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Solution Design</h4>
-                    <span class="capability-badge">✓ Remediation Plans</span>
-                    <span class="capability-badge">✓ Architecture</span>
-                    <span class="capability-badge">✓ Prototyping</span>
-                    <span class="capability-badge">✓ Documentation</span>
-                    <p style="margin-top: 15px;">Actionable recommendations with proof-of-concept implementations</p>
-                </div>
-            </div>
-
-            <!-- Methodology -->
-            <h2>Research Methodology</h2>
-
-            <div class="section-box">
-                <h4>Passive OSINT Techniques</h4>
-                <p>All reconnaissance conducted using non-invasive, publicly available intelligence:</p>
-                <ul>
-                    <li><strong>DNS Enumeration:</strong> Historical DNS records, SPF analysis, subdomain discovery</li>
-                    <li><strong>Certificate Transparency:</strong> SSL certificate analysis identifying infrastructure patterns</li>
-                    <li><strong>Infrastructure Fingerprinting:</strong> Service identification and version detection</li>
-                    <li><strong>Public Repository Analysis:</strong> Identification of potential credential exposure patterns</li>
-                    <li><strong>Compliance Framework Review:</strong> Assessment against regulatory requirements</li>
-                </ul>
-            </div>
-
-            <div class="section-box info">
-                <h4>Ethical Standards</h4>
+                <h4>Ghost infrastructure</h4>
                 <p>
-                    <strong>No unauthorized access attempted or gained.</strong> All findings derived exclusively from 
-                    passive reconnaissance and publicly accessible information. This methodology demonstrates understanding 
-                    of threat actor reconnaissance techniques while maintaining professional ethical boundaries appropriate 
-                    for legitimate security research.
+                    Certificate Transparency logs showed live SSL certificates for servers the company believed
+                    were decommissioned. Those "ghost" systems were still running outdated, unpatched software,
+                    still had DNS pointing at them, and were still costing roughly $15–20K a year — an attack
+                    surface nobody was watching and nobody meant to keep.
                 </p>
             </div>
 
-            <!-- Detailed Findings -->
-            <h2>Sample Findings</h2>
-
-            <h3>Infrastructure Security Gaps</h3>
             <div class="section-box alert">
-                <h4>Legacy Infrastructure Management</h4>
-                <p><strong>Issue Identified:</strong> Certificate Transparency logs revealed active SSL certificates for infrastructure believed to be decommissioned.</p>
-                
-                <p><strong>Security Impact:</strong></p>
-                <ul>
-                    <li>Abandoned servers remaining operational with outdated software and unpatched vulnerabilities</li>
-                    <li>DNS records still pointing to decommissioned infrastructure</li>
-                    <li>Potential for unauthorized access via unmaintained systems</li>
-                    <li>Unnecessary hosting costs ($15K-20K annually)</li>
-                </ul>
-
-                <p><strong>Recommendations:</strong> Complete infrastructure inventory, systematic decommissioning of legacy systems, and ongoing monitoring of DNS and certificate issuance.</p>
+                <h4>Credential exposure</h4>
+                <p>
+                    Patterns in migration artifacts pointed to hardcoded API credentials with no expiration —
+                    the kind of long-lived, admin-level token that turns one leaked file into full access. The
+                    fix is a secrets-management platform with rotation and enforced token lifetimes.
+                </p>
             </div>
 
-            <h3>Credential Management</h3>
-            <div class="section-box alert">
-                <h4>Exposed Credentials Risk</h4>
-                <p><strong>Issue Identified:</strong> Analysis revealed patterns indicating hardcoded API credentials in legacy migration artifacts.</p>
-                
-                <p><strong>Security Impact:</strong></p>
-                <ul>
-                    <li>Persistent access tokens without expiration policies</li>
-                    <li>Administrative-level credentials potentially exposed</li>
-                    <li>Risk of unauthorized data access</li>
-                </ul>
-
-                <p><strong>Recommendations:</strong> Implement secrets management platform, rotate all exposed credentials, enforce token expiration policies.</p>
-            </div>
-
-            <h3>Compliance Posture</h3>
             <div class="section-box warning">
-                <h4>Regulatory Compliance Gaps</h4>
-                
-                <p><strong>NY SHIELD Act Requirements:</strong></p>
-                <ul>
-                    <li>Data classification and handling procedures</li>
-                    <li>Breach notification requirements</li>
-                    <li>Administrative, technical, and physical safeguards</li>
-                </ul>
-
-                <p><strong>Risk Quantification:</strong> Used IBM breach cost benchmarking data to model potential financial exposure from identified vulnerabilities.</p>
-
-                <p><strong>Recommendations:</strong> Develop compliance checklist, implement required safeguards, establish breach response procedures.</p>
+                <h4>Compliance posture (NY SHIELD Act)</h4>
+                <p>
+                    Gaps against SHIELD's required safeguards — data handling, breach notification, technical
+                    controls. I modeled the potential financial exposure using IBM's breach-cost benchmarking so
+                    the recommendation came with a number attached, not just a checkbox.
+                </p>
             </div>
 
-            <!-- Solutions Developed -->
-            <h2>Solution Design & Remediation</h2>
-
+            <h2>Remediation</h2>
             <p>
-                Beyond identifying vulnerabilities, this project demonstrates end-to-end security thinking: problem 
-                identification, root cause analysis, solution design, and business value articulation. Each solution 
-                addresses specific operational security gaps discovered during the assessment.
+                I didn't stop at findings. I laid out a phased plan — immediate cleanup (inventory and
+                decommission legacy systems, kill dangling DNS, rotate credentials), then proactive controls
+                (audit logging, infrastructure monitoring, secrets management), then the processes to keep it
+                that way. For the access-logging gap specifically, I built a working prototype rather than just
+                recommending one — that became the <a href="access-control-system.html">Access Control &amp;
+                Audit System</a> project.
             </p>
 
-            <h3>Remediation Solutions Developed</h3>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Access Control System</h4>
-                    <p><strong>Problem:</strong> No systematic audit logging for sensitive access</p>
-                    <p><strong>Solution:</strong> Role-based access control with cryptographic audit logs and behavioral analytics</p>
-                    <p><strong>Impact:</strong> Enables proactive threat detection and rapid incident investigation</p>
-                    <p style="margin-top: 10px; font-size: 13px; color: var(--text-muted);"><em>Working prototype developed demonstrating implementation capability</em></p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Infrastructure Monitoring</h4>
-                    <p><strong>Problem:</strong> No visibility into DNS changes or certificate reissuance</p>
-                    <p><strong>Solution:</strong> Automated monitoring with real-time alerting for infrastructure deviations</p>
-                    <p><strong>Impact:</strong> Prevent "ghost" server accumulation and detect unauthorized changes</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Secrets Management</h4>
-                    <p><strong>Problem:</strong> Hardcoded credentials in scripts and repositories</p>
-                    <p><strong>Solution:</strong> Centralized secrets management with automated rotation</p>
-                    <p><strong>Impact:</strong> Eliminate credential exposure as primary attack vector</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Compliance Dashboard</h4>
-                    <p><strong>Problem:</strong> No systematic tracking of regulatory requirements</p>
-                    <p><strong>Solution:</strong> Centralized compliance tracking with automated reporting</p>
-                    <p><strong>Impact:</strong> Continuous compliance visibility and reduced audit preparation time</p>
-                </div>
-            </div>
-
-            <!-- Strategic Roadmap -->
-            <h2>Strategic Remediation Roadmap</h2>
-
-            <div class="section-box success">
-                <h3>Phase 1: Immediate Remediation (Weeks 1-4)</h3>
-                <ul>
-                    <li>Complete infrastructure asset inventory</li>
-                    <li>Decommission legacy systems securely</li>
-                    <li>Remove dangling DNS records</li>
-                    <li>Rotate all exposed credentials</li>
-                    <li>Deploy multi-factor authentication</li>
-                </ul>
-            </div>
-
-            <div class="section-box success">
-                <h3>Phase 2: Proactive Controls (Weeks 5-12)</h3>
-                <ul>
-                    <li>Implement access control and audit logging</li>
-                    <li>Deploy infrastructure monitoring</li>
-                    <li>Establish secrets management platform</li>
-                    <li>Document incident response procedures</li>
-                </ul>
-            </div>
-
-            <div class="section-box success">
-                <h3>Phase 3: Sustainable Security (Weeks 13-24)</h3>
-                <ul>
-                    <li>Establish change management processes</li>
-                    <li>Implement compliance monitoring</li>
-                    <li>Deploy security awareness training</li>
-                    <li>Schedule quarterly security assessments</li>
-                </ul>
-            </div>
-
-            <!-- Skills Summary -->
-            <h2>Professional Capabilities</h2>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Security Analysis</h4>
-                    <p>• OSINT collection and correlation</p>
-                    <p>• Infrastructure vulnerability assessment</p>
-                    <p>• Risk analysis and prioritization</p>
-                    <p>• Attack vector identification</p>
-                    <p>• CVE research and impact assessment</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Compliance Expertise</h4>
-                    <p>• Regulatory framework assessment</p>
-                    <p>• Financial exposure modeling</p>
-                    <p>• Breach cost quantification</p>
-                    <p>• Compliance reporting</p>
-                    <p>• Risk communication</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Technical Documentation</h4>
-                    <p>• Executive-level communication</p>
-                    <p>• Technical finding presentation</p>
-                    <p>• Remediation roadmap development</p>
-                    <p>• Solution architecture design</p>
-                    <p>• Stakeholder reporting</p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Solution Development</h4>
-                    <p>• Security architecture design</p>
-                    <p>• Proof-of-concept development</p>
-                    <p>• Cost-benefit analysis</p>
-                    <p>• Business impact assessment</p>
-                    <p>• Implementation planning</p>
-                </div>
-            </div>
-
-            <!-- Tools & Techniques -->
-            <h2>Tools & Techniques</h2>
-
             <div class="section-box info">
-                <h4>Reconnaissance & Analysis:</h4>
+                <h4>Availability</h4>
                 <p>
-                    dig, nslookup (DNS enumeration) • crt.sh, Censys (Certificate Transparency) • 
-                    Shodan, SecurityTrails (infrastructure fingerprinting) • CVE databases (NVD, MITRE) • 
-                    OSINT framework techniques
-                </p>
-
-                <h4 style="margin-top: 25px;">Compliance & Risk:</h4>
-                <p>
-                    NY SHIELD Act framework • IBM Cost of Data Breach benchmarking • 
-                    Industry breach cost modeling • Risk quantification methodologies
+                    This case study is sanitized to protect the subject. The full report is available to
+                    potential employers on request under appropriate confidentiality terms —
+                    <a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a>.
                 </p>
             </div>
 
-            <!-- Project Insights -->
-            <h2>Key Insights</h2>
-
-            <div class="section-box">
-                <h4>Professional Lessons</h4>
-                <ul style="line-height: 1.8;">
-                    <li><strong>OSINT Effectiveness:</strong> Publicly available information reveals significant security gaps when analyzed systematically</li>
-                    <li><strong>Infrastructure Forensics:</strong> Certificate Transparency logs and DNS records provide valuable historical evidence of system changes</li>
-                    <li><strong>Business Context:</strong> Technical vulnerabilities must be translated to quantifiable business risk for stakeholder action</li>
-                    <li><strong>Actionable Recommendations:</strong> Security findings require clear remediation guidance and implementation roadmaps</li>
-                    <li><strong>Holistic Approach:</strong> Effective security requires addressing people, process, and technology simultaneously</li>
-                </ul>
-            </div>
-
-            <!-- Project Outcome -->
-            <div class="section-box success">
-                <h3>Project Deliverables</h3>
-                <p style="font-size: 16px; line-height: 1.8;">
-                    Comprehensive 40+ page operational security assessment demonstrating infrastructure forensics, 
-                    OSINT analysis, and compliance evaluation capabilities. Identified critical security gaps including 
-                    legacy infrastructure management issues, credential exposure risks, and regulatory compliance gaps. 
-                    Quantified business impact and provided strategic remediation roadmap with cost-benefit analysis.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin-top: 20px;">
-                    Assessment demonstrates professional security analyst capabilities: passive OSINT reconnaissance, 
-                    forensic investigation methodology, regulatory compliance expertise, risk quantification, and 
-                    strategic remediation planning. Developed working proof-of-concept access control system showing 
-                    ability to move from analysis to implementation.
-                </p>
-            </div>
-
-            <!-- Confidentiality Notice -->
-            <div class="section-box info">
-                <h3>Confidentiality & Availability</h3>
-                <p style="font-size: 15px; line-height: 1.8;">
-                    This portfolio case study has been sanitized to protect confidential information. All research 
-                    conducted using non-invasive OSINT and publicly available data. No unauthorized access attempted 
-                    or gained.
-                </p>
-                <p style="font-size: 15px; line-height: 1.8; margin-top: 15px;">
-                    <strong>Full detailed assessment available to potential employers upon request under appropriate 
-                    confidentiality agreements.</strong>
-                </p>
-                <p style="font-size: 15px; margin-top: 15px;">
-                    Contact: <a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a>
-                </p>
-            </div>
-
+            <h2>What I Took From It</h2>
+            <p>
+                Two things. First, how much an outsider can reconstruct from public data alone if they look
+                systematically — Certificate Transparency and DNS history are a paper trail of every change a
+                company forgets it made. Second, that a finding only matters once it's tied to business risk; a
+                CVE means nothing to a decision-maker until it's "$20K a year and a SHIELD Act exposure."
+            </p>
         </div>
     </div>
-
     <!-- Footer -->
     <footer>
         <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>

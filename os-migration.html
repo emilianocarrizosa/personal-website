@@ -37,277 +37,81 @@
         </div>
 
         <div class="content">
-            
-            <!-- EXECUTIVE SUMMARY -->
-            <div class="section-box success">
-                <h3>Executive Summary</h3>
-                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
-                    <strong>Challenge:</strong> OS migrations risk data loss, downtime, and application incompatibility - failed migrations result in lost productivity and expensive recovery operations.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
-                    <strong>Solution:</strong> Systematic migration methodology with comprehensive backups, LUKS encryption implementation, and hardware compatibility resolution.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
-                    <strong>Result:</strong> Zero data loss, complete system transition with enhanced security through full-disk encryption implemented during migration window.
-                </p>
-            </div>
-
-            <!-- THE BUSINESS CHALLENGE -->
-            <h2>The Business Challenge</h2>
+            <h2>Overview</h2>
             <p>
-                Organizations frequently need to migrate systems between operating systems - whether transitioning legacy Windows infrastructure to Linux servers, moving workstations to more secure platforms, or consolidating heterogeneous environments. These migrations carry significant risk.
+                I migrated my main machine from Windows 10 to Arch Linux with zero data loss, and used the
+                migration window to add full-disk encryption at the same time. Migrations are where things go
+                wrong — destructive operations destroy data permanently, hardware refuses to cooperate, and a
+                failed cutover means downtime and expensive recovery. The whole point was to do a high-risk
+                transition deliberately enough that none of that happened.
             </p>
 
-            <div class="section-box highlight">
-                <h4>Migration Risks:</h4>
-                <ul style="margin: 15px 0;">
-                    <li><strong>Data loss</strong> during destructive operations permanently destroying business-critical information</li>
-                    <li><strong>Downtime</strong> impacting productivity and revenue during extended migration windows</li>
-                    <li><strong>Application incompatibility</strong> breaking critical workflows and business processes</li>
-                    <li><strong>Hardware compatibility</strong> issues requiring driver troubleshooting and potential hardware replacement</li>
-                    <li><strong>User disruption</strong> from unfamiliar environments reducing productivity during adjustment period</li>
-                </ul>
-                <p style="margin: 15px 0 0 0;"><strong>Failed migrations can result in lost productivity, corrupted data, and expensive recovery operations.</strong></p>
+            <h2>How I Did It</h2>
+
+            <div class="phase-card">
+                <h4>1 · Plan and back up</h4>
+                <p>
+                    Before touching anything destructive, I inventoried the data, apps, and configs to preserve,
+                    identified Windows-only software that would need Linux alternatives or a VM, then made a
+                    verified, encrypted backup to external storage (VeraCrypt) with a rollback plan. The rule:
+                    no irreversible step until the backup is proven good.
+                </p>
             </div>
 
-            <!-- THE SOLUTION -->
-            <h2>The Solution</h2>
+            <div class="phase-card">
+                <h4>2 · Install with encryption from the start</h4>
+                <p>
+                    A custom partition layout with separate boot, root, and home, then LUKS full-disk encryption
+                    deployed during the install — passphrase at boot, encrypted swap so nothing leaks to memory
+                    dumps, and GRUB configured with the right initramfs hooks for an encrypted root. Doing
+                    encryption now meant it didn't need to be a second project later.
+                </p>
+            </div>
+
+            <div class="phase-card">
+                <h4>3 · Make the hardware work</h4>
+                <p>
+                    This was the messy part. The MSI GS66 Stealth needed NVIDIA proprietary drivers and Optimus
+                    GPU switching configured by hand for sane laptop power management, plus TLP for battery life.
+                    Several USB-creation tools produced media that wouldn't boot before I found one that did —
+                    the kind of friction that's invisible until you hit it.
+                </p>
+            </div>
+
+            <div class="phase-card">
+                <h4>4 · Restore, harden, verify</h4>
+                <p>
+                    Restored data from the encrypted backup, set up the desktop and dev environment, kept a
+                    VirtualBox Windows VM for the few apps that needed it, then hardened: default-deny firewall,
+                    AppArmor profiles, Firejail for risky software. Last step was confirming every critical file
+                    came across intact — verifying zero data loss rather than assuming it.
+                </p>
+            </div>
+
+            <h2>Results</h2>
+            <div class="section-box success">
+                <p>Zero data loss — every critical file preserved and verified.</p>
+                <p>Planned window, no surprise downtime.</p>
+                <p>All hardware functional, including discrete GPU and power management.</p>
+                <p>Security improved in the same pass via full-disk encryption.</p>
+            </div>
+
+            <h2>What I Took From It</h2>
             <p>
-                Executed complete operating system migration from Windows 10 to Arch Linux with zero data loss, implementing full-disk encryption during the transition. This project demonstrates systematic migration planning, comprehensive backup strategies, hardware compatibility resolution, and security hardening throughout the process.
+                The migration succeeded because of the boring parts: a thorough pre-flight audit, a backup I
+                actually trusted, and validating each phase before moving to the next so errors couldn't
+                compound. If I did it again I'd test the boot media on the target hardware first and line up the
+                Windows-app alternatives earlier. The same methodology scales straight up to fleet and server
+                migrations — and folding encryption into the migration window is how you get a security upgrade
+                without standing up a separate project for it.
             </p>
-
-            <!-- MIGRATION METHODOLOGY -->
-            <h2>Migration Methodology</h2>
-
-            <div class="phase-card">
-                <h4>Phase 1: Pre-Migration Planning</h4>
-                
-                <p style="margin-bottom: 15px;"><strong>System Audit:</strong></p>
-                <ul style="line-height: 1.7; margin-bottom: 20px;">
-                    <li>Catalogued all critical data, applications, and configurations</li>
-                    <li>Identified Windows-specific software requiring Linux alternatives or virtualization</li>
-                    <li>Documented hardware specifications and driver requirements</li>
-                    <li>Created comprehensive inventory of files and settings to preserve</li>
-                </ul>
-                
-                <p style="margin: 20px 0 15px 0;"><strong>Backup Strategy:</strong></p>
-                <ul style="line-height: 1.7;">
-                    <li>Created encrypted container on external USB using VeraCrypt</li>
-                    <li>Verified backup integrity before proceeding with destructive operations</li>
-                    <li>Ensured all critical data protected and retrievable</li>
-                    <li>Established rollback plan in case of migration failure</li>
-                </ul>
-            </div>
-
-            <div class="phase-card">
-                <h4>Phase 2: Installation & Configuration</h4>
-                
-                <p style="margin-bottom: 15px;"><strong>Partitioning Strategy:</strong></p>
-                <ul style="line-height: 1.7; margin-bottom: 20px;">
-                    <li>Designed custom partition layout optimized for encrypted systems</li>
-                    <li>Separated boot, root, and home partitions for security and maintainability</li>
-                    <li>Allocated appropriate space for system, user data, and swap</li>
-                </ul>
-                
-                <p style="margin: 20px 0 15px 0;"><strong>LUKS Encryption Implementation:</strong></p>
-                <ul style="line-height: 1.7; margin-bottom: 20px;">
-                    <li>Deployed Linux Unified Key Setup (LUKS) for full-disk encryption</li>
-                    <li>Configured secure passphrase authentication at boot time</li>
-                    <li>Created encrypted swap partition preventing memory data leakage</li>
-                    <li>Configured GRUB bootloader with initramfs hooks for encrypted root partition</li>
-                </ul>
-                
-                <p style="margin: 20px 0 15px 0;"><strong>Base System Deployment:</strong></p>
-                <ul style="line-height: 1.7;">
-                    <li>Installed Arch Linux from minimal installation media</li>
-                    <li>Configured network connectivity and package repositories</li>
-                    <li>Deployed essential system packages and utilities</li>
-                    <li>Set up bootloader with LUKS support</li>
-                </ul>
-            </div>
-
-            <div class="phase-card">
-                <h4>Phase 3: Hardware Compatibility</h4>
-                
-                <p style="margin-bottom: 15px;"><strong>Driver Configuration:</strong></p>
-                <ul style="line-height: 1.7; margin-bottom: 20px;">
-                    <li>Installed NVIDIA proprietary graphics drivers for discrete GPU</li>
-                    <li>Configured GPU switching (nvidia-prime/optimus) for laptop power management</li>
-                    <li>Set up PulseAudio for audio management</li>
-                    <li>Deployed power management utilities (TLP/powertop) for battery optimization</li>
-                    <li>Verified functionality of wireless, touchpad, audio, and input devices</li>
-                </ul>
-                
-                <div style="background: rgba(210, 153, 34, 0.1); padding: 15px; margin-top: 20px; border-radius: 6px; border-left: 4px solid #d29922;">
-                    <strong>Challenge Overcome:</strong> MSI GS66 Stealth required specific handling:
-                    <ul style="margin: 10px 0 0 20px; color: var(--text-2);">
-                        <li>NVIDIA discrete graphics needed proprietary drivers post-installation</li>
-                        <li>Optimus switching configuration for integrated/discrete GPU management</li>
-                        <li>Multiple USB creation tools failed before finding compatible bootable media approach</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="phase-card">
-                <h4>Phase 4: Post-Migration Configuration</h4>
-                
-                <p style="margin-bottom: 15px;"><strong>Environment Setup:</strong></p>
-                <ul style="line-height: 1.7; margin-bottom: 20px;">
-                    <li>Installed and configured desktop environment</li>
-                    <li>Migrated user data from encrypted backup</li>
-                    <li>Established development environment and workflow tools</li>
-                    <li>Set up Oracle VirtualBox for Windows-only applications when needed</li>
-                </ul>
-                
-                <p style="margin: 20px 0 15px 0;"><strong>Security Hardening:</strong></p>
-                <ul style="line-height: 1.7; margin-bottom: 20px;">
-                    <li>Configured firewall (ufw/iptables) with default-deny policy</li>
-                    <li>Set up AppArmor/SELinux mandatory access control profiles</li>
-                    <li>Implemented application sandboxing with Firejail for high-risk software</li>
-                    <li>Disabled unnecessary services reducing attack surface</li>
-                </ul>
-                
-                <p style="margin: 20px 0 15px 0;"><strong>Data Verification:</strong></p>
-                <ul style="line-height: 1.7;">
-                    <li>Successfully transferred all critical files from Windows installation</li>
-                    <li>Verified data integrity and accessibility</li>
-                    <li>Confirmed zero data loss throughout migration process</li>
-                    <li>Validated application functionality and workflow compatibility</li>
-                </ul>
-            </div>
-
-            <!-- BUSINESS IMPACT -->
-            <h2>Business Impact</h2>
-
-            <div class="section-box success">
-                <h4>Migration Success Metrics:</h4>
-                <p class="metric-highlight" style="margin: 15px 0;">✓ Zero data loss - 100% of critical data preserved and accessible</p>
-                <p class="metric-highlight" style="margin: 15px 0;">✓ Minimal downtime - planned migration window, no unexpected delays</p>
-                <p class="metric-highlight" style="margin: 15px 0;">✓ Hardware compatibility achieved - all components functional</p>
-                <p class="metric-highlight" style="margin: 15px 0;">✓ Security enhanced - full-disk encryption implemented during migration</p>
-                <p class="metric-highlight" style="margin: 15px 0;">✓ Functional environment - productivity restored with improved security posture</p>
-            </div>
-
-            <h3>Real-World Applications</h3>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Corporate Workstation Migration</h4>
-                    <p style="line-height: 1.7;">Organization transitioning from Windows to Linux workstations for cost savings and security improvements. This migration methodology ensures smooth transition with minimal business disruption.</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Server Infrastructure Modernization</h4>
-                    <p style="line-height: 1.7;">Company migrating legacy Windows servers to Linux for improved performance and reduced licensing costs. Demonstrates planning approach applicable to server migrations.</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Development Environment Standardization</h4>
-                    <p style="line-height: 1.7;">Development teams moving to Linux-based environments for consistency with production infrastructure. Shows ability to execute technical transitions systematically.</p>
-                </div>
-            </div>
-
-            <!-- TECHNICAL SKILLS -->
-            <h2>Technical Skills Demonstrated</h2>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>System Administration</h4>
-                    <p>• Linux installation and configuration</p>
-                    <p>• Boot process architecture</p>
-                    <p>• Package management (pacman)</p>
-                    <p>• Service management and hardening</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Data Management</h4>
-                    <p>• Backup strategy development</p>
-                    <p>• Encrypted storage (VeraCrypt, LUKS)</p>
-                    <p>• Data migration techniques</p>
-                    <p>• Integrity verification</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Hardware Troubleshooting</h4>
-                    <p>• Driver installation (NVIDIA)</p>
-                    <p>• Compatibility resolution</p>
-                    <p>• Power management optimization</p>
-                    <p>• Bootable media creation</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Security Implementation</h4>
-                    <p>• Full-disk encryption (LUKS)</p>
-                    <p>• Secure boot configuration</p>
-                    <p>• Firewall configuration</p>
-                    <p>• Attack surface reduction</p>
-                </div>
-            </div>
-
-            <!-- LESSONS LEARNED -->
-            <h2>Lessons Learned</h2>
-
-            <div class="section-box highlight">
-                <h4>Critical Success Factors:</h4>
-                <ol style="line-height: 1.7; margin: 15px 0;">
-                    <li><strong>Comprehensive pre-migration planning</strong> - thorough audit prevented surprises and ensured nothing was forgotten</li>
-                    <li><strong>Robust backup strategy</strong> - encrypted external backup enabled confidence in destructive operations</li>
-                    <li><strong>Hardware research</strong> - understanding NVIDIA requirements prevented driver issues and boot failures</li>
-                    <li><strong>Incremental validation</strong> - verifying each phase before proceeding minimized risk of compounding errors</li>
-                </ol>
-            </div>
-
-            <div class="section-box highlight">
-                <h4>If Repeating This Migration:</h4>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Test bootable media on target hardware before beginning full migration</li>
-                    <li>Establish clearer Windows application alternatives before migration to reduce friction</li>
-                    <li>Consider dual-boot interim period for critical Windows-only workflows during transition</li>
-                </ul>
-            </div>
-
-            <!-- APPLICABILITY -->
-            <h2>Enterprise Applicability</h2>
-            <p style="font-size: 15px; line-height: 1.8;">
-                This migration methodology scales to enterprise scenarios:
-            </p>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Workstation Migrations</h4>
-                    <p>Same planning approach applies to fleet transitions with automation for deployment at scale</p>
-                </div>
-                <div class="info-card">
-                    <h4>Server Migrations</h4>
-                    <p>Systematic methodology prevents production disruptions during infrastructure transitions</p>
-                </div>
-                <div class="info-card">
-                    <h4>Security Upgrades</h4>
-                    <p>Demonstrates implementing encryption during migration windows without separate projects</p>
-                </div>
-                <div class="info-card">
-                    <h4>Cost Reduction</h4>
-                    <p>Moving from licensed to open-source platforms reduces ongoing licensing expenses</p>
-                </div>
-            </div>
-
-            <!-- OUTCOME -->
-            <div class="section-box success">
-                <h3>Outcome</h3>
-                <p style="font-size: 16px; line-height: 1.8;">
-                    Successfully transitioned to fully encrypted Arch Linux system serving as primary development environment and daily driver. The migration demonstrates ability to plan and execute complex system transitions systematically, preserve data integrity through destructive operations, troubleshoot hardware compatibility challenges, and implement security improvements during migration windows.
-                </p>
-                <p style="font-size: 15px; line-height: 1.8; margin-top: 15px;">
-                    This project showcases the systematic planning, risk management, and technical execution required for successful enterprise OS migration projects.
-                </p>
-            </div>
-
         </div>
-
-        <footer>
-            <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
-        <a href="index.html#work">← Back to Work</a>
-        </footer>
     </div>
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
+        <a href="index.html#work">← Back to Work</a>
+    </footer>
     <script>
         // staggered reveal on scroll (matches index)
         const blocks = document.querySelectorAll(

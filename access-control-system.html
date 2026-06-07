@@ -41,491 +41,142 @@
 
         <!-- Content -->
         <div class="content">
-            <!-- Overview -->
-            <h2>Project Overview</h2>
+            <h2>Overview</h2>
             <p>
-                Designed and prototyped a role-based access control (RBAC) system with comprehensive audit logging 
-                for high-value inventory environments. The system addresses a critical security gap in luxury retail operations: 
-                preventing internal theft while enabling rapid investigation when discrepancies occur.
+                I designed and built a role-based access control (RBAC) system with tamper-evident audit
+                logging for environments holding high-value inventory. The problem I set out to solve is a
+                familiar one in luxury retail: staff need fast access to merchandise, but when something goes
+                missing, reconstructing who touched what from manual logs can take hours — and everyone knows
+                the logs are inconsistent, so they don't deter much.
+            </p>
+            <p>
+                My approach was to make every access event answer five questions automatically — who, what,
+                when, where, and why — write them to a log that can't be quietly edited after the fact, and
+                put a query interface on top so an investigation that used to take an afternoon takes seconds.
             </p>
 
-            <div class="section-box info">
-                <h4>The Business Problem</h4>
-                <p>
-                    High-value retail environments face a unique challenge: balancing operational efficiency 
-                    (employees need quick access to inventory) with security controls (preventing unauthorized 
-                    access and theft). Manual access logs create two problems:
-                </p>
-                <ul>
-                    <li><strong>Investigation Bottleneck:</strong> When inventory goes missing, reconstructing who accessed what requires hours of manual log review</li>
-                    <li><strong>Weak Deterrent:</strong> Employees know manual tracking is inconsistent, reducing the perceived risk of internal theft</li>
-                    <li><strong>Compliance Gaps:</strong> No automated audit trail for demonstrating security controls to insurers or regulators</li>
-                </ul>
-            </div>
-
-            <!-- Key Metrics -->
-            <h2>Impact Metrics</h2>
+            <h2>Results</h2>
             <div class="info-grid">
                 <div class="info-card">
                     <div class="metric-highlight">99%+</div>
-                    <div class="metric-label">Investigation Time Reduction</div>
-                    <p style="margin-top: 15px; font-size: 14px;">Hours of manual log review → Sub-second automated queries</p>
+                    <div class="metric-label">Faster Investigations</div>
+                    <p>Hours of manual log review collapse into sub-second queries.</p>
                 </div>
                 <div class="info-card">
                     <div class="metric-highlight">100%</div>
-                    <div class="metric-label">Access Event Coverage</div>
-                    <p style="margin-top: 15px; font-size: 14px;">Every inventory interaction logged with cryptographic integrity</p>
+                    <div class="metric-label">Event Coverage</div>
+                    <p>Every inventory interaction is logged with cryptographic integrity.</p>
                 </div>
                 <div class="info-card">
                     <div class="metric-highlight">Zero</div>
-                    <div class="metric-label">False Negatives</div>
-                    <p style="margin-top: 15px; font-size: 14px;">No unauthorized access events missed by monitoring system</p>
+                    <div class="metric-label">Silent Edits</div>
+                    <p>Append-only hash chaining makes after-the-fact tampering detectable.</p>
                 </div>
             </div>
 
-            <!-- System Architecture -->
-            <h2>System Architecture</h2>
-            
-            <h3>Core Components</h3>
-            
+            <h2>How I Built It</h2>
+
             <div class="arch-layer">
-                <h4>1. Authentication & Authorization Engine</h4>
-                <ul>
-                    <li><strong>User Authentication:</strong> Multi-factor capability with session management and automatic timeout</li>
-                    <li><strong>Role Mapping:</strong> Flexible RBAC structure supporting roles (Sales, Manager, Security, Admin)</li>
-                    <li><strong>Permission Matrix:</strong> Granular control over who can access what inventory categories and perform which actions</li>
-                    <li><strong>Temporal Controls:</strong> Time-based access rules preventing off-hours unauthorized activity</li>
-                    <li><strong>Emergency Override:</strong> Temporary privilege elevation with mandatory justification logging</li>
-                </ul>
+                <h4>Access control &amp; enforcement</h4>
+                <p>
+                    A default-deny RBAC model: users get roles (Sales, Manager, Security, Admin), roles map to
+                    granular permissions over inventory categories and locations, and a real-time decision
+                    engine evaluates user + role + resource + time on every request. Off-hours and emergency
+                    access require an explicit, logged justification rather than a silent override.
+                </p>
             </div>
 
             <div class="arch-layer">
-                <h4>2. Access Control Enforcement</h4>
-                <ul>
-                    <li><strong>Request Evaluation:</strong> Real-time decision engine (User + Role + Resource + Time → Allow/Deny)</li>
-                    <li><strong>Least Privilege:</strong> Default-deny architecture requires explicit permission grants</li>
-                    <li><strong>Session Management:</strong> JWT-style tokens with refresh mechanisms and forced expiration</li>
-                    <li><strong>Policy Enforcement:</strong> Centralized policy engine ensuring consistent security controls</li>
-                </ul>
+                <h4>Immutable audit log</h4>
+                <p>
+                    Each entry is append-only and carries a hash of the entry before it, so any attempt to
+                    rewrite history breaks the chain and shows up immediately on verification. Logs are
+                    encrypted at rest, and events stream to the analysis engine as they happen.
+                </p>
+                <div class="code-block">Log Entry N
+  Timestamp:     2025-01-15T14:23:45Z
+  User:          j.martinez@store.example
+  Action:        ACCESS  ·  Resource: /inventory/item/12345
+  Previous Hash: a3f5c8b2…
+  Current Hash:  9d4e1a7f…</div>
             </div>
 
             <div class="arch-layer">
-                <h4>3. Immutable Audit Logging</h4>
-                <ul>
-                    <li><strong>Comprehensive Event Capture:</strong> Who (user ID, role) + What (resource, action) + When (timestamp) + Where (location) + Why (justification)</li>
-                    <li><strong>Cryptographic Integrity:</strong> Hash chains prevent retroactive log tampering</li>
-                    <li><strong>Append-Only Storage:</strong> Logs cannot be deleted or modified, only appended</li>
-                    <li><strong>Real-Time Streaming:</strong> Events immediately written to analysis engine for anomaly detection</li>
-                    <li><strong>Encrypted Storage:</strong> AES-256 encryption protecting log confidentiality</li>
-                </ul>
+                <h4>Behavioral anomaly detection</h4>
+                <p>
+                    I baselined normal access patterns per user and role, then flagged deviations — off-hours
+                    activity, unusual categories, bulk access — with a weighted risk score so the security
+                    team's attention lands on the few events that actually warrant it.
+                </p>
             </div>
 
             <div class="arch-layer">
-                <h4>4. Anomaly Detection Module</h4>
-                <ul>
-                    <li><strong>Behavior Baseline:</strong> Statistical profiling of normal access patterns per user/role</li>
-                    <li><strong>Deviation Alerts:</strong> Automatic flagging of unusual activity (off-hours, unusual inventory categories, bulk access)</li>
-                    <li><strong>Risk Scoring:</strong> Weighted scoring system for prioritizing security team response</li>
-                    <li><strong>Automated Escalation:</strong> Critical anomalies trigger immediate security notifications</li>
-                </ul>
+                <h4>Investigation interface</h4>
+                <p>
+                    Plain-language queries ("who accessed item X in the last 30 days?"), a timeline view that
+                    reconstructs access sequences, and one-click audit exports for insurers or regulators.
+                </p>
             </div>
 
-            <div class="arch-layer">
-                <h4>5. Investigation Interface</h4>
-                <ul>
-                    <li><strong>Query Builder:</strong> Natural language-style queries ("Who accessed item X in past 30 days?")</li>
-                    <li><strong>Timeline Visualization:</strong> Graphical reconstruction of access sequences for incident analysis</li>
-                    <li><strong>Pattern Correlation:</strong> Identify users with similar suspicious access patterns</li>
-                    <li><strong>Compliance Reporting:</strong> One-click audit trail export for regulatory/insurance requirements</li>
-                </ul>
-            </div>
+            <h2>The Interface</h2>
+            <p>I built a working prototype to prove the workflow end to end. A few of the screens:</p>
 
-            <!-- System Screenshots -->
-            <h2>System Interface</h2>
-            
+            <h3>Dashboard</h3>
+            <img src="images/PrototypeDashboard.png" alt="Access control dashboard">
             <p>
-                The following screenshots demonstrate the working prototype interface, showcasing the system's 
-                capabilities in permission management, investigation workflows, real-time monitoring, and 
-                behavioral analytics.
+                At-a-glance security posture — events today, unauthorized attempts, active alerts and sessions —
+                with a live access feed and a simulation mode for validating permission changes before they go live.
             </p>
 
-            <h3>Dashboard & Real-Time Monitoring</h3>
-            <div class="section-box">
-                <img src="images/PrototypeDashboard.png" alt="Access Control Dashboard" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
-                <h4>Real-Time Security Overview</h4>
-                <p>
-                    The main dashboard provides at-a-glance visibility into system activity with key security metrics:
-                </p>
-                <ul>
-                    <li><strong>Total Events Today (45):</strong> Aggregate access activity monitoring</li>
-                    <li><strong>Unauthorized Attempts (1):</strong> Real-time alerting for security incidents requiring investigation</li>
-                    <li><strong>Active Alerts (2):</strong> Behavioral anomalies flagged by detection engine</li>
-                    <li><strong>Active Users (7):</strong> Current authorized personnel with active sessions</li>
-                </ul>
-                <p>
-                    <strong>Live Access Simulation:</strong> Testing interface allows security teams to validate permission 
-                    configurations before deployment, reducing false positives and ensuring operational continuity.
-                </p>
-                <p>
-                    <strong>Recent Access Events Feed:</strong> Real-time log streaming shows authorized access with timestamp, 
-                    employee, access point, authorization status, and duration—enabling immediate pattern recognition and 
-                    rapid incident response.
-                </p>
-            </div>
-
-            <h3>Permission Management Interface</h3>
-            <div class="section-box">
-                <img src="images/PrototypePermissions.png" alt="Permissions Management" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
-                <h4>Granular Access Control Administration</h4>
-                <p>
-                    The permissions interface demonstrates role-based access control (RBAC) in action, showing 
-                    comprehensive access rights management:
-                </p>
-                <ul>
-                    <li><strong>Employee-Level Granularity:</strong> Each user's access permissions listed individually with clear ownership attribution</li>
-                    <li><strong>Access Point Specificity:</strong> Permissions mapped to physical locations (Display Cases 1-6, Main Vault, Workshop, Safe Deposit Area) and inventory categories (Diamond Rings, Necklaces, Bracelets, Custom Pieces, Luxury Watches, Gold Chains)</li>
-                    <li><strong>Time-Based Restrictions:</strong> 24/7 badges indicate unrestricted access; time-limited access would display specific hour ranges</li>
-                    <li><strong>Audit Trail:</strong> "Granted By" column maintains accountability chain (System vs. Admin-granted permissions)</li>
-                    <li><strong>One-Click Revocation:</strong> Red "Revoke" buttons enable immediate access termination during security incidents</li>
-                </ul>
-                <p>
-                    <strong>Security Value:</strong> This granular visibility enables security teams to identify over-permissioned 
-                    accounts (employees with access to more resources than their role requires)—a critical insider threat indicator.
-                </p>
-            </div>
-
-            <h3>Permission Grant Workflow</h3>
-            <div class="section-box">
-                <img src="images/PrototypeGrantPermissions.png" alt="Grant Permission Dialog" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
-                <h4>Streamlined Access Provisioning</h4>
-                <p>
-                    The permission grant dialog demonstrates how new access rights are created with built-in security controls:
-                </p>
-                <ul>
-                    <li><strong>Employee Selection:</strong> Dropdown prevents typos and ensures permissions are granted to valid system users</li>
-                    <li><strong>Access Point Selection:</strong> Structured dropdown enforces consistency in permission naming and prevents duplicate entries</li>
-                    <li><strong>Optional Time Restrictions:</strong> Configurable start/end hours (0-23 format) enable least-privilege access enforcement—users only have access during business-justified hours</li>
-                    <li><strong>Automatic Audit Logging:</strong> "Granted By: System Administrator" field captures accountability for all permission changes</li>
-                    <li><strong>Dual-Button Safety:</strong> Cancel/Grant button pair prevents accidental permission grants</li>
-                </ul>
-                <p>
-                    <strong>Business Impact:</strong> Time-restricted access reduces overnight theft risk—employees working late shifts 
-                    cannot access high-value inventory outside their authorized hours without triggering security alerts.
-                </p>
-            </div>
-
-            <h3>Investigation & Forensic Analysis</h3>
-            <div class="section-box">
-                <img src="images/PrototypeInvestigation.png" alt="Investigation Interface" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
-                <h4>Sub-Second Access Event Queries</h4>
-                <p>
-                    The investigation interface demonstrates the system's core value proposition: reducing investigation 
-                    time from hours of manual log review to instantaneous queries.
-                </p>
-                <p>
-                    <strong>Search Filters:</strong>
-                </p>
-                <ul>
-                    <li><strong>Employee Filter:</strong> "Who accessed inventory?" queries across all staff or specific individuals</li>
-                    <li><strong>Access Point Filter:</strong> "What was accessed?" queries for specific display cases, vaults, or inventory categories</li>
-                    <li><strong>Date Range Selection:</strong> Historical analysis across days, weeks, or months of access events</li>
-                </ul>
-                <p>
-                    <strong>Quick Investigation Scenarios:</strong> Pre-configured buttons provide one-click access to common 
-                    forensic queries:
-                </p>
-                <ul>
-                    <li><strong>Emma Thompson (Suspicious):</strong> Employee flagged by behavioral analytics for unusual access patterns</li>
-                    <li><strong>Case 3 - Tuesday:</strong> Investigation into specific inventory discrepancy tied to date/location</li>
-                    <li><strong>Unauthorized Attempts:</strong> All failed access attempts across system (potential insider threat indicators)</li>
-                    <li><strong>Today's Events:</strong> Real-time visibility into current day's activity</li>
-                </ul>
-                <p>
-                    <strong>Search Results Table:</strong> Query results display timestamp, employee, access point, authorization 
-                    status, duration, photo capture (if enabled), and sale completion—enabling pattern correlation like 
-                    "Did Employee X access Item Y before it went missing?"
-                </p>
-                <p>
-                    <strong>Performance Metric:</strong> "0 events" shown indicates empty result set returned in <1 second—demonstrating 
-                    the sub-second query performance that reduces investigation time from hours to seconds.
-                </p>
-            </div>
-
-            <h3>Behavioral Analytics & Anomaly Detection</h3>
-            <div class="section-box">
-                <img src="images/PrototypeAnalytics.png" alt="Analytics Dashboard" style="width: 100%; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 20px;">
-                <h4>Automated Threat Detection Through Pattern Analysis</h4>
-                <p>
-                    The analytics interface demonstrates machine learning-driven behavioral analysis that identifies 
-                    insider threats before theft occurs.
-                </p>
-                <p>
-                    <strong>Access Frequency Analysis (Last 7 Days):</strong>
-                </p>
-                <ul>
-                    <li><strong>Emma Thompson (130 accesses):</strong> Significantly higher volume than peers—potential indicator of inventory browsing unrelated to sales</li>
-                    <li><strong>Mike Chen & Lisa Rodriguez (~80 accesses):</strong> Normal sales staff activity patterns</li>
-                    <li><strong>David Kim (17 accesses):</strong> Abnormally low for sales role—potential training issue or access control problem</li>
-                </ul>
-                <p>
-                    <strong>Conversion Rate Analysis:</strong> Correlates access events with completed sales to identify suspicious behavior:
-                </p>
-                <ul>
-                    <li><strong>Mike Chen (73.5%) & Lisa Rodriguez (67.1%):</strong> Normal conversion rates—most accessed inventory results in sales</li>
-                    <li><strong>Emma Thompson (45.4%):</strong> Low conversion despite high access volume—red flag for potential inventory theft or inappropriate browsing</li>
-                    <li><strong>Sarah Johnson & David Kim (0%):</strong> Critical alert—accessing inventory without any sales suggests investigation required</li>
-                </ul>
-                <p>
-                    <strong>Employee Performance Metrics Table:</strong> Comprehensive view combining:
-                </p>
-                <ul>
-                    <li><strong>Total Accesses:</strong> Volume of inventory interactions</li>
-                    <li><strong>Sales Made:</strong> Completed transactions</li>
-                    <li><strong>Conversion Rate:</strong> Calculated metric (Sales / Accesses)</li>
-                    <li><strong>Status Flags:</strong> Automated risk scoring—"Suspicious" (red), "Low" (yellow), "Normal" (green)</li>
-                </ul>
-                <p>
-                    <strong>Security Value:</strong> This analytics-driven approach identifies insider threat patterns that manual 
-                    investigation would miss. For example, Emma Thompson's suspicious status (130 accesses but only 45% conversion) 
-                    triggers proactive investigation before potential theft occurs, rather than reactive investigation after 
-                    inventory goes missing.
-                </p>
-                <p>
-                    <strong>Business Impact:</strong> Early detection prevents losses. Security teams can interview Emma Thompson 
-                    about her access patterns, review her sessions, or implement enhanced monitoring—all before any inventory 
-                    actually disappears.
-                </p>
-            </div>
-
-            <!-- Technical Implementation -->
-            <h2>Technical Implementation</h2>
-
-            <h3>Technology Stack</h3>
-            <div class="code-block">
-Backend: Python (Flask/FastAPI for API layer)
-Database: PostgreSQL (ACID compliance for audit logs)
-Audit Storage: Append-only tables with cryptographic hash verification
-Caching: Redis (session management, performance optimization)
-Encryption: AES-256 for data at rest, TLS 1.3 for transport
-Authentication: JWT tokens with refresh mechanism
-Frontend: React (investigation dashboard, admin console)
-            </div>
-
-            <h3>Security Controls</h3>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Data Protection</h4>
-                    <p>• Encryption at rest (AES-256)</p>
-                    <p>• Encryption in transit (TLS 1.3)</p>
-                    <p>• Encrypted database backups</p>
-                    <p>• Secure key management</p>
-                </div>
-                <div class="info-card">
-                    <h4>Access Controls</h4>
-                    <p>• Principle of least privilege</p>
-                    <p>• Separation of duties enforcement</p>
-                    <p>• Role-based access control (RBAC)</p>
-                    <p>• Multi-factor authentication support</p>
-                </div>
-                <div class="info-card">
-                    <h4>Audit Integrity</h4>
-                    <p>• Cryptographic hash chains</p>
-                    <p>• Append-only log storage</p>
-                    <p>• Tamper detection mechanisms</p>
-                    <p>• Automated backup verification</p>
-                </div>
-                <div class="info-card">
-                    <h4>Operational Security</h4>
-                    <p>• Real-time anomaly detection</p>
-                    <p>• Automated alerting system</p>
-                    <p>• Fail-secure defaults</p>
-                    <p>• Comprehensive error logging</p>
-                </div>
-            </div>
-
-            <!-- Use Cases -->
-            <h2>Real-World Use Cases</h2>
-
-            <div class="section-box">
-                <h4>Scenario 1: Theft Investigation</h4>
-                <p><strong>Problem:</strong> $50,000 watch missing from secure inventory. Manual log review would take 4-6 hours across multiple employees.</p>
-                <p><strong>Solution:</strong> Investigation query: "Show all access to Item #12345 in past 14 days"</p>
-                <p><strong>Result:</strong> Sub-second response identifies 3 employees who accessed the item. Timeline visualization shows Employee B accessed it during non-business hours without manager approval. Case resolved in under 5 minutes.</p>
-            </div>
-
-            <div class="section-box">
-                <h4>Scenario 2: Compliance Audit</h4>
-                <p><strong>Problem:</strong> Insurance company requires proof of access control systems for $10M inventory policy.</p>
-                <p><strong>Solution:</strong> One-click audit report export showing 100% coverage of access events with cryptographic integrity verification.</p>
-                <p><strong>Result:</strong> Demonstrated "reasonable security measures" reducing insurance premiums by 15% ($75K annual savings).</p>
-            </div>
-
-            <div class="section-box">
-                <h4>Scenario 3: Insider Threat Detection</h4>
-                <p><strong>Problem:</strong> Employee exhibiting unusual access patterns potentially planning theft.</p>
-                <p><strong>Solution:</strong> Anomaly detection flags employee accessing high-value inventory categories outside their normal role, during off-hours, without business justification.</p>
-                <p><strong>Result:</strong> Security team investigates proactively before theft occurs. Employee confronted and dismissed, preventing $200K+ loss.</p>
-            </div>
-
-            <!-- Business Impact -->
-            <h2>Business Impact</h2>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Operational Efficiency</h4>
-                    <p><strong>Investigation Time:</strong> Hours → Seconds</p>
-                    <p><strong>Staff Productivity:</strong> Security team can investigate 50x more incidents per day</p>
-                    <p><strong>False Positive Reduction:</strong> Anomaly detection focuses attention on genuine threats</p>
-                </div>
-                <div class="info-card">
-                    <h4>Loss Prevention</h4>
-                    <p><strong>Deterrence Effect:</strong> Employees aware of comprehensive logging</p>
-                    <p><strong>Early Detection:</strong> Catch suspicious patterns before theft occurs</p>
-                    <p><strong>Evidence Quality:</strong> Cryptographically verified logs admissible in prosecution</p>
-                </div>
-                <div class="info-card">
-                    <h4>Compliance Value</h4>
-                    <p><strong>Audit Readiness:</strong> Always prepared for regulatory/insurance audits</p>
-                    <p><strong>Risk Mitigation:</strong> Demonstrate "reasonable security measures"</p>
-                    <p><strong>Insurance Savings:</strong> Lower premiums through proven controls</p>
-                </div>
-                <div class="info-card">
-                    <h4>Scalability</h4>
-                    <p><strong>Volume Handling:</strong> 10,000+ daily access events</p>
-                    <p><strong>Query Performance:</strong> Sub-second response on years of logs</p>
-                    <p><strong>Multi-Location:</strong> Centralized logging across store network</p>
-                </div>
-            </div>
-
-            <!-- Technical Highlights -->
-            <h2>Technical Highlights</h2>
-
-            <h3>Cryptographic Log Integrity</h3>
-            <div class="section-box info">
-                <p>Each log entry includes a cryptographic hash of the previous entry, creating a tamper-evident chain. 
-                Any modification to historical logs breaks the hash chain, immediately detected during verification.</p>
-                <div class="code-block">
-Log Entry N:
-  Timestamp: 2025-01-15T14:23:45Z
-  User: j.martinez@store.example
-  Action: ACCESS
-  Resource: /inventory/item/12345
-  Previous Hash: a3f5c8b2...
-  Current Hash: 9d4e1a7f...
-                </div>
-                <p><strong>Security Benefit:</strong> Prevents retroactive log manipulation by malicious insiders or attackers who gain system access.</p>
-            </div>
-
-            <h3>Performance Optimization</h3>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Database Indexing</h4>
-                    <p>Strategic indexes on user_id, resource_id, timestamp enable sub-second queries on millions of log entries</p>
-                </div>
-                <div class="info-card">
-                    <h4>Caching Layer</h4>
-                    <p>Redis caching for frequently accessed user sessions and permission lookups reduces database load 80%+</p>
-                </div>
-                <div class="info-card">
-                    <h4>Async Processing</h4>
-                    <p>Background workers handle anomaly detection and alerting without blocking access decisions</p>
-                </div>
-            </div>
-
-            <!-- Skills Demonstrated -->
-            <h2>Skills Demonstrated</h2>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Security Architecture</h4>
-                    <p>• Role-based access control (RBAC) design</p>
-                    <p>• Defense-in-depth principles</p>
-                    <p>• Cryptographic integrity verification</p>
-                    <p>• Threat modeling and risk assessment</p>
-                </div>
-                <div class="info-card">
-                    <h4>Backend Development</h4>
-                    <p>• Python (Flask/FastAPI)</p>
-                    <p>• PostgreSQL database design</p>
-                    <p>• RESTful API development</p>
-                    <p>• JWT authentication</p>
-                </div>
-                <div class="info-card">
-                    <h4>Data Engineering</h4>
-                    <p>• Append-only log architecture</p>
-                    <p>• Time-series data optimization</p>
-                    <p>• Query performance tuning</p>
-                    <p>• Data integrity verification</p>
-                </div>
-                <div class="info-card">
-                    <h4>Business Analysis</h4>
-                    <p>• Translating security to business value</p>
-                    <p>• Compliance requirement analysis</p>
-                    <p>• Cost-benefit modeling</p>
-                    <p>• Stakeholder communication</p>
-                </div>
-            </div>
-
-            <!-- Enterprise Applicability -->
-            <h2>Enterprise Applicability</h2>
-
+            <h3>Permissions</h3>
+            <img src="images/PrototypePermissions.png" alt="Permission management interface">
             <p>
-                While this prototype was designed for luxury retail, the core architecture translates directly to 
-                enterprise environments requiring access control and audit trails:
+                Per-employee permissions mapped to specific locations and inventory categories, with time
+                restrictions, an accountability trail for who granted what, and one-click revocation. This view
+                is where over-permissioned accounts — a classic insider-threat signal — become obvious.
             </p>
 
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Law Firms</h4>
-                    <p>Track who accessed confidential client files for ethical wall enforcement and conflict check compliance</p>
-                </div>
-                <div class="info-card">
-                    <h4>Healthcare</h4>
-                    <p>HIPAA-compliant audit logging of electronic health record access with minimum necessary enforcement</p>
-                </div>
-                <div class="info-card">
-                    <h4>Financial Services</h4>
-                    <p>Track access to material non-public information (MNPI) for insider trading prevention and regulatory compliance</p>
-                </div>
-                <div class="info-card">
-                    <h4>Government</h4>
-                    <p>Classified information access control with comprehensive audit trails for security clearance investigations</p>
-                </div>
-            </div>
+            <h3>Granting access</h3>
+            <img src="images/PrototypeGrantPermissions.png" alt="Grant permission dialog">
+            <p>
+                Structured dropdowns prevent typos and duplicates, optional start/end hours enforce
+                least-privilege, and every grant is logged automatically. Time-bounded access is what keeps a
+                late-shift employee from quietly reaching high-value stock outside their hours.
+            </p>
 
-            <!-- Lessons Learned -->
-            <h2>Key Insights</h2>
+            <h3>Investigation</h3>
+            <img src="images/PrototypeInvestigation.png" alt="Investigation interface">
+            <p>
+                Filter by employee, access point, and date range, or use the pre-built scenario buttons for
+                common queries. The point of this screen is speed: "did employee X touch item Y before it went
+                missing?" answered in under a second instead of an afternoon of log review.
+            </p>
 
-            <div class="section-box success">
-                <h4>What I Learned</h4>
-                <ul style="line-height: 1.8;">
-                    <li><strong>Security UX Matters:</strong> The most secure system is useless if employees bypass it. Designing low-friction authentication was crucial for adoption.</li>
-                    <li><strong>Immutability is Hard:</strong> True append-only logs require careful database design and access controls to prevent even privileged users from tampering.</li>
-                    <li><strong>Performance vs. Security:</strong> Cryptographic verification adds overhead. Finding the right balance between security and query performance required optimization.</li>
-                    <li><strong>Business Value Translation:</strong> Technical capabilities don't matter if you can't articulate ROI. Framing this as "investigation time reduction" resonated more than "cryptographic hash chains."</li>
-                </ul>
-            </div>
+            <h3>Behavioral analytics</h3>
+            <img src="images/PrototypeAnalytics.png" alt="Analytics dashboard">
+            <p>
+                Access volume and access-to-sale conversion per employee, surfaced together. The pattern that
+                matters jumps out — high access volume with low conversion, or access with no sales at all —
+                which lets the team look into someone before inventory disappears, not after.
+            </p>
 
-            <!-- Outcome -->
-            <div class="section-box success">
-                <h3>Project Outcome</h3>
-                <p style="font-size: 16px; line-height: 1.8;">
-                    Successfully designed and prototyped a production-ready access control system demonstrating 
-                    end-to-end security architecture capability: from threat modeling and requirements analysis through 
-                    technical implementation and business value articulation. This project showcases skills directly 
-                    applicable to enterprise security roles: RBAC design, audit logging, cryptographic integrity, 
-                    compliance-driven architecture, and translating technical controls into measurable business outcomes.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin-top: 20px;">
-                    The 99%+ investigation time reduction (hours → seconds) demonstrates not just technical competence, 
-                    but understanding of how security solutions create operational value—a critical skill for security 
-                    professionals working in business environments.
-                </p>
-            </div>
+            <h2>Stack</h2>
+            <div class="code-block">Backend:    Python (FastAPI)  ·  PostgreSQL (ACID audit tables)
+Audit:      append-only tables with cryptographic hash verification
+Cache:      Redis (sessions, permission lookups)
+Crypto:     AES-256 at rest  ·  TLS 1.3 in transit  ·  JWT with refresh
+Frontend:   React</div>
 
+            <h2>What I Took From It</h2>
+            <p>
+                The technical core is the hash-chained log, but the lesson that stuck was about communication:
+                framing the system as "investigation time, from hours to seconds" landed with stakeholders far
+                better than talking about cryptographic integrity. The same architecture maps cleanly onto law
+                firms (file-access walls), healthcare (HIPAA access trails), and finance (MNPI controls) — any
+                place that needs to prove who reached what, and when.
+            </p>
         </div>
     </div>
-
     <!-- Footer -->
     <footer>
         <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>

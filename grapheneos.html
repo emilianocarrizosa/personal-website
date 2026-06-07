@@ -37,317 +37,57 @@
         </div>
 
         <div class="content">
-            
-            <!-- EXECUTIVE SUMMARY -->
-            <div class="section-box success">
-                <h3>Executive Summary</h3>
-                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
-                    <strong>Problem:</strong> Stock Android continuously collects location data, communication metadata, and behavioral information - exposing business intelligence and client relationships.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
-                    <strong>Solution:</strong> Deployed GrapheneOS hardened operating system eliminating manufacturer surveillance while maintaining mobile functionality.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
-                    <strong>Impact:</strong> Complete data sovereignty with hardware-backed security protecting executive communications and sensitive business data.
-                </p>
-            </div>
-
-            <!-- THE BUSINESS CHALLENGE -->
-            <h2>The Business Challenge</h2>
+            <h2>Overview</h2>
             <p>
-                Corporate mobile devices represent a significant security and privacy risk. Stock Android with Google services continuously collects location data, communication metadata, app usage patterns, and behavioral information - data that could expose business intelligence, client relationships, or strategic initiatives.
-            </p>
-
-            <div class="section-box highlight">
-                <h4>Mobile Security Risks:</h4>
-                <ul style="margin: 15px 0;">
-                    <li>Location tracking and behavioral profiling revealing executive travel and meeting patterns</li>
-                    <li>Communication metadata collection exposing business relationships and contact networks</li>
-                    <li>Third-party app data harvesting from installed business applications</li>
-                    <li>Unauthorized sensor access (microphone, camera, location) enabling surveillance</li>
-                    <li>Supply chain attacks in manufacturer firmware compromising device security</li>
-                    <li>Over-the-air surveillance and remote access through carrier or manufacturer backdoors</li>
-                </ul>
-            </div>
-
-            <!-- THE SOLUTION -->
-            <h2>The Solution</h2>
-            <p>
-                Deployed GrapheneOS, a hardened Android operating system, eliminating manufacturer surveillance infrastructure while maintaining essential mobile functionality. Configured user profile compartmentalization for different security contexts and implemented granular permission controls preventing unauthorized data access.
+                I deployed GrapheneOS — a hardened Android OS — as a daily-driver phone to strip out the
+                manufacturer and Google surveillance that ships with stock Android. The concern that drives
+                this for a business is concrete: stock Android continuously collects location, communication
+                metadata, and app-usage data, and for an executive that data quietly maps travel, meetings, and
+                relationships. The point of the project was full data sovereignty without giving up a usable phone.
             </p>
 
             <div class="tech-specs">
-                <h4>Implementation Details:</h4>
-                <p>Platform: Google Pixel device (official GrapheneOS support)</p>
-                <p>Deployment: Official web installer with cryptographic verification</p>
-                <p>Security: Relocked bootloader with verified boot enabled</p>
-                <p>Hardware: Titan M chip integration for hardware-backed security</p>
+                <h4>Setup</h4>
+                <p>Google Pixel (official GrapheneOS support)</p>
+                <p>Official web installer with cryptographic verification</p>
+                <p>Bootloader relocked after install, verified boot enabled</p>
+                <p>Hardware-backed security via the Titan M chip</p>
             </div>
 
-            <!-- SECURITY ENHANCEMENTS -->
-            <h2>Security Enhancements Over Stock Android</h2>
-
-            <div class="feature-card">
-                <h4>Core Security Features</h4>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Hardened kernel and system components resistant to exploitation</li>
-                    <li>Verified boot with custom key ensuring system integrity</li>
-                    <li>Enhanced application sandboxing and isolation</li>
-                    <li>Network permission toggle (unique to GrapheneOS)</li>
-                    <li>Sensors permission toggle preventing unauthorized microphone/camera access</li>
-                    <li>Regular security updates independent of manufacturer</li>
-                    <li>Complete removal of Google Play Services surveillance</li>
-                    <li>Hardware-backed security (Pixel Titan M chip integration)</li>
-                </ul>
-            </div>
-
-            <div class="feature-card">
-                <h4>Privacy Controls</h4>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Per-application network permissions controlling internet access</li>
-                    <li>Granular sensor access controls for camera, microphone, location</li>
-                    <li>Temporary permission grants expiring after single use</li>
-                    <li>Storage scopes limiting app filesystem access</li>
-                    <li>Enhanced permission dashboard with usage monitoring</li>
-                    <li>Automatic device reboot after timeout (clearing memory)</li>
-                    <li>Scrambled PIN layout (anti-shoulder-surfing)</li>
-                </ul>
-            </div>
-
-            <!-- USER PROFILE ARCHITECTURE -->
-            <h2>User Profile Architecture</h2>
-            <p style="font-size: 15px; line-height: 1.8; margin-bottom: 25px;">
-                Created separate profiles for security compartmentalization:
+            <h2>What It Changes</h2>
+            <p>
+                Compared to stock Android, the controls that matter most to me are the ones Google doesn't
+                offer: a <strong>per-app network permission</strong> (an app you don't want phoning home simply
+                can't), a <strong>sensors toggle</strong> that cuts microphone/camera/location access, storage
+                scopes that limit what an app can see, and one-time permissions that expire after a single use.
+                Underneath that sits a hardened kernel, verified boot with a custom key, and security updates
+                that don't wait on a manufacturer — with Google Play Services and its data collection gone entirely.
             </p>
 
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Admin Profile</h4>
-                    <p style="line-height: 1.7;">Device administration and permission management only. Minimal app installation, maximum security controls.</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>General-Use Profile</h4>
-                    <p style="line-height: 1.7;">Professional communications, productivity apps, social media. Balanced security and functionality.</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Experimental Profile</h4>
-                    <p style="line-height: 1.7;">Untrusted software testing in isolated environment. Contains risk to single profile.</p>
-                </div>
-            </div>
-
-            <div class="section-box">
-                <h4>Profile Isolation Benefits:</h4>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Separate application sandboxes per profile preventing cross-profile data access</li>
-                    <li>Independent notification and privacy settings for each security context</li>
-                    <li>Compartmentalized credentials preventing lateral access if one profile compromised</li>
-                    <li>Reduced per-profile attack surface through minimal app installation</li>
-                </ul>
-            </div>
-
-            <!-- APPLICATION ECOSYSTEM -->
-            <h2>Application Ecosystem</h2>
-
-            <h3>Open-Source Priority</h3>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Privacy-Respecting Apps</h4>
-                    <p>• F-Droid app store</p>
-                    <p>• Signal (encrypted messaging)</p>
-                    <p>• Vanadium (hardened browser)</p>
-                    <p>• Standard Notes (encrypted notes)</p>
-                    <p>• KeePassDX (password manager)</p>
-                    <p>• Organic Maps (no tracking)</p>
-                </div>
-            </div>
-
-            <h3>Sandboxed Google Play (When Necessary)</h3>
-            <p style="line-height: 1.7;">For profiles requiring unavoidable Google Play apps:</p>
-            <div class="section-box">
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Installed in isolated profile only</li>
-                    <li>Minimal permissions granted</li>
-                    <li>Contained to specific use cases</li>
-                    <li>Conscious privacy trade-offs understood</li>
-                </ul>
-            </div>
-
-            <!-- BUSINESS IMPACT -->
-            <h2>Business Impact</h2>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Protects Against</h4>
-                    <p>• Location tracking</p>
-                    <p>• Metadata collection</p>
-                    <p>• App data harvesting</p>
-                    <p>• Unauthorized sensor access</p>
-                    <p>• Supply chain attacks</p>
-                    <p>• Remote surveillance</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Use Cases</h4>
-                    <p>• Executive protection</p>
-                    <p>• Investigative journalism</p>
-                    <p>• Legal professionals</p>
-                    <p>• Healthcare providers</p>
-                    <p>• Government contractors</p>
-                    <p>• High-net-worth individuals</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Key Outcomes</h4>
-                    <p>• Eliminated Google data collection</p>
-                    <p>• Reduced system app count</p>
-                    <p>• Per-app network control</p>
-                    <p>• Verified boot integrity</p>
-                    <p>• Rapid security updates</p>
-                </div>
-            </div>
-
-            <!-- REAL-WORLD SCENARIOS -->
-            <h2>Real-World Application Scenarios</h2>
-
-            <div class="scenario-box">
-                <h4>Scenario 1: Executive Travel</h4>
-                <p>
-                    C-suite executive travels internationally with sensitive M&A negotiations. <strong>GrapheneOS prevents location tracking, communications metadata collection, and potential foreign intelligence surveillance through manufacturer backdoors.</strong> Business discussions remain confidential.
-                </p>
-            </div>
-
-            <div class="scenario-box">
-                <h4>Scenario 2: Remote Workforce (BYOD)</h4>
-                <p>
-                    Employee accesses business systems from personal device under BYOD policy. <strong>Profile compartmentalization ensures work credentials and data remain isolated from personal apps.</strong> Cross-context data leakage prevented through system-level separation.
-                </p>
-            </div>
-
-            <div class="scenario-box">
-                <h4>Scenario 3: Investigative Research</h4>
-                <p>
-                    Journalist communicating with confidential sources. <strong>GrapheneOS network permission controls and sensor toggles ensure communication apps can't secretly record or transmit location data.</strong> Source protection maintained through technical controls.
-                </p>
-            </div>
-
-            <!-- DEPLOYMENT CONSIDERATIONS -->
-            <h2>Deployment Considerations</h2>
-
-            <div class="section-box highlight">
-                <h4>Security Trade-offs:</h4>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Unlocked bootloader during installation (temporarily reduced security)</li>
-                    <li>Relocked after installation (restores verified boot protection)</li>
-                    <li>Some Google Play Store apps may have compatibility issues</li>
-                    <li>Banking apps may detect "rooted" device (GrapheneOS has bypasses)</li>
-                </ul>
-            </div>
-
-            <div class="section-box">
-                <h4>Usability Balance:</h4>
-                <p style="line-height: 1.7;">Successfully balanced security requirements with practical mobile needs:</p>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Location services enabled temporarily for navigation only</li>
-                    <li>Google Play available in isolated profile for necessary apps</li>
-                    <li>Pragmatic risk acceptance for unavoidable compromises</li>
-                    <li>Maintained productivity while maximizing privacy</li>
-                </ul>
-            </div>
-
-            <!-- TECHNICAL SKILLS -->
-            <h2>Technical Skills Demonstrated</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Mobile Device Management</h4>
-                    <p>• Device flashing and bootloader management</p>
-                    <p>• Cryptographic verification of system images</p>
-                    <p>• Android security architecture understanding</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Security Engineering</h4>
-                    <p>• User compartmentalization strategies</p>
-                    <p>• Risk assessment and threat modeling</p>
-                    <p>• Privacy-enhancing technologies</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>System Administration</h4>
-                    <p>• Permission system configuration</p>
-                    <p>• Application vetting and security assessment</p>
-                    <p>• Documentation and compliance</p>
-                </div>
-            </div>
-
-            <!-- ONGOING MAINTENANCE -->
-            <h2>Ongoing Maintenance</h2>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Update Strategy</h4>
-                    <p>• Automatic security updates configured</p>
-                    <p>• Update verification over WiFi only</p>
-                    <p>• Regular backup schedule before major updates</p>
-                    <p>• Review of update changelog for significant changes</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Permission Auditing</h4>
-                    <p>• Regular review of all application permissions</p>
-                    <p>• Minimal permission grants (temporary when possible)</p>
-                    <p>• Active monitoring through Privacy Dashboard</p>
-                    <p>• Storage scope configuration for each application</p>
-                </div>
-            </div>
-
-            <!-- ENTERPRISE APPLICATION -->
-            <h2>Enterprise Mobile Device Management Applicability</h2>
-            <p style="font-size: 15px; line-height: 1.8;">
-                This project demonstrates capabilities directly applicable to Mobile Device Management (MDM) and enterprise security roles:
+            <h2>Compartmentalization</h2>
+            <p>
+                I split the device into separate profiles the same way I do on the desktop — an Admin profile
+                for device management, a general-use profile for day-to-day apps, and an Experimental profile
+                for anything untrusted. Each profile is its own sandbox with its own credentials, so a bad app
+                in one can't reach another. Where a Google Play app is genuinely unavoidable, it goes in
+                sandboxed Play inside an isolated profile, as a conscious trade-off rather than a default.
             </p>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>MDM Understanding</h4>
-                    <p>• Mobile threat landscape knowledge</p>
-                    <p>• Security-hardened OS deployment experience</p>
-                    <p>• User profile management and compartmentalization</p>
-                </div>
-                <div class="info-card">
-                    <h4>Security Assessment</h4>
-                    <p>• Application vetting and security evaluation</p>
-                    <p>• Privacy-focused technology implementation</p>
-                    <p>• Documentation and compliance considerations</p>
-                </div>
-            </div>
 
-            <!-- LESSONS LEARNED -->
-            <h2>Lessons Learned</h2>
-            <div class="section-box highlight">
-                <p style="font-size: 15px; line-height: 1.8;">
-                    The most valuable insight was understanding the trade-offs between maximum privacy and practical functionality. Absolute security is often incompatible with real-world needs - effective security engineering means implementing the strongest protections possible while maintaining necessary functionality. <strong>This balance is critical in enterprise environments where security requirements must coexist with business operations.</strong>
-                </p>
-            </div>
-
-            <!-- OUTCOME -->
-            <div class="section-box success">
-                <h3>Outcome</h3>
-                <p style="font-size: 16px; line-height: 1.8;">
-                    Successfully deployed GrapheneOS as primary mobile operating system, achieving significant improvement in privacy and security over stock Android. The device provides essential mobile functionality while minimizing surveillance, data collection, and security vulnerabilities.
-                </p>
-                <p style="font-size: 15px; line-height: 1.8; margin-top: 15px;">
-                    This project demonstrates understanding of mobile security architecture, ability to implement privacy-enhancing technologies, and commitment to data privacy principles - skills increasingly valuable in IT security and privacy-focused roles.
-                </p>
-            </div>
-
+            <h2>What I Took From It</h2>
+            <p>
+                The honest takeaway is that absolute privacy and a practical phone are in tension, and pretending
+                otherwise leads to a device you stop using. Navigation still needs location sometimes; a couple
+                of apps still need Play. Good security engineering here meant pushing the protections as far as
+                they'll go and then making deliberate, documented exceptions — the same balancing act that shows
+                up in any enterprise MDM program, where controls have to coexist with people getting work done.
+            </p>
         </div>
-
-        <footer>
-            <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
-        <a href="index.html#work">← Back to Work</a>
-        </footer>
     </div>
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
+        <a href="index.html#work">← Back to Work</a>
+    </footer>
     <script>
         // staggered reveal on scroll (matches index)
         const blocks = document.querySelectorAll(

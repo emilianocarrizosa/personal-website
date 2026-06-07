@@ -37,269 +37,79 @@
         </div>
 
         <div class="content">
-            
-            <!-- EXECUTIVE SUMMARY -->
-            <div class="section-box success">
-                <h3>Executive Summary</h3>
-                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
-                    <strong>Problem:</strong> Single compromised endpoint can expose all sensitive data and enable network-wide attacks through lack of compartmentalization.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin-bottom: 15px;">
-                    <strong>Solution:</strong> Multi-layer defense-in-depth architecture with user compartmentalization, application sandboxing, browser hardening, and network controls.
-                </p>
-                <p style="font-size: 16px; line-height: 1.8; margin: 0;">
-                    <strong>Impact:</strong> Significantly reduces attack surface while maintaining complete usability for daily operations through multiple independent security layers.
-                </p>
-            </div>
-
-            <!-- THE BUSINESS CHALLENGE -->
-            <h2>The Business Challenge</h2>
+            <h2>Overview</h2>
             <p>
-                Organizations face threats from both external attackers and insider risks. A single compromised endpoint can expose sensitive data, provide network access, or enable lateral movement to other systems. Traditional single-user, single-profile systems lack compartmentalization, meaning one compromised application or credential grants access to everything.
+                I hardened a Linux workstation using defense-in-depth, on the principle that a single
+                compromised endpoint shouldn't hand an attacker everything. A typical single-profile machine
+                has no internal boundaries — one bad browser session or stolen credential reaches every file
+                and every account. I built several independent layers so that when one fails, the others are
+                still standing.
             </p>
 
-            <div class="section-box highlight">
-                <h4>Common Endpoint Vulnerabilities:</h4>
-                <ul style="margin: 15px 0;">
-                    <li>Browser-based attacks and drive-by downloads compromising user sessions</li>
-                    <li>Credential theft from compromised applications exposing authentication tokens</li>
-                    <li>Cross-site tracking and fingerprinting revealing user behavior and identity</li>
-                    <li>Insider threats through unrestricted access to all system resources</li>
-                    <li>Network-based attacks and traffic interception capturing sensitive communications</li>
-                    <li>Physical device compromise through unencrypted storage</li>
-                </ul>
-            </div>
-
-            <p class="metric-highlight">
-                Core Principle: Multiple independent security layers - if one protection fails, others continue protecting the system
-            </p>
-
-            <!-- THE SOLUTION -->
-            <h2>The Solution</h2>
-            <p>
-                Implemented comprehensive endpoint hardening using defense-in-depth principles: user profile compartmentalization, application sandboxing, browser hardening, and network security controls. This multi-layer architecture ensures that compromise of any single component doesn't result in total system breach.
-            </p>
-
-            <!-- SECURITY ARCHITECTURE -->
-            <h2>Security Architecture</h2>
+            <h2>The Layers</h2>
 
             <div class="layer-card">
-                <h4>Layer 1: User Profile Compartmentalization</h4>
-                <p style="margin-bottom: 15px;">Created isolated user environments for different security contexts:</p>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li><strong>Admin Profile:</strong> System administration only (sudo access restricted to this profile)</li>
-                    <li><strong>Work Profile:</strong> Daily operations and business applications</li>
-                    <li><strong>Personal Profile:</strong> Isolated from work activities with separate browser profiles</li>
-                    <li><strong>Experimental Profile:</strong> Sandboxed environment for untrusted software testing</li>
-                </ul>
-                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
-                    <strong>Isolation Benefits:</strong> Separate home directories, profile-specific credentials and browser sessions, file permission boundaries preventing cross-profile access, different security policies per profile
-                </div>
-            </div>
-
-            <div class="layer-card">
-                <h4>Layer 2: Application Sandboxing (Firejail)</h4>
-                <p style="margin-bottom: 15px;">Deployed application-level isolation:</p>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Restricted filesystem access for browsers and high-risk applications</li>
-                    <li>Isolated execution environment for untrusted software</li>
-                    <li>Default security profiles for common applications</li>
-                    <li>Experimental profile for safe testing of potentially unsafe software</li>
-                </ul>
-                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
-                    <strong>Security Value:</strong> Application-level isolation prevents malware from accessing filesystem or other applications even if browser is fully compromised
-                </div>
-            </div>
-
-            <div class="layer-card">
-                <h4>Layer 3: Browser Security Hardening (arkenfox)</h4>
-                <p style="margin-bottom: 15px;">Implemented Firefox hardening template:</p>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>Disabled WebRTC preventing IP address leakage</li>
-                    <li>Enabled first-party isolation blocking cross-site tracking</li>
-                    <li>Configured DNS-over-HTTPS (DoH) for encrypted DNS queries</li>
-                    <li>Enabled resist fingerprinting features</li>
-                    <li>Disabled all telemetry and data collection</li>
-                    <li>HTTPS-only mode enforced across all connections</li>
-                    <li>Minimal extension stack: uBlock Origin + Container tabs</li>
-                </ul>
-                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
-                    <strong>Security Value:</strong> Browser hardening prevents tracking, fingerprinting, and common web-based attacks at application layer
-                </div>
-            </div>
-
-            <div class="layer-card">
-                <h4>Layer 4: Network Security</h4>
-                <p style="margin-bottom: 15px;">Multiple network protection layers:</p>
-                <ul style="line-height: 1.7; margin: 15px 0;">
-                    <li>ProtonVPN with kill switch preventing traffic leaks if VPN disconnects</li>
-                    <li>UFW firewall with default-deny policy</li>
-                    <li>LUKS full-disk encryption (from OS migration project)</li>
-                    <li>Encrypted swap preventing memory dump data exposure</li>
-                </ul>
-                <div style="background: rgba(88, 166, 255, 0.05); padding: 15px; margin-top: 15px; border-radius: 6px;">
-                    <strong>Security Value:</strong> Network-level controls protect data in transit and at rest, maintaining security even outside corporate network
-                </div>
-            </div>
-
-            <!-- BUSINESS IMPACT -->
-            <h2>Business Impact</h2>
-
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Protects Against</h4>
-                    <p>• Browser-based attacks</p>
-                    <p>• Cross-site tracking</p>
-                    <p>• Credential theft</p>
-                    <p>• Insider threats</p>
-                    <p>• Network attacks</p>
-                    <p>• Physical compromise</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Use Cases</h4>
-                    <p>• Executive endpoints</p>
-                    <p>• Regulated industries</p>
-                    <p>• Remote workers</p>
-                    <p>• BYOD environments</p>
-                    <p>• Development teams</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Key Outcomes</h4>
-                    <p>• Reduced attack surface</p>
-                    <p>• Fingerprinting resistance</p>
-                    <p>• Zero cross-profile leakage</p>
-                    <p>• Encrypted network traffic</p>
-                    <p>• Isolated untrusted software</p>
-                </div>
-            </div>
-
-            <!-- REAL-WORLD SCENARIOS -->
-            <h2>Real-World Application Scenarios</h2>
-
-            <div class="scenario-box">
-                <h4>Scenario 1: Compromised Browser</h4>
+                <h4>User compartmentalization</h4>
                 <p>
-                    Employee clicks malicious link. Sandboxed browser prevents malware from accessing filesystem or other applications. <strong>Even if browser is fully compromised, attack is contained to sandboxed environment.</strong> No access to credentials, documents, or network resources.
+                    Separate profiles for separate contexts — Admin (the only profile with sudo), Work,
+                    Personal, and an Experimental profile for untrusted software — each with its own home
+                    directory, credentials, and browser sessions. A compromise in one doesn't cross into the
+                    others.
                 </p>
             </div>
 
-            <div class="scenario-box">
-                <h4>Scenario 2: Testing Untrusted Software</h4>
+            <div class="layer-card">
+                <h4>Application sandboxing (Firejail)</h4>
                 <p>
-                    Developer needs to evaluate third-party tool of unknown trustworthiness. <strong>Experimental profile with Firejail isolation allows testing without risking production work environment.</strong> Any malicious behavior is contained to isolated profile with no access to work data.
+                    Browsers and other high-risk apps run with restricted filesystem access. If a browser is
+                    fully compromised, the malware is boxed into the sandbox — no reach into documents, other
+                    apps, or the rest of the system.
                 </p>
             </div>
 
-            <div class="scenario-box">
-                <h4>Scenario 3: Work/Personal Separation</h4>
+            <div class="layer-card">
+                <h4>Browser hardening (arkenfox)</h4>
                 <p>
-                    Employee uses same device for work and personal activities. <strong>Profile compartmentalization ensures personal browsing habits don't correlate with work identity.</strong> Personal account compromise doesn't expose work credentials or business data.
+                    A hardened Firefox profile: WebRTC disabled to stop IP leaks, first-party isolation and
+                    fingerprinting resistance against cross-site tracking, DNS-over-HTTPS, HTTPS-only, telemetry
+                    off, and a deliberately minimal extension set (uBlock Origin plus container tabs).
                 </p>
             </div>
 
-            <!-- TECHNICAL IMPLEMENTATION -->
-            <h2>Technical Implementation</h2>
+            <div class="layer-card">
+                <h4>Network &amp; storage</h4>
+                <p>
+                    ProtonVPN with a kill switch so a dropped tunnel doesn't leak traffic, a default-deny UFW
+                    firewall, and LUKS full-disk encryption with encrypted swap carried over from my OS
+                    migration work.
+                </p>
+            </div>
 
+            <h2>Stack</h2>
             <div class="tech-specs">
-                <h4>Platform Stack:</h4>
-                <p>OS: Arch Linux (hardened configuration)</p>
-                <p>Sandboxing: Firejail with custom profiles</p>
-                <p>Browser: Firefox with arkenfox user.js hardening</p>
-                <p>VPN: ProtonVPN with kill switch</p>
-                <p>Encryption: LUKS full-disk encryption</p>
-                <p>Firewall: UFW (Uncomplicated Firewall)</p>
+                <h4>Platform</h4>
+                <p>Arch Linux, hardened configuration</p>
+                <p>Firejail sandboxing with custom profiles</p>
+                <p>Firefox + arkenfox user.js</p>
+                <p>ProtonVPN (kill switch) · UFW · LUKS full-disk encryption</p>
             </div>
 
-            <h3>Implementation Highlights</h3>
-            
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Profile Management</h4>
-                    <p style="line-height: 1.7;">
-                        Configured efficient profile switching with profile-specific shortcuts, maintaining security compartmentalization while preserving productivity. Each profile has independent environment variables, SSH keys, and application configurations.
-                    </p>
-                </div>
-
-                <div class="info-card">
-                    <h4>Ongoing Enhancements</h4>
-                    <p>• Per-profile SSH key isolation</p>
-                    <p>• Custom Firejail profiles for application-specific restrictions</p>
-                    <p>• LUKS key management with header backups and recovery keys</p>
-                    <p>• Automated security verification scripts</p>
-                </div>
-            </div>
-
-            <!-- CHALLENGES OVERCOME -->
-            <h2>Challenges Overcome</h2>
-
-            <div class="section-box highlight">
-                <p><strong>Challenge:</strong> Balancing privacy hardening with daily workflow usability</p>
-                <p><strong>Solution:</strong> Created custom arkenfox overrides allowing necessary functionality while maintaining security posture. Learned that aggressive hardening without use case consideration breaks workflows - security must enable work, not prevent it.</p>
-            </div>
-
-            <div class="section-box highlight">
-                <p><strong>Challenge:</strong> Managing multiple user profiles efficiently across different contexts</p>
-                <p><strong>Solution:</strong> Developed profile-specific configurations and shortcuts enabling quick context switching without security compromise. Automated profile selection based on task type.</p>
-            </div>
-
-            <!-- SKILLS DEMONSTRATED -->
-            <h2>Skills Demonstrated</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <h4>Security Architecture</h4>
-                    <p>• Defense-in-depth design</p>
-                    <p>• Threat modeling</p>
-                    <p>• Risk assessment</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>System Administration</h4>
-                    <p>• Linux user management</p>
-                    <p>• Access controls</p>
-                    <p>• Firewall configuration</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Application Security</h4>
-                    <p>• Browser hardening</p>
-                    <p>• Sandboxing</p>
-                    <p>• VPN configuration</p>
-                </div>
-                
-                <div class="info-card">
-                    <h4>Usability Balance</h4>
-                    <p>• Security vs. productivity</p>
-                    <p>• Workflow optimization</p>
-                    <p>• User experience</p>
-                </div>
-            </div>
-
-            <!-- COMPARISON -->
-            <h2>Mobile Security Principles Applied to Desktop</h2>
-            <p style="font-size: 15px; line-height: 1.8;">
-                This implementation adapts mobile security concepts (Android's application sandboxes, user profiles) to desktop Linux environments. While hardware-backed security features (verified boot, hardware keystore) aren't fully replicable on standard laptops, the compartmentalization and sandboxing principles achieve similar isolation goals through software controls.
+            <h2>What I Took From It</h2>
+            <p>
+                The real lesson was about restraint. My first pass at arkenfox hardening was aggressive enough
+                that it quietly broke everyday workflows — and security that gets in the way is security people
+                turn off. I ended up writing custom overrides that kept the protection while letting the work
+                happen, which is the actual job: making the secure path the usable one. These are software
+                versions of mobile isolation concepts (Android's per-app sandboxes and profiles); a laptop
+                can't match hardware-backed verified boot, but the compartmentalization gets you most of the way.
             </p>
-
-            <!-- OUTCOME -->
-            <div class="section-box success">
-                <h3>Outcome</h3>
-                <p style="font-size: 16px; line-height: 1.8;">
-                    Successfully created a hardened Linux laptop environment that provides strong security and privacy for daily use. The compartmentalized approach allows different security postures for different activities while maintaining usability for productive work.
-                </p>
-                <p style="font-size: 15px; line-height: 1.8; margin-top: 15px;">
-                    This project demonstrates the ability to apply mobile security concepts to desktop environments, implement defense-in-depth strategies, and balance security requirements with practical usability - skills essential for IT security roles.
-                </p>
-            </div>
-
         </div>
-
-        <footer>
-            <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
-        <a href="index.html#work">← Back to Work</a>
-        </footer>
     </div>
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
+        <a href="index.html#work">← Back to Work</a>
+    </footer>
     <script>
         // staggered reveal on scroll (matches index)
         const blocks = document.querySelectorAll(
