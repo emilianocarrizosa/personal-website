@@ -143,10 +143,10 @@ a { color: inherit; text-decoration: none; }
 }
 .wordmark {
     font-family: var(--sans);
-    font-weight: 900;
-    font-size: clamp(2.2rem, 9vw, 8rem);
-    line-height: 0.88;
-    letter-spacing: -0.035em;
+    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 5rem);
+    line-height: 0.94;
+    letter-spacing: -0.02em;
     text-transform: uppercase;
     color: var(--text);
 }
@@ -161,10 +161,10 @@ a { color: inherit; text-decoration: none; }
 }
 .section-label { display: block; }
 .section-title {
-    font-size: clamp(2rem, 6.5vw, 5.5rem);
-    font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
+    font-size: clamp(1.7rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
     text-transform: uppercase;
 }
 .lead {
@@ -317,7 +317,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ---- PAGE HEADER (about.html) ---- */
 .page-head { padding-top: clamp(140px, 22vh, 240px); padding-bottom: clamp(40px, 7vh, 80px); }
-.page-head h1 { font-size: clamp(2.6rem, 9vw, 7rem); font-weight: 900; line-height: 0.9; letter-spacing: -0.035em; text-transform: uppercase; margin: 18px 0 16px; }
+.page-head h1 { font-size: clamp(2rem, 5.5vw, 4rem); font-weight: 700; line-height: 0.96; letter-spacing: -0.02em; text-transform: uppercase; margin: 18px 0 16px; }
 .page-head .tagline { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
 
 /* ---- REVEAL ANIMATION ---- */
