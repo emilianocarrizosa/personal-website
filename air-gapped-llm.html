@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#F3F3F3" media="(prefers-color-scheme: light)">
     <title>Private AI Processing Environment - Emiliano Carrizosa</title>
     <meta name="description" content="An air-gapped Linux environment for running AI on confidential data with zero outbound traffic — built for regulated work. Case study by Emiliano Carrizosa.">
     <link rel="canonical" href="https://emilianocar.com/air-gapped-llm.html">
@@ -21,22 +24,28 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bento.css">
     <link rel="stylesheet" href="css/project.css">
 </head>
 <body>
     <!-- Fixed Navigation -->
-    <nav class="nav">
-        <a href="index.html" class="nav-logo">Emiliano Carrizosa</a>
-        <div class="nav-links">
-            <a href="work.html">Work</a>
-            <a href="services.html">Services</a>
-            <a href="about.html">About</a>
-            <a href="index.html#contact">Contact</a>
-        </div>
-    </nav>
+    <a class="skip" href="#main">Skip to content</a>
 
-    <div class="container">
+    <header class="top">
+        <div class="top-in">
+            <a class="back" href="index.html"><span aria-hidden="true">←</span> Home</a>
+            <nav aria-label="Primary">
+                <a href="work.html" aria-current="page">Work</a>
+                <a href="about.html">About</a>
+                <a href="experience.html">Experience</a>
+                <a href="services.html">Services</a>
+                <a href="skills.html">Skills</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="page proj">
         <!-- Project Header -->
         <div class="project-header">
             <a href="work.html" class="back-link">← Back to Work</a>
@@ -133,26 +142,12 @@
                 </p>
             </div>
         </div>
-    </div>
+    </main>
     <!-- Footer -->
-    <footer>
-        <p>© 2026 Emiliano Carrizosa &nbsp;·&nbsp; New York, NY</p>
+    <footer class="foot">
+        <span>© 2026 Emiliano Carrizosa · New York, NY</span>
         <a href="work.html">← Back to Work</a>
     </footer>
-    <script>
-        // staggered reveal on scroll (matches index)
-        const blocks = document.querySelectorAll(
-            ".project-header, .content h2, " +
-            ".content .section-box, .content .info-grid, .content .arch-layer, " +
-            ".content .layer-card, .content .phase-card, .content .scenario-box, " +
-            ".content .feature-card, .content .tech-specs, .content .code-block, " +
-            ".content .tech-table");
-        blocks.forEach(el => el.classList.add("reveal"));
-        const io = new IntersectionObserver((entries) => {
-            entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
-        }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
-        blocks.forEach(el => io.observe(el));
-    </script>
 
 </body>
 </html>
