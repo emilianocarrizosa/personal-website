@@ -5,38 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Not Found — Emiliano Carrizosa</title>
     <meta name="robots" content="noindex">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#F3F3F3" media="(prefers-color-scheme: light)">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Cormorant+Garamond:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/minimal.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/bento.css">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <style>
-        .nf { min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
-              padding-top: clamp(96px,14vh,150px); padding-bottom: clamp(40px,8vh,80px); }
-        .nf .mono { display: block; margin-bottom: clamp(14px,2vh,24px); }
-        .nf h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(2.6rem,7vw,5rem);
-                 line-height: 1.0; letter-spacing: -0.005em; text-transform: none; }
-        .nf p { color: var(--dim); font-size: clamp(16px,2vw,20px); max-width: 540px; margin: clamp(20px,3vh,32px) 0 clamp(28px,4vh,40px); line-height: 1.5; }
-        .nf .btn { align-self: flex-start; }
-    </style>
 </head>
 <body>
-    <nav class="nav">
-        <a href="/" class="nav-logo">Emiliano Carrizosa</a>
-        <div class="nav-links">
-            <a href="/work.html">Work</a>
-            <a href="/services.html">Services</a>
-            <a href="/about.html">About</a>
-            <a href="/index.html#contact">Contact</a>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="top">
+        <div class="top-in">
+            <a class="back" href="/"><span aria-hidden="true">←</span> Home</a>
+            <nav aria-label="Primary">
+                <a href="/work.html">Work</a>
+                <a href="/about.html">About</a>
+                <a href="/experience.html">Experience</a>
+                <a href="/services.html">Services</a>
+                <a href="/skills.html">Skills</a>
+                <a href="/writing.html">Writing</a>
+            </nav>
         </div>
-    </nav>
-    <header class="nf wrap">
-        <span class="mono">Error 404 — Page Not Found</span>
-        <h1>Lost<br>the thread</h1>
-        <p>That page doesn't exist, or it moved. Everything is still one click away from the start.</p>
-        <a href="/" class="btn">Back to home <span class="arr">↗</span></a>
     </header>
+
+    <main id="main" class="page">
+        <div class="grid">
+            <div class="tile c8" style="min-height:260px; justify-content:center">
+                <span class="label">Error 404 — Page not found</span>
+                <h1 class="hero-h1">Lost the thread</h1>
+                <p class="t-text">That page doesn't exist, or it moved. Everything is still one click away from the start.</p>
+                <div class="t-foot"><a class="btn" href="/">Back to home <span aria-hidden="true">→</span></a></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="foot">
+        <span>© 2026 Emiliano Carrizosa · New York, NY</span>
+    </footer>
 </body>
 </html>
