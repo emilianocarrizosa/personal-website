@@ -1,0 +1,39 @@
+/* =========================================================
+   "Free me" — optional physics toy on the home page.
+   Only used when js/free-me.js runs; without JS the button
+   stays hidden and the page is untouched.
+   ========================================================= */
+
+.fm-slot { min-height: 44px; display: flex; align-items: center; }
+
+.fm-btn {
+    font: inherit; font-size: 15px; font-weight: 500; color: var(--text); background: transparent;
+    min-height: 44px; padding: 0 20px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--mute); border: 1px solid color-mix(in srgb, var(--text) 40%, transparent);
+    transition: background .2s, color .2s;
+}
+.fm-btn[hidden] { display: none; }
+.fm-btn:hover { background: var(--text); color: var(--bg); }
+.fm-btn:disabled { opacity: .6; cursor: default; }
+
+/* while tiles are loose, the button floats so it is always reachable */
+.fm-btn--float {
+    position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 300;
+    background: var(--text); color: var(--bg); border-color: var(--text);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
+}
+.fm-btn--float:hover { background: var(--tile); color: var(--text); }
+
+/* keeps the grid layout intact while the real tiles are airborne */
+.fm-ghost { grid-column: 1 / -1; }
+@media (min-width: 640px) { .fm-ghost { grid-column: span var(--c, 12); grid-row: span var(--r, 1); } }
+
+.tile.fm-free {
+    position: absolute; left: 0; top: 0; margin: 0; z-index: 100;
+    cursor: grab; user-select: none; -webkit-user-select: none; -webkit-user-drag: none;
+    touch-action: pan-y; will-change: transform;
+}
+.tile.fm-free .btn { cursor: pointer; }
+.tile.fm-drag { cursor: grabbing; z-index: 150; box-shadow: 0 18px 40px rgba(0, 0, 0, .35); }
+html.fm-lock { overflow: hidden; scrollbar-gutter: stable; }
+html.fm-lock .tile.fm-free { touch-action: none; }
