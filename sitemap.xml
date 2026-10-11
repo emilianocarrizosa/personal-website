@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://emilianocar.com/</loc><lastmod>2026-06-07</lastmod></url>
-  <url><loc>https://emilianocar.com/about.html</loc><lastmod>2026-06-07</lastmod></url>
+  <url><loc>https://emilianocar.com/</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://emilianocar.com/about.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://emilianocar.com/work.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://emilianocar.com/experience.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://emilianocar.com/services.html</loc><lastmod>2026-10-11</lastmod></url>
+  <url><loc>https://emilianocar.com/skills.html</loc><lastmod>2026-10-11</lastmod></url>
   <url><loc>https://emilianocar.com/access-control-system.html</loc><lastmod>2026-06-07</lastmod></url>
   <url><loc>https://emilianocar.com/operational-security-assessment.html</loc><lastmod>2026-06-07</lastmod></url>
   <url><loc>https://emilianocar.com/air-gapped-llm.html</loc><lastmod>2026-06-07</lastmod></url>

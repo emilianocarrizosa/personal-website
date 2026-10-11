@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work — Emiliano Carrizosa</title>
+    <meta name="description" content="Selected projects by Emiliano Carrizosa: access control, security audits, private AI infrastructure, endpoint and mobile hardening, and an internal training platform.">
+    <link rel="canonical" href="https://emilianocar.com/work.html">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#F3F3F3" media="(prefers-color-scheme: light)">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Emiliano Carrizosa">
+    <meta property="og:title" content="Work — Emiliano Carrizosa">
+    <meta property="og:description" content="Selected projects by Emiliano Carrizosa: access control, security audits, private AI infrastructure, endpoint and mobile hardening, and an internal training platform.">
+    <meta property="og:url" content="https://emilianocar.com/work.html">
+    <meta property="og:image" content="https://emilianocar.com/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Work — Emiliano Carrizosa">
+    <meta name="twitter:description" content="Selected projects by Emiliano Carrizosa: access control, security audits, private AI infrastructure, endpoint and mobile hardening, and an internal training platform.">
+    <meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/bento.css">
+</head>
+<body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <header class="top">
+        <div class="top-in">
+            <a class="back" href="index.html"><span aria-hidden="true">←</span> Home</a>
+            <nav aria-label="Primary">
+                <a href="work.html" aria-current="page">Work</a>
+                <a href="about.html">About</a>
+                <a href="experience.html">Experience</a>
+                <a href="services.html">Services</a>
+                <a href="skills.html">Skills</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main" class="page">
+        <div class="page-head">
+            <h1>Selected work</h1>
+            <p class="lead">Click a project to open its write-up.</p>
+        </div>
+        <div class="grid">
+            <article class="tile c12">
+                <span class="label">2026 · Featured</span>
+                <h2 class="t-title t-title--lg">Hunter Visitors Center Training Simulator</h2>
+                <p class="t-text">
+                    The department's first digital training and certification platform, independently
+                    commissioned by Hunter College Public Safety and built solo: four training modules,
+                    a 30-question assessment, and scenario simulations that replicate the EasyLobby
+                    interface. Built as a secure offline desktop app (Tauri, Rust, encrypted SQLite)
+                    because the material is sensitive.
+                </p>
+                <p class="t-text">
+                    Approved by the College's VP of Administration, deployed to Visitor Center
+                    workstations, and handed off to IT with full build documentation.
+                </p>
+                <p class="tagline t-foot">React · Rust · Tauri · Full-stack — Internal tool, not publicly viewable.</p>
+            </article>
+            <article class="tile tile--link c12">
+                <div class="preview preview--tall"><img src="images/PrototypeDashboard.png" width="1391" height="687" loading="lazy" alt="Screenshot of the access-control prototype dashboard showing today's access events, unauthorized attempts, active alerts and a live access simulation"></div>
+                <span class="label">Dec 2025 – 2026 · Working prototype</span>
+                <h2 class="t-title"><a class="stretched" href="./access-control-system.html">Access Control &amp; Audit System</a></h2>
+                <p class="t-text">A role-based access control system with tamper-evident audit logging for high-value inventory. A theft investigation that would mean hours of manual log review becomes a sub-second query, with behavioral analytics that surface internal access anomalies.</p>
+                <p class="tagline t-foot">RBAC · Audit logging · Access control</p>
+                <span class="t-arrow" aria-hidden="true">↗</span>
+            </article>
+            <article class="tile tile--link c6">
+                <span class="label">Jan 2026 · 47 pages</span>
+                <h2 class="t-title"><a class="stretched" href="./operational-security-assessment.html">Infrastructure Security Audit</a></h2>
+                <p class="t-text">Built from passive OSINT alone — certificate transparency, DNS forensics, SPF analysis — with prioritized fixes and risk quantified against IBM benchmarks and the NY SHIELD Act.</p>
+                <p class="tagline t-foot">OSINT · Compliance · Risk</p>
+                <span class="t-arrow" aria-hidden="true">↗</span>
+            </article>
+            <article class="tile tile--link c6">
+                <span class="label">Oct 2025 · 0 outbound packets</span>
+                <h2 class="t-title"><a class="stretched" href="./air-gapped-llm.html">Private AI Processing Environment</a></h2>
+                <p class="t-text">An air-gapped Linux environment that runs AI on confidential data, with isolation verified by packet capture rather than policy. Built for legal, healthcare, and financial work that can't touch the cloud.</p>
+                <p class="tagline t-foot">Compliance · Privacy · Infrastructure</p>
+                <span class="t-arrow" aria-hidden="true">↗</span>
+            </article>
+            <article class="tile tile--link c6">
+                <span class="label">Nov 2025</span>
+                <h2 class="t-title"><a class="stretched" href="./endpoint-security.html">Multi-Layer Endpoint Security</a></h2>
+                <p class="t-text">A daily-driver Linux workstation hardened with user compartmentalization, application sandboxing, browser hardening, and network controls — so one compromise stays contained instead of becoming total.</p>
+                <p class="tagline t-foot">Endpoint · Hardening · Defense-in-depth</p>
+                <span class="t-arrow" aria-hidden="true">↗</span>
+            </article>
+            <article class="tile tile--link c6">
+                <span class="label">Sep 2025 · Zero data loss</span>
+                <h2 class="t-title"><a class="stretched" href="./os-migration.html">Secure Cross-Platform OS Migration</a></h2>
+                <p class="t-text">A full Windows-to-Linux migration with full-disk encryption added in the same window — a planned, verified methodology that scales to enterprise workstation transitions.</p>
+                <p class="tagline t-foot">Migration · Encryption · Linux</p>
+                <span class="t-arrow" aria-hidden="true">↗</span>
+            </article>
+            <article class="tile tile--link c12">
+                <span class="label">Oct 2025</span>
+                <h2 class="t-title"><a class="stretched" href="./grapheneos.html">Mobile Device Security Hardening</a></h2>
+                <p class="t-text">A hardened Android OS I run as a daily driver — verified boot, per-app isolation, and hardware-backed encryption that protect sensitive communications at the OS level.</p>
+                <p class="tagline t-foot">Mobile · Android · Hardening</p>
+                <span class="t-arrow" aria-hidden="true">↗</span>
+            </article>
+
+        </div>
+    </main>
+
+    <footer class="foot">
+        <span>© 2026 Emiliano Carrizosa · New York, NY</span>
+        <a href="index.html">Back to home</a>
+    </footer>
+</body>
+</html>
