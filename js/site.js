@@ -7,6 +7,7 @@
   if (!bandsEl || !window.HTMLDialogElement) return;
 
   var KEYS = ['name', 'work', 'about', 'experience', 'services', 'skills', 'writing', 'contact'];
+  var PARENT = { resume: 'experience', colophon: 'contact' };   // windows that open on top of another one
   var desktop = window.matchMedia('(min-width:760px)');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   var base = location.pathname + location.search;
@@ -20,12 +21,12 @@
   function currentKey() {
     var h = '';
     try { h = decodeURIComponent(location.hash.slice(1)); } catch (e) {}
-    return (KEYS.indexOf(h) > -1 || h === 'resume') ? h : '';
+    return (KEYS.indexOf(h) > -1 || PARENT[h]) ? h : '';
   }
-  function parentOf(k) { return k === 'resume' ? 'experience' : ''; }
+  function parentOf(k) { return PARENT[k] || ''; }
   function wanted(k) {
     if (!k) return [];
-    if (k === 'resume') return ['experience', 'resume'];
+    if (PARENT[k]) return [PARENT[k], k];
     if (k === 'name' && desktop.matches) return [];       // on desktop the Name band opens in place
     return [k];
   }
@@ -51,7 +52,7 @@
 
   /* ----- bands ----- */
   function setBand(key) {
-    var open = key === 'resume' ? 'experience' : key;
+    var open = PARENT[key] || key;
     [].forEach.call(document.querySelectorAll('.band.is-open'), function (b) { b.classList.remove('is-open'); });
     if (open && bandFor[open]) { bandFor[open].classList.add('is-open'); bandsEl.classList.add('has-open'); }
     else bandsEl.classList.remove('has-open');
@@ -86,7 +87,7 @@
     var kf = d.id === 'resume' ? zoomFrames(d, false) : null;
     if (kf) d.animate(kf, { duration: 900, easing: EASE_OUT, fill: 'backwards' });
     else d.animate([{ opacity: 0, transform: 'translateY(18px) scale(.94)' }, { opacity: 1, transform: 'none' }],
-                   { duration: 700, delay: 200, easing: EASE_OUT, fill: 'backwards' });   // wait for the band to start opening
+                   { duration: 700, delay: document.querySelectorAll('dialog[open]').length > 1 ? 0 : 200, easing: EASE_OUT, fill: 'backwards' });   // wait for the band to start opening
   }
   function closeDlg(d) {
     if (!d.open || d._closing) return;
@@ -116,7 +117,10 @@
     d.addEventListener('close', function () {
       var ours = d._byUs; d._byUs = false;
       if (!ours && wanted(currentKey()).indexOf(d.id) > -1) { back(); return; }   // closed some other way
-      if (d.id === 'resume') { var rb = resumeBtn(); if (rb) rb.focus(); return; }
+      if (PARENT[d.id]) {
+        var tr = d.id === 'resume' ? resumeBtn() : document.querySelector('#' + PARENT[d.id] + ' [data-key="' + d.id + '"]');
+        if (tr) tr.focus(); return;
+      }
       if (!document.querySelector('dialog[open]') && !wanted(currentKey()).length) {
         var f = lastFocus && document.contains(lastFocus) ? lastFocus : (bandFor[d.id === 'name' ? 'name' : d.id] || document).querySelector('.band-link');
         if (f && f.focus) f.focus({ preventScroll: true });

@@ -13,14 +13,17 @@
 <meta property="og:title" content="Mobile Device Security Hardening">
 <meta property="og:description" content="A hardened Android OS deployment for OS-level privacy and security — verified boot, app isolation, hardware-backed encryption. Case study by Emiliano Carrizosa.">
 <meta property="og:url" content="https://emilianocar.com/grapheneos.html">
-<meta property="og:image" content="https://emilianocar.com/og-image.png">
+<meta property="og:image" content="https://emilianocar.com/images/og/grapheneos.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Mobile Device Security Hardening">
 <meta name="twitter:description" content="A hardened Android OS deployment for OS-level privacy and security — verified boot, app isolation, hardware-backed encryption. Case study by Emiliano Carrizosa.">
-<meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+<meta name="twitter:image" content="https://emilianocar.com/images/og/grapheneos.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body class="page theme-plaster">
@@ -28,8 +31,9 @@
 <main id="main" class="sheet">
   <article class="win win--page" aria-labelledby="h-title">
     <div class="win-head"><div><h1 id="h-title">Mobile Device Security Hardening</h1><p class="win-sub">Enterprise-Grade Privacy Through Hardened Android OS</p></div><span class="tap"><a href="index.html#work">Close</a></span></div>
+    <dl class="glance"><div><dt>When</dt><dd>October 2025</dd></div><div><dt>Topics</dt><dd>mobile security, android, grapheneos</dd></div></dl>
     <div class="proj-grid">
-      <div class="proj-meta"><p>October 2025</p><p class="tags-line">mobile security, android, grapheneos, privacy</p></div>
+      <div class="proj-meta"></div>
       <div class="proj-main">
 <h2>Overview</h2><p>I deployed GrapheneOS — a hardened Android OS — as a daily-driver phone to strip out the manufacturer and Google surveillance that ships with stock Android. The concern that drives this for a business is concrete: stock Android continuously collects location, communication metadata, and app-usage data, and for an executive that data quietly maps travel, meetings, and relationships. The point of the project was full data sovereignty without giving up a usable phone.</p><h2>What It Changes</h2><p>Compared to stock Android, the controls that matter most to me are the ones Google doesn't offer: a <strong>per-app network permission</strong> (an app you don't want phoning home simply can't), a <strong>sensors toggle</strong> that cuts microphone/camera/location access, storage scopes that limit what an app can see, and one-time permissions that expire after a single use. Underneath that sits a hardened kernel, verified boot with a custom key, and security updates that don't wait on a manufacturer — with Google Play Services and its data collection gone entirely.</p><h2>Compartmentalization</h2><p>I split the device into separate profiles the same way I do on the desktop — an Admin profile for device management, a general-use profile for day-to-day apps, and an Experimental profile for anything untrusted. Each profile is its own sandbox with its own credentials, so a bad app in one can't reach another. Where a Google Play app is genuinely unavoidable, it goes in sandboxed Play inside an isolated profile, as a conscious trade-off rather than a default.</p><h2>What I Took From It</h2><p>The honest takeaway is that absolute privacy and a practical phone are in tension, and pretending otherwise leads to a device you stop using. Navigation still needs location sometimes; a couple of apps still need Play. Good security engineering here meant pushing the protections as far as they'll go and then making deliberate, documented exceptions — the same balancing act that shows up in any enterprise MDM program, where controls have to coexist with people getting work done.</p>
       </div>

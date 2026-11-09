@@ -13,14 +13,17 @@
 <meta property="og:title" content="Private AI Processing Environment">
 <meta property="og:description" content="An air-gapped Linux environment for running AI on confidential data with zero outbound traffic — built for regulated work. Case study by Emiliano Carrizosa.">
 <meta property="og:url" content="https://emilianocar.com/air-gapped-llm.html">
-<meta property="og:image" content="https://emilianocar.com/og-image.png">
+<meta property="og:image" content="https://emilianocar.com/images/og/air-gapped-llm.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Private AI Processing Environment">
 <meta name="twitter:description" content="An air-gapped Linux environment for running AI on confidential data with zero outbound traffic — built for regulated work. Case study by Emiliano Carrizosa.">
-<meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+<meta name="twitter:image" content="https://emilianocar.com/images/og/air-gapped-llm.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body class="page theme-plaster">
@@ -28,8 +31,9 @@
 <main id="main" class="sheet">
   <article class="win win--page" aria-labelledby="h-title">
     <div class="win-head"><div><h1 id="h-title">Private AI Processing Environment</h1><p class="win-sub">Zero-Trust Local LLM Deployment for Confidential Data</p></div><span class="tap"><a href="index.html#work">Close</a></span></div>
+    <dl class="glance"><div><dt>When</dt><dd>October 2025</dd></div><div><dt>Result</dt><dd>0 outbound packets</dd></div><div><dt>Topics</dt><dd>airgap, compliance, privacy</dd></div></dl>
     <div class="proj-grid">
-      <div class="proj-meta"><p>October 2025</p><p class="tags-line">airgap, compliance, privacy, data sovereignty</p></div>
+      <div class="proj-meta"></div>
       <div class="proj-main">
 <h2>Overview</h2><p>I built a completely air-gapped environment for running a large language model locally, so organizations can use AI on confidential material without any of it leaving their control. The motivation is simple: a law firm, hospital, or investment desk can't paste privileged documents into ChatGPT, because the moment data touches a third-party server it's an attorney-client, HIPAA, or insider-trading problem. This setup gives them the productivity without the exposure.</p><p>Everything runs offline on isolated hardware — document analysis, summarization, research — with zero outbound network traffic by design, not by policy.</p><h2>The Architecture</h2><p>I layered the controls so that a failure in one doesn't undo the whole thing.</p><div class="layer"><h3>Network isolation</h3><p>Network interfaces disabled at the hardware level, kernel firewall rules dropping all outbound traffic, and no Wi-Fi, Bluetooth, or cellular present at all. I verified it the only way that counts — packet capture confirming zero packets ever leave. Even if the application layer were fully compromised, there's no path out.</p></div><div class="layer"><h3>Local inference</h3><p>An open-weight model (Llama 3 / Mistral class) runs entirely in local memory via Ollama / llama.cpp, GPU-accelerated, with no cloud API calls. Model weights live on the encrypted disk, and system prompts are tuned for domain work — contract review, literature triage, financial analysis.</p></div><div class="layer"><h3>Encryption at rest</h3><p>LUKS full-disk encryption with a passphrase-gated boot, plus encrypted swap so nothing sensitive lands in memory dumps. If the machine is stolen or seized, the data isn't readable.</p></div><div class="layer"><h3>Application sandboxing</h3><p>The inference process is sandboxed with restricted filesystem access and resource limits, so a vulnerability in the AI tooling can't be used to roam the system or reach documents it has no business touching.</p></div><h2>What I Took From It</h2><p>The interesting part wasn't getting a model to run — it was proving a negative. "It can't leak" is only credible if you can demonstrate it, so the verification work (packet capture, filesystem inspection, process monitoring) was as much the deliverable as the system itself. The same pattern fits any regulated setting where the data genuinely cannot move: legal due diligence, clinical research on PHI, proprietary R&amp;D, anything under attorney-client privilege.</p>
       </div>

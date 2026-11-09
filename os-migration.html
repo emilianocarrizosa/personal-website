@@ -13,14 +13,17 @@
 <meta property="og:title" content="Secure Cross-Platform OS Migration">
 <meta property="og:description" content="A zero-data-loss Windows-to-Linux migration with full-disk encryption added in the same window. Case study by Emiliano Carrizosa.">
 <meta property="og:url" content="https://emilianocar.com/os-migration.html">
-<meta property="og:image" content="https://emilianocar.com/og-image.png">
+<meta property="og:image" content="https://emilianocar.com/images/og/os-migration.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Secure Cross-Platform OS Migration">
 <meta name="twitter:description" content="A zero-data-loss Windows-to-Linux migration with full-disk encryption added in the same window. Case study by Emiliano Carrizosa.">
-<meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+<meta name="twitter:image" content="https://emilianocar.com/images/og/os-migration.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body class="page theme-plaster">
@@ -28,8 +31,9 @@
 <main id="main" class="sheet">
   <article class="win win--page" aria-labelledby="h-title">
     <div class="win-head"><div><h1 id="h-title">Secure Cross-Platform OS Migration</h1><p class="win-sub">Windows to Linux with Zero Data Loss and Full Encryption</p></div><span class="tap"><a href="index.html#work">Close</a></span></div>
+    <dl class="glance"><div><dt>When</dt><dd>September 2025</dd></div><div><dt>Result</dt><dd>Zero data loss</dd></div><div><dt>Topics</dt><dd>migration, encryption, linux</dd></div></dl>
     <div class="proj-grid">
-      <div class="proj-meta"><p>September 2025</p><p class="tags-line">migration, encryption, linux, system administration</p></div>
+      <div class="proj-meta"></div>
       <div class="proj-main">
 <h2>Overview</h2><p>I migrated my main machine from Windows 10 to Arch Linux with zero data loss, and used the migration window to add full-disk encryption at the same time. Migrations are where things go wrong — destructive operations destroy data permanently, hardware refuses to cooperate, and a failed cutover means downtime and expensive recovery. The whole point was to do a high-risk transition deliberately enough that none of that happened.</p><h2>How I Did It</h2><div class="layer"><h3>1 · Plan and back up</h3><p>Before touching anything destructive, I inventoried the data, apps, and configs to preserve, identified Windows-only software that would need Linux alternatives or a VM, then made a verified, encrypted backup to external storage (VeraCrypt) with a rollback plan. The rule: no irreversible step until the backup is proven good.</p></div><div class="layer"><h3>2 · Install with encryption from the start</h3><p>A custom partition layout with separate boot, root, and home, then LUKS full-disk encryption deployed during the install — passphrase at boot, encrypted swap so nothing leaks to memory dumps, and GRUB configured with the right initramfs hooks for an encrypted root. Doing encryption now meant it didn't need to be a second project later.</p></div><div class="layer"><h3>3 · Make the hardware work</h3><p>This was the messy part. The MSI GS66 Stealth needed NVIDIA proprietary drivers and Optimus GPU switching configured by hand for sane laptop power management, plus TLP for battery life. Several USB-creation tools produced media that wouldn't boot before I found one that did — the kind of friction that's invisible until you hit it.</p></div><div class="layer"><h3>4 · Restore, harden, verify</h3><p>Restored data from the encrypted backup, set up the desktop and dev environment, kept a VirtualBox Windows VM for the few apps that needed it, then hardened: default-deny firewall, AppArmor profiles, Firejail for risky software. Last step was confirming every critical file came across intact — verifying zero data loss rather than assuming it.</p></div><h2>Results</h2><div class="box"><p>Zero data loss — every critical file preserved and verified.</p><p>Planned window, no surprise downtime.</p><p>All hardware functional, including discrete GPU and power management.</p><p>Security improved in the same pass via full-disk encryption.</p></div><h2>What I Took From It</h2><p>The migration succeeded because of the boring parts: a thorough pre-flight audit, a backup I actually trusted, and validating each phase before moving to the next so errors couldn't compound. If I did it again I'd test the boot media on the target hardware first and line up the Windows-app alternatives earlier. The same methodology scales straight up to fleet and server migrations — and folding encryption into the migration window is how you get a security upgrade without standing up a separate project for it.</p>
       </div>
