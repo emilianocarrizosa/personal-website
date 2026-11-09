@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hunter Visitors Center Training Simulator — Emiliano Carrizosa</title>
+<meta name="description" content="A secure offline desktop app that trains and certifies Visitors Center staff, commissioned by Hunter College Public Safety and built solo with Tauri, React and Rust. Case study by Emiliano Carrizosa.">
+<link rel="canonical" href="https://emilianocar.com/hunter-training-simulator.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#F7F5F0">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Emiliano Carrizosa">
+<meta property="og:title" content="Hunter Visitors Center Training Simulator">
+<meta property="og:description" content="A secure offline desktop app that trains and certifies Visitors Center staff, commissioned by Hunter College Public Safety and built solo with Tauri, React and Rust. Case study by Emiliano Carrizosa.">
+<meta property="og:url" content="https://emilianocar.com/hunter-training-simulator.html">
+<meta property="og:image" content="https://emilianocar.com/images/og/hunter-training-simulator.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hunter Visitors Center Training Simulator">
+<meta name="twitter:description" content="A secure offline desktop app that trains and certifies Visitors Center staff, commissioned by Hunter College Public Safety and built solo with Tauri, React and Rust. Case study by Emiliano Carrizosa.">
+<meta name="twitter:image" content="https://emilianocar.com/images/og/hunter-training-simulator.jpg">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body class="page theme-plaster">
+<a class="skip" href="#main">Skip to the write-up</a>
+<main id="main" class="sheet">
+  <article class="win win--page" aria-labelledby="h-title">
+    <div class="win-head"><div><h1 id="h-title">Hunter Visitors Center Training Simulator</h1><p class="win-sub">A Digital Training and Certification Platform for Public Safety</p></div><span class="tap"><a href="index.html#work">Close</a></span></div>
+    <dl class="glance"><div><dt>When</dt><dd>2026</dd></div><div><dt>Kind</dt><dd>Commissioned build</dd></div><div><dt>Result</dt><dd>Approved by leadership</dd></div><div><dt>Topics</dt><dd>desktop app, training, compliance</dd></div></dl>
+    <div class="proj-grid">
+      <div class="proj-meta"></div>
+      <div class="proj-main">
+<h2>Overview</h2><p>Hunter College’s Visitors Center needed a way to train and certify its staff. Public Safety commissioned me to build it, and I built it on my own: the department’s first digital training and certification platform, a secure desktop application that runs offline on the Visitors Center’s Windows 10 Enterprise workstations.</p>
+<h2>What it does</h2>
+<div class="layer"><h3>Training and certification</h3><p>Staff work through training modules, are tested on a bank of 39 questions tagged by category (including accessibility and compliance topics), and receive a formal certificate on completion.</p></div>
+<div class="layer"><h3>Administration</h3><p>Administrators can edit the text of the notices and documents staff see, review how balanced the question bank is across categories, and grant a retake for a single module without resetting everything else.</p></div>
+<div class="layer"><h3>Guided tours</h3><p>A reusable tour component walks new staff through the application, and a separate tour does the same for administrators.</p></div>
+<h2>How I built it</h2><p>The interface is React and the application logic is Rust, packaged as a desktop app with Tauri. Records live in a local SQLCipher database, so the data is encrypted on disk and the application works without a network connection.</p><p>It deploys to the department’s Dell Latitude workstations running Windows 10 Enterprise, and I resolved the hardware-specific issues that came up along the way.</p>
+<h2>Rollout</h2><p>I presented the project to senior leadership, including the CIO, and secured approval. I then deployed it, trained the staff who would use it, and gave the college’s IT team a handoff document.</p>
+      
+      </div>
+      <div class="proj-facts"><section><h2 class="item">Stack</h2><p>Tauri 2, the desktop shell</p><p>React 19, the interface</p><p>Rust, the application logic</p><p>SQLCipher, an encrypted local database</p><p>Windows 10 Enterprise workstations</p></section><section><h2 class="item">Evidence &amp; availability</h2><p>This is an internal tool for Hunter College Public Safety, so the source code and screens are not published here. I’m glad to talk through the design and the rollout.</p><p><a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a></p></section></div>
+    </div>
+    <nav class="cat-nav" aria-label="More work"><span></span><p class="cat-mid">No. 1 of 8<a href="index.html#work">All work</a></p><a class="cat-next" rel="next" href="access-control-system.html"><span class="cat-k">Next</span><span class="cat-t">Access Control &amp; Audit System</span></a></nav>
+    <div class="win-foot"><span class="cap">Hand-troweled plaster</span><span class="tap"></span></div>
+  </article>
+</main>
+</body>
+</html>
