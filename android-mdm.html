@@ -13,14 +13,17 @@
 <meta property="og:title" content="Multi-Layer Mobile Device Management">
 <meta property="og:description" content="A four-layer mobile device management build — EMM, DNS filtering, kernel firewall, and self-healing enforcement. Case study by Emiliano Carrizosa.">
 <meta property="og:url" content="https://emilianocar.com/android-mdm.html">
-<meta property="og:image" content="https://emilianocar.com/og-image.png">
+<meta property="og:image" content="https://emilianocar.com/images/og/android-mdm.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Multi-Layer Mobile Device Management">
 <meta name="twitter:description" content="A four-layer mobile device management build — EMM, DNS filtering, kernel firewall, and self-healing enforcement. Case study by Emiliano Carrizosa.">
-<meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+<meta name="twitter:image" content="https://emilianocar.com/images/og/android-mdm.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
 </head>
 <body class="page theme-plaster">
@@ -28,8 +31,9 @@
 <main id="main" class="sheet">
   <article class="win win--page" aria-labelledby="h-title">
     <div class="win-head"><div><h1 id="h-title">Multi-Layer Mobile Device Management</h1><p class="win-sub">Defense-in-Depth Content Filtering and Policy Enforcement</p></div><span class="tap"><a href="index.html#work">Close</a></span></div>
+    <dl class="glance"><div><dt>When</dt><dd>October 2025</dd></div><div><dt>Result</dt><dd>Four layers</dd></div><div><dt>Topics</dt><dd>mdm, emm, android</dd></div></dl>
     <div class="proj-grid">
-      <div class="proj-meta"><p>October 2025</p><p class="tags-line">mdm, emm, android, defense in depth</p></div>
+      <div class="proj-meta"></div>
       <div class="proj-main">
 <h2>Overview</h2><p>I built a four-layer mobile device management setup to enforce content and policy in a way that a determined user can't simply switch off. Most single-layer approaches have an obvious bypass: DNS filtering dies the moment someone turns on a VPN, MDM settings fall to a factory reset, and network filtering stops mattering once the phone leaves the office. So I stacked independent controls at different levels of the system, where each one covers the others' weak spots.</p><h2>The Four Layers</h2><div class="fact"><h3>1 · EMM</h3><p>Locks down developer options, DNS settings, and profile creation at the user level.</p></div><div class="fact"><h3>2 · DNS</h3><p>Filters content at resolution, with the config protected by the EMM lock above it.</p></div><div class="fact"><h3>3 · Firewall</h3><p>Kernel-level iptables rules that block beneath the application layer.</p></div><div class="fact"><h3>4 · Enforcement</h3><p>A watcher that detects rule tampering and restores policy automatically.</p></div><h2>How It Holds Together</h2><p>The whole design rests on redundancy — if one layer is bypassed, the rest keep enforcing:</p><div class="tbl-wrap"><table><tr><th>Layer</th><th>Mechanism</th><th>Why it resists bypass</th></tr><tr><td><strong>EMM (Wizy)</strong></td><td>Prevents user-level config changes</td><td>Blocks developer options and settings edits</td></tr><tr><td><strong>DNS (ControlD)</strong></td><td>Blocks at resolution</td><td>Protected by the EMM DNS lock</td></tr><tr><td><strong>iptables</strong></td><td>Drops packets in-kernel</td><td>Operates below the app layer</td></tr><tr><td><strong>Enforcement (Termux)</strong></td><td>Restores tampered rules</td><td>Self-healing, no manual intervention</td></tr></table></div><p>Change DNS with a VPN and iptables still drops the packets. Edit the iptables rules and the enforcement script puts them back. Take the phone off the corporate network and local filtering keeps running.</p><p>Getting kernel-level rules in place meant rooting the device, which I treated as a security decision in its own right: I downgraded OxygenOS to a version with a compatible boot image, hash-verified that image before flashing, and used Magisk for managed root rather than a free-for-all.</p><div class="box"><h3>The honest caveat</h3><p>Rooting breaks Android's security model and would be the wrong call in most real deployments — a production fleet should use a non-root MDM. I built it this way to understand the mechanisms commercial platforms hide, and the more useful skill it demonstrates is knowing when a control creates more risk than it removes.</p></div><h2>What I Took From It</h2><p>Single-layer security is a single point of failure, and manual enforcement doesn't survive contact with real users — the layer that mattered most was the automated one that quietly repairs itself. Building this from the ground up also made the trade-offs in off-the-shelf MDM concrete, which is exactly what makes vendor selection and troubleshooting easier on the job.</p>
       </div>

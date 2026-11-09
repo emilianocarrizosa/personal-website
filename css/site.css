@@ -2,12 +2,15 @@
    Home: eight stacked material bands; every section opens in a plain "window" (<dialog>).
    Inner pages (projects, posts, 404) use the same window, sitting on a material background. */
 
+@font-face{font-family:"Newsreader";font-weight:400;font-style:normal;font-display:swap;src:url(../fonts/newsreader-400.woff2) format("woff2")}
+@font-face{font-family:"Newsreader";font-weight:400;font-style:italic;font-display:swap;src:url(../fonts/newsreader-400-italic.woff2) format("woff2")}
+@font-face{font-family:"Newsreader";font-weight:600 700;font-style:normal;font-display:swap;src:url(../fonts/newsreader-600.woff2) format("woff2")}
 @font-face{font-family:"DM Sans";font-weight:700;font-style:normal;font-display:swap;src:url(../fonts/dm-sans-700.woff2) format("woff2")}
 @font-face{font-family:"DM Sans";font-weight:800;font-style:normal;font-display:swap;src:url(../fonts/dm-sans-800.woff2) format("woff2")}
 
 :root{
   --ink:#1A1511; --sep:#1E1915; --link:#0b3d91;
-  --serif:"Times New Roman",Times,"Liberation Serif",serif;
+  --serif:"Newsreader","Times New Roman",Times,"Liberation Serif",serif;
   --sans:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --rule:rgba(0,0,0,.25);
   color-scheme:light;
@@ -22,11 +25,12 @@ img{max-width:100%}
 .skip{position:absolute;left:8px;top:-80px;z-index:100;padding:10px 14px;background:#fff;color:#000;border:1px solid #000}
 .skip:focus{top:8px}
 :focus-visible{outline:3px solid var(--link);outline-offset:2px}
+.win-body:focus-visible{outline-offset:-3px}
 
 /* ---------- Home: the bands ---------- */
 .bands{position:relative;display:flex;flex-direction:column;height:100vh;height:100dvh;min-height:520px;background:var(--sep);overflow:hidden}
-.band{position:relative;flex:1 1 0%;min-height:0;background-color:var(--bg);background-image:var(--img);background-repeat:no-repeat;
-  background-size:max(1440px,100%) auto;background-position:50% var(--py);
+.band{position:relative;flex:1 1 0%;min-height:0;background-color:var(--bg);background-image:var(--img),var(--lqip,none);background-repeat:no-repeat,no-repeat;
+  background-size:max(1440px,100%) auto,cover;background-position:50% var(--py),50% 50%;
   transition:flex-basis .8s cubic-bezier(.32,.72,0,1)}
 .band+.band{border-top:3px solid var(--sep)}
 .band-h{margin:0;font:inherit}
@@ -43,13 +47,22 @@ img{max-width:100%}
 .band--about{--bg:#B7C7AE;--img:url(../images/materials/celadon-band.webp);--py:45%;--halo:208 218 202;--a:.50}
 .band--experience{--bg:#A9B9C8;--img:url(../images/materials/azulejo-band.webp);--py:45%;--halo:199 209 219;--a:.70}
 .band--services{--bg:#E0A878;--img:url(../images/materials/kakiemon-band.webp);--py:78%;--halo:234 198 167;--a:.50}
-.band--skills{--bg:#6F685F;--img:url(../images/materials/talavera-tile.webp);--halo:85 79 71;--a:.94;--tx:#fff;background-size:auto 100%;background-repeat:repeat-x;background-position:50% 50%}
+.band--skills{--bg:#6F685F;--img:url(../images/materials/talavera-tile.webp);--halo:85 79 71;--a:.94;--tx:#fff;background-image:var(--img);background-size:auto 100%;background-repeat:repeat-x;background-position:50% 50%}
 .band--writing{--bg:#B56F76;--img:url(../images/materials/zellige-band.webp);--py:50%;--halo:206 161 165;--a:.94}
 .band--contact{--bg:#E3CFAE;--img:url(../images/materials/sandstone-band.webp);--py:50%;--halo:236 223 202;--a:.50}
 
+/* tiny blurred previews that show while each band photo loads */
+.band--top{--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAAAwAwCdASogAA0APrVKnkonJCKhsAgA4BaJZACdAGFVQghIAPZgpfd2ww5inIbJFeSwiYLoa9sItfpkQy4BUPCQGuAqX6fMfSPtn8eZAOnNkllb+GxJHmuqO1tDl17Nf6RNAI1KeCRu++uVRO2ywxe8KwmV3Sq/GNO3bQA1huP0Mxl6p3H/s7e3fnrZcnsobhwoBWmt4ra4Wi0vm6O0dPBG4qbmEyfDcAA=)}
+.band--work{--lqip:url(data:image/webp;base64,UklGRjwAAABXRUJQVlA4IDAAAADQAgCdASogAA0APrVInkmnJCKhMAgA4BaJaQAAfj4AAP7w88LJ5LniG94ftYCAAAA=)}
+.band--about{--lqip:url(data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADQAwCdASogAA0APrVInkmnJCKhMAgA4BaJZQC7B6gArx6t6VlF+SgA/uJMUwmVdLVqaLmnBWWkQ9Plci1eQ78ZRUGvCHga6gzAphvE0AA=)}
+.band--experience{--lqip:url(data:image/webp;base64,UklGRnwAAABXRUJQVlA4IHAAAADQAwCdASogAA0APrVOoUmnJKOhMAgA4BaJQBOgBDuCYosOi4bZtgAA/uCWxL7bJWVA8c/SxGhB3+N1rCE6rzW43BjUbfBa2MyOwK/uFbWJH+d9PbiaLeFKP6wNif16HEuxpngkXAMIdfcIl1IHDwAA)}
+.band--services{--lqip:url(data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAwBACdASogAA0APrVMoUqnJCMhsAgA4BaJYwC06BwsbsheMVfPotRNjIAA/sT9aVE7EmIcbh5F058hhGQq2iqnYWSAoZZRJLbqP7vfKYvUNvt6cdjs7AyNqLtLoGwoGhGprcwsu4IGHrv56a37e0Nttvp6fLTddk16/Wv30hC7GjbXAAA=)}
+.band--writing{--lqip:url(data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAADwAwCdASogAA0APrVInkmnJCKhMAgA4BaJQBYdgyUO8K5qJ1p4sE8AAPyFSDWi2aTzsKvy/tgpv277eea3YbfgoFgZVvDAmCW1xAVEg9bdJWOz5c9bg0AA)}
+.band--contact{--lqip:url(data:image/webp;base64,UklGRoQAAABXRUJQVlA4IHgAAAAQBACdASogAA0APrVKn0onJCKhsAgA4BaJQBOmUABWJYaoi+XaDNtVAAD+gsnvaRok+0PG2ykRsqw0Z/lePW1cegN9g+UDQIqgq7PorWoGXuxykP9kUTlcZBInwP/Dn8xtj30M396j9+v9kh01HDxigAVhH9Zq4AA=)}
+
 /* tags on the open Name band (desktop only): wall label + curator's note */
 .tags{display:none}
-.plaque{position:absolute;bottom:20px;z-index:3;max-height:calc(100% - 40px);overflow:auto;padding:12px 14px 11px;background:#fff;color:#000;border:1px solid #000;font:15px/1.4 var(--serif);text-align:left}
+.plaque{position:absolute;bottom:20px;z-index:3;max-height:calc(100% - 40px);overflow:auto;padding:12px 14px 11px;background:#fff;color:#000;border:1px solid #000;font:16px/1.4 var(--serif);text-align:left}
 .plaque--label{left:20px;width:320px}
 .plaque--note{right:20px;width:380px}
 .plaque p{margin:7px 0 0}
@@ -75,7 +88,7 @@ img{max-width:100%}
   .band--top.is-open .tags{display:block}
 }
 @media (max-width:759px){
-  .band{background-size:760px auto}
+  .band{background-size:760px auto,cover}
   .band--skills{background-size:auto 100%}
   .band-title{padding:5px 18px;font-size:20px;letter-spacing:.12em;box-shadow:0 0 18px 11px rgb(var(--halo) / calc(var(--a) * .75))}
   .band--top .band-title{font-size:16px}
@@ -91,7 +104,7 @@ img{max-width:100%}
 
 /* ---------- The window ---------- */
 .win{width:min(880px,calc(100vw - 24px));max-height:min(830px,calc(100vh - 24px));max-height:min(830px,calc(100dvh - 24px));margin:auto;padding:0;
-  border:1px solid #000;background:#fff;color:#000;box-shadow:0 10px 30px rgba(0,0,0,.3);font:16px/1.45 var(--serif);text-align:left;overflow:hidden}
+  border:1px solid #000;background:#fff;color:#000;box-shadow:0 10px 30px rgba(0,0,0,.3);font:17px/1.45 var(--serif);text-align:left;overflow:hidden}
 .win[open],.win--page{display:flex;flex-direction:column}
 .win--about{width:min(940px,calc(100vw - 24px))}
 .win--contact{width:min(560px,calc(100vw - 24px))}
@@ -104,7 +117,7 @@ img{max-width:100%}
 @keyframes veil-out{from{opacity:1}to{opacity:0}}
 
 .win-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:14px 12px 6px 24px;flex:none}
-.win-head h1,.win-head h2{margin:0;font:700 24px/1.2 var(--serif)}
+.win-head h1,.win-head h2{margin:0;font:700 27px/1.15 var(--serif);text-wrap:balance}
 .win-sub{margin:2px 0 0}
 .win-actions{display:inline-flex;align-items:center;gap:22px;flex:none}
 .win-scroll{position:relative;flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
@@ -117,12 +130,13 @@ img{max-width:100%}
 .link{padding:0;border:0;background:none;color:var(--link);font:inherit;text-decoration:underline;cursor:pointer}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border:1px solid #000;border-radius:0;background:#fff;color:#000;font:inherit;text-decoration:none;cursor:pointer}
 .btn:hover{background:#f2f2f2}
-.win h3,.win h2.item{margin:0;font-size:16px;font-weight:700;line-height:1.3}
-.win p{margin:0 0 10px}
+.win h3,.win h2.item{margin:0;font-size:17px;font-weight:700;line-height:1.3;text-wrap:balance}
+.win p{margin:0 0 10px;text-wrap:pretty}
+.win li{text-wrap:pretty}
 
 /* date | content rows (Work, Experience, Writing) */
 .row{display:grid;grid-template-columns:150px 1fr;gap:0 26px;padding:0 0 13px}
-.row-meta{padding-top:3px}
+.row-meta{padding-top:3px;font-variant-numeric:lining-nums tabular-nums}
 .row-meta em{display:block;margin-top:1px}
 .row-main p{margin:1px 0 0}
 .row-main p+p{margin-top:3px}
@@ -205,7 +219,7 @@ body.page::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--
 .proj-facts dt{font-style:italic}
 .proj-facts dd{margin:0 0 6px}
 .proj-facts p{margin:0 0 5px}
-.proj-main h2{margin:20px 0 6px;font-size:17px;font-weight:700;line-height:1.3}
+.proj-main h2{margin:22px 0 6px;font-size:19px;font-weight:700;line-height:1.3}
 .proj-main h2:first-child{margin-top:0}
 .proj-main h3{margin:12px 0 4px}
 .proj-main p{margin:0 0 10px}
@@ -219,7 +233,7 @@ body.page::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--
 .fact-line em{font-weight:400}
 pre,code{font-family:"Courier New",Courier,monospace}
 code{font-size:.85em}
-pre{margin:6px 0 14px;padding:10px 14px;background:#f2f2f2;font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-x:auto}
+pre{margin:6px 0 14px;padding:10px 14px;background:#f2f2f2;font-size:13.5px;line-height:1.55;white-space:pre-wrap;overflow-x:auto}
 pre code{font-size:inherit}
 .tbl-wrap{margin:4px 0 14px;overflow-x:auto}
 .tbl-wrap table{width:100%;border-collapse:collapse}
@@ -228,7 +242,7 @@ pre code{font-size:inherit}
 
 /* writing posts */
 .prose{max-width:720px;padding:12px 24px 28px}
-.prose h2{margin:22px 0 6px;font-size:18px;line-height:1.3}
+.prose h2{margin:22px 0 6px;font-size:20px;line-height:1.3}
 .prose h3{margin:16px 0 4px}
 .prose p{margin:0 0 12px}
 .prose ul,.prose ol{margin:0 0 12px;padding-left:24px}
@@ -267,7 +281,7 @@ pre code{font-size:inherit}
   .only-phone{display:block}
   .btn.only-phone{display:flex}
   .only-desktop{display:none!important}
-  .win--page .win-head h1{font-size:22px}
+  .win--page .win-head h1{font-size:24px}
   .win--page .win-foot .cap{display:none}
   .sheet{padding:12px 12px 32px}
   .sheet--small{padding-top:8vh}
@@ -291,9 +305,36 @@ pre code{font-size:inherit}
   .win::backdrop,.win.is-closing::backdrop{animation:none}
 }
 @media print{
-  .bands,.skip{display:none}
-  body{background:#fff}
+  .bands,.skip,.win::backdrop,.win-actions,.win-foot,.tags{display:none!important}
+  html,body{background:#fff}
+  body.page::before{display:none}
+  dialog.win[open],.win--page{position:static;width:100%;max-height:none;height:auto;margin:0;border:0;box-shadow:none;overflow:visible}
+  .win-scroll{display:block}.win-scroll::after{display:none}.win-body{overflow:visible;padding:0}
+  .win--page .win-head{position:static}
+  /* printing while the résumé is open prints just the résumé, full page */
+  body:has(#resume[open]) dialog[open]:not(#resume){display:none}
+  #resume .win-head{display:none}
+  #resume .resume-page{width:100%;border:0}
 }
 
 /* writing: empty state */
 .w-empty-state h3{margin:0 0 4px}
+
+/* ---------- finishing touches ---------- */
+.win--colophon{width:min(640px,calc(100vw - 24px))}
+.win--colophon .row{grid-template-columns:110px 1fr;padding-bottom:8px}
+.win--colophon .row-main p{margin:0}
+/* a soft lift when a band is hovered (pointer devices only) */
+.band::after{content:"";position:absolute;inset:0;z-index:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .5s ease}
+.band-link{z-index:1}
+@media (hover:hover){.bands:not(.has-open) .band:hover::after{opacity:.1}}
+/* long pages keep their title in view */
+.win--page .win-head{position:sticky;top:0;z-index:5;background:#fff}
+/* project "at a glance" strip */
+.glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px 28px;margin:6px 24px 0;padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.glance dt{font-style:italic;font-size:15px}
+.glance dd{margin:0;font-weight:700;line-height:1.3}
+.proj-main figure{margin:0 0 16px}
+.proj-main figcaption{margin-top:5px;font-size:16px;line-height:1.4}
+.proj-main figcaption strong{font-weight:700}
+@media (max-width:759px){.glance{margin:6px 16px 0;grid-template-columns:1fr 1fr}}
