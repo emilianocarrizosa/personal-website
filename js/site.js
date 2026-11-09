@@ -8,7 +8,6 @@
 
   var KEYS = ['name', 'work', 'about', 'experience', 'services', 'skills', 'writing', 'contact'];
   var PARENT = { resume: 'experience', colophon: 'contact' };   // windows that open on top of another one
-  var desktop = window.matchMedia('(min-width:760px)');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   var base = location.pathname + location.search;
   var bandFor = {};
@@ -27,7 +26,6 @@
   function wanted(k) {
     if (!k) return [];
     if (PARENT[k]) return [PARENT[k], k];
-    if (k === 'name' && desktop.matches) return [];       // on desktop the Name band opens in place
     return [k];
   }
 
@@ -37,8 +35,7 @@
     var cur = currentKey();
     if (key === cur) return;
     var url = key ? '#' + key : base;
-    if (cur === 'name' && key) history.replaceState({ app: 1 }, '', url);   // hopping band to band: one Back returns home
-    else history.pushState({ app: 1 }, '', url);
+    history.pushState({ app: 1 }, '', url);
     sync();
   }
   function back() {                                        // close the top-most layer
@@ -50,44 +47,20 @@
     sync();
   }
 
-  /* ----- bands ----- */
-  function setBand(key) {
-    var open = PARENT[key] || key;
-    [].forEach.call(document.querySelectorAll('.band.is-open'), function (b) { b.classList.remove('is-open'); });
-    if (open && bandFor[open]) { bandFor[open].classList.add('is-open'); bandsEl.classList.add('has-open'); }
-    else bandsEl.classList.remove('has-open');
-    if (open !== 'name') closePlaques(true);
-  }
-
   /* ----- windows ----- */
   function resumeBtn() {                                   // the "View résumé" button that is actually on screen
     var all = document.querySelectorAll('#experience [data-key="resume"]');
     for (var i = 0; i < all.length; i++) if (all[i].getClientRects().length) return all[i];
     return null;
   }
-  function zoomFrames(d, reverse) {
-    var b = resumeBtn(); if (!b) return null;
-    var br = b.getBoundingClientRect(), r = d.getBoundingClientRect();
-    if (!br.width || !r.width) return null;
-    var dx = (br.left + br.width / 2) - (r.left + r.width / 2), dy = (br.top + br.height / 2) - (r.top + r.height / 2);
-    var s = Math.max(0.05, Math.min(0.2, br.width / r.width));
-    var from = { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')', opacity: 0 };
-    var mid = { transform: 'translate(' + dx * 0.4 + 'px,' + dy * 0.4 + 'px) scale(' + (s + 0.45) + ')', opacity: 1, offset: 0.35 };
-    var to = { transform: 'none', opacity: 1 };
-    return reverse ? [{ transform: 'none', opacity: 1 }, { transform: from.transform, opacity: 0 }] : [from, mid, to];
-  }
-  var EASE_OUT = 'cubic-bezier(.22,.8,.24,1)';     // gentle start, long soft landing, like a macOS window settling
-  var EASE_IN = 'cubic-bezier(.4,0,.2,1)';
+  /* Windows only fade: slow, still, no zoom or slide. */
+  var EASE = 'cubic-bezier(.4,0,.2,1)';
   function openDlg(d) {
     if (!d || d.open) return;
     try { d.showModal(); } catch (e) { return; }
     d.classList.remove('is-closing');
     if (!d.animate) return;
-    if (reduce.matches) { d.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150 }); return; }
-    var kf = d.id === 'resume' ? zoomFrames(d, false) : null;
-    if (kf) d.animate(kf, { duration: 900, easing: EASE_OUT, fill: 'backwards' });
-    else d.animate([{ opacity: 0, transform: 'translateY(18px) scale(.94)' }, { opacity: 1, transform: 'none' }],
-                   { duration: 700, delay: document.querySelectorAll('dialog[open]').length > 1 ? 0 : 200, easing: EASE_OUT, fill: 'backwards' });   // wait for the band to start opening
+    d.animate([{ opacity: 0 }, { opacity: 1 }], { duration: reduce.matches ? 120 : 380, easing: EASE, fill: 'backwards' });
   }
   function closeDlg(d) {
     if (!d.open || d._closing) return;
@@ -95,17 +68,11 @@
     var fin = function () { d._byUs = true; if (d.open) d.close(); d._closing = false; d.classList.remove('is-closing'); };
     if (reduce.matches || !d.animate) { fin(); return; }
     d.classList.add('is-closing');
-    var kf = d.id === 'resume' ? zoomFrames(d, true) : null;
-    var anim = kf ? d.animate(kf, { duration: 520, easing: EASE_IN, fill: 'forwards' })
-                  : d.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(12px) scale(.96)' }], { duration: 380, easing: EASE_IN, fill: 'forwards' });
+    var anim = d.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 280, easing: EASE, fill: 'forwards' });
     anim.finished.then(fin, fin);
   }
-  var prevKey = currentKey();
   function sync() {
     var key = currentKey(), want = wanted(key);
-    setBand(key);
-    if (prevKey === 'name' && !key && desktop.matches && bandFor.name) bandFor.name.querySelector('.band-link').focus({ preventScroll: true });
-    prevKey = key;
     dialogs.forEach(function (d) { if (d.open && want.indexOf(d.id) < 0) closeDlg(d); });
     want.forEach(function (id) { openDlg($(id)); });
   }
@@ -122,7 +89,7 @@
         if (tr) tr.focus(); return;
       }
       if (!document.querySelector('dialog[open]') && !wanted(currentKey()).length) {
-        var f = lastFocus && document.contains(lastFocus) ? lastFocus : (bandFor[d.id === 'name' ? 'name' : d.id] || document).querySelector('.band-link');
+        var f = lastFocus && document.contains(lastFocus) ? lastFocus : (bandFor[d.id] || document).querySelector('.band-link');
         if (f && f.focus) f.focus({ preventScroll: true });
       }
     });
@@ -136,40 +103,10 @@
       if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
       var key = a.getAttribute('data-key');
-      if (key === 'name' && desktop.matches && currentKey() === 'name') { back(); return; }
       go(key, a);
     });
   });
   window.addEventListener('popstate', sync);
-  (desktop.addEventListener ? desktop.addEventListener.bind(desktop, 'change') : desktop.addListener.bind(desktop))(sync);
-
-  /* ----- wall label + curator's note on the open Name band (desktop) ----- */
-  var plaques = [
-    { tag: $('tag-label'), pl: $('plaque-label') },
-    { tag: $('tag-note'), pl: $('plaque-note') }
-  ];
-  function closePlaques(silent) {
-    plaques.forEach(function (p) {
-      if (!p.pl || p.pl.hidden) return;
-      p.pl.hidden = true; p.tag.hidden = false; p.tag.setAttribute('aria-expanded', 'false');
-      if (!silent) p.tag.focus();
-    });
-  }
-  plaques.forEach(function (p) {
-    if (!p.tag || !p.pl) return;
-    p.tag.addEventListener('click', function () {
-      closePlaques(true);
-      p.tag.setAttribute('aria-expanded', 'true'); p.tag.hidden = true; p.pl.hidden = false;
-      var x = p.pl.querySelector('[data-plaque-close]'); if (x) x.focus();
-    });
-    p.pl.addEventListener('click', function (e) { if (e.target.closest('[data-plaque-close]')) closePlaques(); });
-  });
-  document.addEventListener('keydown', function (e) {
-    if (e.key !== 'Escape' || document.querySelector('dialog[open]')) return;
-    var anyOpen = plaques.some(function (p) { return p.pl && !p.pl.hidden; });
-    if (anyOpen) { e.preventDefault(); closePlaques(); }
-    else if (currentKey() === 'name' && desktop.matches) { e.preventDefault(); back(); }
-  });
 
   /* ----- copy email ----- */
   var cb = $('copy-email'), cs = $('copy-status'), tm;
