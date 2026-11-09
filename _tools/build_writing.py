@@ -120,7 +120,7 @@ def post_page(p):
 <meta name="description" content="{desc}">
 <link rel="canonical" href="{url}">{robots}
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#1E1915">
+<meta name="theme-color" content="#F7F5F0">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="{AUTHOR}">
 <meta property="og:title" content="{title}">
@@ -216,7 +216,7 @@ def subscribe_page(posts):
 <meta name="robots" content="noindex">
 <link rel="canonical" href="{SITE}/subscribe.html">
 <meta name="color-scheme" content="light">
-<meta name="theme-color" content="#1E1915">
+<meta name="theme-color" content="#F7F5F0">
 <link rel="alternate" type="application/rss+xml" title="{AUTHOR} — Writing" href="/feed.xml">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
