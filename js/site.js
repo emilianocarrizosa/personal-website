@@ -71,27 +71,32 @@
     var dx = (br.left + br.width / 2) - (r.left + r.width / 2), dy = (br.top + br.height / 2) - (r.top + r.height / 2);
     var s = Math.max(0.05, Math.min(0.2, br.width / r.width));
     var from = { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + s + ')', opacity: 0 };
-    var mid = { transform: 'translate(' + dx * 0.4 + 'px,' + dy * 0.4 + 'px) scale(' + (s + 0.45) + ')', opacity: 1, offset: 0.55 };
+    var mid = { transform: 'translate(' + dx * 0.4 + 'px,' + dy * 0.4 + 'px) scale(' + (s + 0.45) + ')', opacity: 1, offset: 0.35 };
     var to = { transform: 'none', opacity: 1 };
     return reverse ? [{ transform: 'none', opacity: 1 }, { transform: from.transform, opacity: 0 }] : [from, mid, to];
   }
+  var EASE_OUT = 'cubic-bezier(.22,.8,.24,1)';     // gentle start, long soft landing, like a macOS window settling
+  var EASE_IN = 'cubic-bezier(.4,0,.2,1)';
   function openDlg(d) {
     if (!d || d.open) return;
     try { d.showModal(); } catch (e) { return; }
+    d.classList.remove('is-closing');
     if (!d.animate) return;
-    if (reduce.matches) { d.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 120 }); return; }
+    if (reduce.matches) { d.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 150 }); return; }
     var kf = d.id === 'resume' ? zoomFrames(d, false) : null;
-    if (kf) d.animate(kf, { duration: 460, easing: 'cubic-bezier(.2,.9,.25,1)' });
-    else d.animate([{ opacity: 0, transform: 'translateY(8px) scale(.985)' }, { opacity: 1, transform: 'none' }], { duration: 200, easing: 'cubic-bezier(.2,.8,.2,1)' });
+    if (kf) d.animate(kf, { duration: 900, easing: EASE_OUT, fill: 'backwards' });
+    else d.animate([{ opacity: 0, transform: 'translateY(18px) scale(.94)' }, { opacity: 1, transform: 'none' }],
+                   { duration: 700, delay: 200, easing: EASE_OUT, fill: 'backwards' });   // wait for the band to start opening
   }
   function closeDlg(d) {
     if (!d.open || d._closing) return;
     d._closing = true;
-    var fin = function () { d._byUs = true; if (d.open) d.close(); d._closing = false; };
+    var fin = function () { d._byUs = true; if (d.open) d.close(); d._closing = false; d.classList.remove('is-closing'); };
     if (reduce.matches || !d.animate) { fin(); return; }
+    d.classList.add('is-closing');
     var kf = d.id === 'resume' ? zoomFrames(d, true) : null;
-    var anim = kf ? d.animate(kf, { duration: 300, easing: 'cubic-bezier(.4,0,.6,1)' })
-                  : d.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(6px) scale(.99)' }], { duration: 140, easing: 'ease-in' });
+    var anim = kf ? d.animate(kf, { duration: 520, easing: EASE_IN, fill: 'forwards' })
+                  : d.animate([{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(12px) scale(.96)' }], { duration: 380, easing: EASE_IN, fill: 'forwards' });
     anim.finished.then(fin, fin);
   }
   var prevKey = currentKey();

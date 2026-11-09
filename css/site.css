@@ -27,16 +27,15 @@ img{max-width:100%}
 .bands{position:relative;display:flex;flex-direction:column;height:100vh;height:100dvh;min-height:520px;background:var(--sep);overflow:hidden}
 .band{position:relative;flex:1 1 0%;min-height:0;background-color:var(--bg);background-image:var(--img);background-repeat:no-repeat;
   background-size:max(1440px,100%) auto;background-position:50% var(--py);
-  transition:flex-basis .45s cubic-bezier(.3,.7,.2,1)}
+  transition:flex-basis .8s cubic-bezier(.32,.72,0,1)}
 .band+.band{border-top:3px solid var(--sep)}
 .band-h{margin:0;font:inherit}
 .band-link{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-decoration:none;color:inherit;outline:0}
 .band-link:focus-visible{outline:3px solid #fff;outline-offset:-3px;box-shadow:inset 0 0 0 6px var(--sep)}
-.band-title{position:relative;display:inline-block;max-width:calc(100% - 24px);padding:8px 34px;border-radius:999px;
-  background:rgb(var(--halo) / var(--a));box-shadow:0 0 38px 26px rgb(var(--halo) / calc(var(--a) * .75));
-  color:var(--tx,var(--ink));font:800 clamp(22px,5.1vh,46px)/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;text-align:center;
-  transition:font-size .45s cubic-bezier(.3,.7,.2,1),padding .45s,box-shadow .45s}
-.band--top .band-title{font-size:clamp(20px,4.6vh,42px)}
+.band-title{position:relative;display:inline-block;max-width:calc(100% - 24px);padding:6px 26px;border-radius:999px;
+  background:rgb(var(--halo) / var(--a));box-shadow:0 0 26px 16px rgb(var(--halo) / calc(var(--a) * .75));
+  color:var(--tx,var(--ink));font:700 clamp(17px,3.2vh,29px)/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;text-align:center;
+  transition:font-size .8s cubic-bezier(.32,.72,0,1),padding .8s cubic-bezier(.32,.72,0,1),box-shadow .8s cubic-bezier(.32,.72,0,1)}
 
 /* each band: base colour, picture, vertical crop, and the halo that keeps the title at 7:1 */
 .band--top{--bg:#C58F7D;--img:url(../images/materials/iznik-band.webp);--py:30%;--halo:217 182 170;--a:.82}
@@ -71,15 +70,15 @@ img{max-width:100%}
 @media (min-width:760px){
   .bands.has-open .band{flex:0 0 48px}
   .bands.has-open .band.is-open{flex:1 1 0%}
-  .bands.has-open .band:not(.is-open) .band-title{padding:3px 20px;font-size:19px;box-shadow:0 0 20px 12px rgb(var(--halo) / calc(var(--a) * .75))}
+  .bands.has-open .band:not(.is-open) .band-title{padding:3px 16px;font-size:14px;box-shadow:0 0 16px 9px rgb(var(--halo) / calc(var(--a) * .75))}
   .band--skills.is-open{background-size:auto 282px;background-repeat:repeat}
   .band--top.is-open .tags{display:block}
 }
 @media (max-width:759px){
   .band{background-size:760px auto}
   .band--skills{background-size:auto 100%}
-  .band-title{padding:6px 20px;font-size:26px;box-shadow:0 0 22px 14px rgb(var(--halo) / calc(var(--a) * .75))}
-  .band--top .band-title{font-size:21px}
+  .band-title{padding:5px 18px;font-size:20px;letter-spacing:.12em;box-shadow:0 0 18px 11px rgb(var(--halo) / calc(var(--a) * .75))}
+  .band--top .band-title{font-size:16px}
   .band--top{--a:.86}
   .band--top{--img:url(../images/materials/iznik-band-sm.webp)}
   .band--work{--img:url(../images/materials/plaster-band-sm.webp)}
@@ -98,9 +97,11 @@ img{max-width:100%}
 .win--contact{width:min(560px,calc(100vw - 24px))}
 .win--resume{width:min(620px,calc(100vw - 24px));height:min(830px,calc(100dvh - 24px));box-shadow:0 18px 50px rgba(0,0,0,.45)}
 .win--page{width:100%;max-height:none;overflow:visible}
-.win::backdrop{background:rgba(248,244,235,.10);-webkit-backdrop-filter:blur(6px) saturate(1.2);backdrop-filter:blur(6px) saturate(1.2);animation:veil .2s ease-out}
+.win::backdrop{background:rgba(248,244,235,.10);-webkit-backdrop-filter:blur(6px) saturate(1.2);backdrop-filter:blur(6px) saturate(1.2);animation:veil .6s .08s cubic-bezier(.32,.72,0,1) backwards}
+.win.is-closing::backdrop{animation:veil-out .38s ease-in forwards}
 .win--resume::backdrop{background:rgba(20,16,12,.32);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 @keyframes veil{from{opacity:0}to{opacity:1}}
+@keyframes veil-out{from{opacity:1}to{opacity:0}}
 
 .win-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding:14px 12px 6px 24px;flex:none}
 .win-head h1,.win-head h2{margin:0;font:700 24px/1.2 var(--serif)}
@@ -287,7 +288,7 @@ pre code{font-size:inherit}
 
 @media (prefers-reduced-motion:reduce){
   .band,.band-title{transition:none}
-  .win::backdrop{animation:none}
+  .win::backdrop,.win.is-closing::backdrop{animation:none}
 }
 @media print{
   .bands,.skip{display:none}
