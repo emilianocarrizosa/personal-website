@@ -9,7 +9,8 @@ Build the Writing section of emilianocar.com.
 Reads  : _writing/*.md          (Markdown + a small front-matter block)
 Writes : writing/<slug>.html    one page per post
          index.html             the list inside the Writing window (only between the writing:* markers)
-         feed.xml               RSS feed
+         feed.xml               RSS feed (for feed readers)
+         subscribe.html         the page visitors see when they click "RSS feed"
          sitemap.xml            (only the /writing/ lines are touched)
 
 Front matter (top of each .md file, between two '---' lines):
@@ -146,7 +147,7 @@ def post_page(p):
 {p['content']}
     </div>
     <div class="prose-end"><p>Thoughts or corrections? <a href="mailto:emiliano.carrizosa@proton.me">Send me an email</a>.</p></div>
-    <div class="win-foot"><span class="tap"><a href="/#writing">All writing</a></span><span class="cap">{CAPTION}</span><span class="tap"><a href="/feed.xml">RSS feed</a></span></div>
+    <div class="win-foot"><span class="tap"><a href="/#writing">All writing</a></span><span class="cap">{CAPTION}</span><span class="tap"><a href="/subscribe.html">RSS feed</a></span></div>
   </article>
 </main>
 </body>
@@ -159,7 +160,7 @@ def list_markup(posts):
     if not posts:
         return ('<div class="w-empty-state"><h3>First article coming soon</h3>'
                 '<p>I’m starting to write about IT, security and the things I’m learning along the way. '
-                'Check back soon, or follow along with the <a href="feed.xml">RSS feed</a>.</p></div>')
+                'Check back soon, or follow along with the <a href="subscribe.html">RSS feed</a>.</p></div>')
     out = []
     for p in posts:
         hay = " ".join([p["title"], p["summary"], CATEGORIES[p["cat"]], " ".join(p["tags"])]).lower()
@@ -192,6 +193,60 @@ def inject_index(posts):
             sys.exit(f"index.html: marker {a} … {b} not found")
         text = pat.sub(lambda m: a + body + b, text, count=1)
     idx.write_text(text, encoding="utf-8")
+
+
+# ---------------------------------------------------------------- subscribe page
+def subscribe_page(posts):
+    feed_url = f"{SITE}/feed.xml"
+    if posts:
+        items = "".join(
+            f'<div class="post"><div class="when">{fmt_date(p["date"])}</div><div><h3><a href="/writing/{p["slug"]}.html">{esc(p["title"])}</a></h3>'
+            f'<p>{esc(p["summary"])}</p></div></div>' for p in posts[:5])
+        recent = f'<h2 class="item" style="margin:18px 0 8px">Latest in the feed</h2>{items}'
+    else:
+        recent = '<p class="cap">Nothing has been published yet. The feed will fill in when the first article goes up.</p>'
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+{MARKER}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Subscribe — {AUTHOR}</title>
+<meta name="description" content="Follow new writing by {AUTHOR} in a feed reader.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{SITE}/subscribe.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#1E1915">
+<link rel="alternate" type="application/rss+xml" title="{AUTHOR} — Writing" href="/feed.xml">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/site.css">
+</head>
+<body class="page theme-zellige">
+<a class="skip" href="#main">Skip to the page</a>
+<main id="main" class="sheet sheet--narrow">
+  <section class="win win--page" aria-labelledby="h-sub">
+    <div class="win-head"><div><h1 id="h-sub">Subscribe</h1><p class="win-sub">Follow new writing in a feed reader</p></div><span class="tap"><a href="/#writing">Close</a></span></div>
+    <div class="prose">
+      <p>An RSS feed lets a feed reader (Feedly, NetNewsWire, Inoreader and others) tell you when I publish something new, with no account or email needed. Copy this address into your reader:</p>
+      <p><code id="feed-url">{feed_url}</code></p>
+      <p class="contact-actions"><button type="button" class="btn js-only" id="copy-feed" data-url="{feed_url}">Copy feed address</button><a class="btn" href="/feed.xml">Open the raw feed</a><span class="copy-status" id="copy-status" role="status" aria-live="polite"></span></p>
+      {recent}
+    </div>
+    <div class="win-foot"><span class="tap"><a href="/#writing">Back to Writing</a></span><span class="cap">{CAPTION}</span></div>
+  </section>
+</main>
+<script>
+document.documentElement.className='js';
+var b=document.getElementById('copy-feed'),s=document.getElementById('copy-status');
+if(b)b.addEventListener('click',function(){{var u=b.getAttribute('data-url');
+ function done(ok){{s.textContent=ok?'Copied.':'Couldn\u2019t copy. Select the address above instead.';setTimeout(function(){{s.textContent=''}},3000)}}
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(function(){{done(true)}},function(){{done(false)}});else done(false)}});
+</script>
+</body>
+</html>
+"""
 
 
 # ---------------------------------------------------------------- feed + sitemap
@@ -264,12 +319,13 @@ def main():
 
     public = [p for p in shown if not p["draft"]]
     (ROOT / "feed.xml").write_text(feed(public), encoding="utf-8")
+    (ROOT / "subscribe.html").write_text(subscribe_page(public), encoding="utf-8")
     update_sitemap(public)
 
     if not any(OUT.iterdir()):
         OUT.rmdir()
     drafts = len([p for p in shown if p["draft"]])
-    print(f"Built {len(shown)} post(s) ({drafts} draft) -> index.html (Writing window), feed.xml, sitemap.xml")
+    print(f"Built {len(shown)} post(s) ({drafts} draft) -> index.html (Writing window), feed.xml, subscribe.html, sitemap.xml")
     for p in shown:
         print(f"  {'[draft] ' if p['draft'] else ''}{p['date']}  [{p['cat']}]  /writing/{p['slug']}.html  ({p['minutes']} min)")
 
