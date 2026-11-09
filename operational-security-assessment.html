@@ -1,173 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light">
-    <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#F3F3F3" media="(prefers-color-scheme: light)">
-    <title>Operational Security Assessment - Emiliano Carrizosa</title>
-    <meta name="description" content="A 47-page infrastructure security assessment built from passive OSINT — certificate transparency, DNS forensics, SPF analysis, risk quantification. By Emiliano Carrizosa.">
-    <link rel="canonical" href="https://emilianocar.com/operational-security-assessment.html">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Emiliano Carrizosa">
-    <meta property="og:title" content="Infrastructure Security Assessment">
-    <meta property="og:description" content="A 47-page infrastructure security assessment built from passive OSINT — certificate transparency, DNS forensics, SPF analysis, risk quantification. By Emiliano Carrizosa.">
-    <meta property="og:url" content="https://emilianocar.com/operational-security-assessment.html">
-    <meta property="og:image" content="https://emilianocar.com/og-image.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Infrastructure Security Assessment">
-    <meta name="twitter:description" content="A 47-page infrastructure security assessment built from passive OSINT — certificate transparency, DNS forensics, SPF analysis, risk quantification. By Emiliano Carrizosa.">
-    <meta name="twitter:image" content="https://emilianocar.com/og-image.png">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/bento.css">
-    <link rel="stylesheet" href="css/project.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Operational Security Assessment - Emiliano Carrizosa</title>
+<meta name="description" content="A 47-page infrastructure security assessment built from passive OSINT — certificate transparency, DNS forensics, SPF analysis, risk quantification. By Emiliano Carrizosa.">
+<link rel="canonical" href="https://emilianocar.com/operational-security-assessment.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#1E1915">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Emiliano Carrizosa">
+<meta property="og:title" content="Infrastructure Security Assessment">
+<meta property="og:description" content="A 47-page infrastructure security assessment built from passive OSINT — certificate transparency, DNS forensics, SPF analysis, risk quantification. By Emiliano Carrizosa.">
+<meta property="og:url" content="https://emilianocar.com/operational-security-assessment.html">
+<meta property="og:image" content="https://emilianocar.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Infrastructure Security Assessment">
+<meta name="twitter:description" content="A 47-page infrastructure security assessment built from passive OSINT — certificate transparency, DNS forensics, SPF analysis, risk quantification. By Emiliano Carrizosa.">
+<meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="css/site.css">
 </head>
-<body>
-    <a class="skip" href="#main">Skip to content</a>
-
-    <header class="top">
-        <div class="top-in">
-            <a class="back" href="index.html"><span aria-hidden="true">←</span> Home</a>
-            <nav aria-label="Primary">
-                <a href="work.html" aria-current="page">Work</a>
-                <a href="about.html">About</a>
-                <a href="experience.html">Experience</a>
-                <a href="services.html">Services</a>
-                <a href="skills.html">Skills</a>
-                <a href="writing.html">Writing</a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main id="main" class="page proj">
-        <!-- Project Header -->
-        <div class="project-header">
-            <a href="work.html" class="back-link">← Back to Work</a>
-            <h1 class="project-title">Operational Security Assessment</h1>
-            <p class="project-subtitle">Infrastructure Forensics Using Certificate Transparency, DNS Analysis & Compliance Modeling</p>
-            <p class="project-meta">January 2026 | Portfolio Case Study</p>
-            <div>
-                <span class="tag">#certificate-transparency</span>
-                <span class="tag">#dns-forensics</span>
-                <span class="tag">#osint</span>
-                <span class="tag">#compliance</span>
-                <span class="tag">#infrastructure-security</span>
-            </div>
-            <a href="mailto:emiliano.carrizosa@proton.me?subject=Operational%20Security%20Assessment%20Inquiry" class="contact-btn">Request Full Assessment</a>
-        </div>
-
-        <!-- Content -->
-        <div class="content">
-            <h2>Overview</h2>
-            <p>
-                I ran an independent security assessment of an e-commerce company's infrastructure using only
-                passive OSINT — Certificate Transparency logs, DNS records, and other publicly accessible data.
-                No unauthorized access, ever. The goal was to see what an attacker could learn about the
-                company before touching anything, then turn that into findings the business could act on, with
-                the risk translated into dollars rather than jargon.
-            </p>
-
-            <div class="section-box info">
-                <h4>Method &amp; ethics</h4>
-                <p>
-                    Everything came from non-invasive reconnaissance: <strong>dig</strong> and DNS history for
-                    enumeration and SPF analysis, <strong>crt.sh</strong> and Censys for certificate forensics,
-                    Shodan and SecurityTrails for fingerprinting, and the NVD/MITRE databases for CVE research.
-                    I scoped it deliberately to mirror real threat-actor reconnaissance while staying entirely
-                    within public information — the line that separates legitimate security research from
-                    intrusion.
-                </p>
-            </div>
-
-            <h2>Results</h2>
-            <div class="info-grid">
-                <div class="info-card">
-                    <div class="metric-highlight">$15–20K</div>
-                    <div class="metric-label">Est. Annual Waste</div>
-                    <p>Abandoned infrastructure still running and billing after migration.</p>
-                </div>
-                <div class="info-card">
-                    <div class="metric-highlight">40+</div>
-                    <div class="metric-label">Page Report</div>
-                    <p>Findings, risk quantification, and a phased remediation roadmap.</p>
-                </div>
-                <div class="info-card">
-                    <div class="metric-highlight">Multiple</div>
-                    <div class="metric-label">Critical Gaps</div>
-                    <p>Infrastructure, credential, and compliance exposures.</p>
-                </div>
-            </div>
-
-            <h2>What I Found</h2>
-
-            <div class="section-box alert">
-                <h4>Ghost infrastructure</h4>
-                <p>
-                    Certificate Transparency logs showed live SSL certificates for servers the company believed
-                    were decommissioned. Those "ghost" systems were still running outdated, unpatched software,
-                    still had DNS pointing at them, and were still costing roughly $15–20K a year — an attack
-                    surface nobody was watching and nobody meant to keep.
-                </p>
-            </div>
-
-            <div class="section-box alert">
-                <h4>Credential exposure</h4>
-                <p>
-                    Patterns in migration artifacts pointed to hardcoded API credentials with no expiration —
-                    the kind of long-lived, admin-level token that turns one leaked file into full access. The
-                    fix is a secrets-management platform with rotation and enforced token lifetimes.
-                </p>
-            </div>
-
-            <div class="section-box warning">
-                <h4>Compliance posture (NY SHIELD Act)</h4>
-                <p>
-                    Gaps against SHIELD's required safeguards — data handling, breach notification, technical
-                    controls. I modeled the potential financial exposure using IBM's breach-cost benchmarking so
-                    the recommendation came with a number attached, not just a checkbox.
-                </p>
-            </div>
-
-            <h2>Remediation</h2>
-            <p>
-                I didn't stop at findings. I laid out a phased plan — immediate cleanup (inventory and
-                decommission legacy systems, kill dangling DNS, rotate credentials), then proactive controls
-                (audit logging, infrastructure monitoring, secrets management), then the processes to keep it
-                that way. For the access-logging gap specifically, I built a working prototype rather than just
-                recommending one — that became the <a href="access-control-system.html">Access Control &amp;
-                Audit System</a> project.
-            </p>
-
-            <div class="section-box info">
-                <h4>Confidentiality</h4>
-                <p>
-                    Sanitized here to protect the client. The full methodology and findings are shared under
-                    NDA — handling sensitive material discreetly is part of the work, not a footnote.
-                    <a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a>
-                </p>
-            </div>
-
-            <h2>What I Took From It</h2>
-            <p>
-                Two things. First, how much an outsider can reconstruct from public data alone if they look
-                systematically — Certificate Transparency and DNS history are a paper trail of every change a
-                company forgets it made. Second, that a finding only matters once it's tied to business risk; a
-                CVE means nothing to a decision-maker until it's "$20K a year and a SHIELD Act exposure."
-            </p>
-        </div>
-    </main>
-    <!-- Footer -->
-    <footer class="foot">
-        <span>© 2026 Emiliano Carrizosa · New York, NY</span>
-        <a href="work.html">← Back to Work</a>
-    </footer>
-
+<body class="page theme-plaster">
+<a class="skip" href="#main">Skip to the write-up</a>
+<main id="main" class="sheet">
+  <article class="win win--page" aria-labelledby="h-title">
+    <div class="win-head"><div><h1 id="h-title">Operational Security Assessment</h1><p class="win-sub">Infrastructure Forensics Using Certificate Transparency, DNS Analysis &amp; Compliance Modeling</p></div><span class="tap"><a href="index.html#work">Close</a></span></div>
+    <div class="proj-grid">
+      <div class="proj-meta"><p>January 2026, Portfolio Case Study</p><p class="tags-line">certificate transparency, dns forensics, osint, compliance, infrastructure security</p><p class="cta"><a href="mailto:emiliano.carrizosa@proton.me?subject=Operational%20Security%20Assessment%20Inquiry">Request Full Assessment</a></p></div>
+      <div class="proj-main">
+<h2>Overview</h2><p>I ran an independent security assessment of an e-commerce company's infrastructure using only passive OSINT — Certificate Transparency logs, DNS records, and other publicly accessible data. No unauthorized access, ever. The goal was to see what an attacker could learn about the company before touching anything, then turn that into findings the business could act on, with the risk translated into dollars rather than jargon.</p><div class="box"><h3>Method &amp; ethics</h3><p>Everything came from non-invasive reconnaissance: <strong>dig</strong> and DNS history for enumeration and SPF analysis, <strong>crt.sh</strong> and Censys for certificate forensics, Shodan and SecurityTrails for fingerprinting, and the NVD/MITRE databases for CVE research. I scoped it deliberately to mirror real threat-actor reconnaissance while staying entirely within public information — the line that separates legitimate security research from intrusion.</p></div><h2>Results</h2><div class="fact"><p class="fact-line">$15–20K <em>est. annual waste</em></p><p>Abandoned infrastructure still running and billing after migration.</p></div><div class="fact"><p class="fact-line">40+ <em>page report</em></p><p>Findings, risk quantification, and a phased remediation roadmap.</p></div><div class="fact"><p class="fact-line">Multiple <em>critical gaps</em></p><p>Infrastructure, credential, and compliance exposures.</p></div><h2>What I Found</h2><div class="box"><h3>Ghost infrastructure</h3><p>Certificate Transparency logs showed live SSL certificates for servers the company believed were decommissioned. Those "ghost" systems were still running outdated, unpatched software, still had DNS pointing at them, and were still costing roughly $15–20K a year — an attack surface nobody was watching and nobody meant to keep.</p></div><div class="box"><h3>Credential exposure</h3><p>Patterns in migration artifacts pointed to hardcoded API credentials with no expiration — the kind of long-lived, admin-level token that turns one leaked file into full access. The fix is a secrets-management platform with rotation and enforced token lifetimes.</p></div><div class="box"><h3>Compliance posture (NY SHIELD Act)</h3><p>Gaps against SHIELD's required safeguards — data handling, breach notification, technical controls. I modeled the potential financial exposure using IBM's breach-cost benchmarking so the recommendation came with a number attached, not just a checkbox.</p></div><h2>Remediation</h2><p>I didn't stop at findings. I laid out a phased plan — immediate cleanup (inventory and decommission legacy systems, kill dangling DNS, rotate credentials), then proactive controls (audit logging, infrastructure monitoring, secrets management), then the processes to keep it that way. For the access-logging gap specifically, I built a working prototype rather than just recommending one — that became the <a href="access-control-system.html">Access Control &amp; Audit System</a> project.</p><div class="box"><h3>Confidentiality</h3><p>Sanitized here to protect the client. The full methodology and findings are shared under NDA — handling sensitive material discreetly is part of the work, not a footnote. <a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a></p></div><h2>What I Took From It</h2><p>Two things. First, how much an outsider can reconstruct from public data alone if they look systematically — Certificate Transparency and DNS history are a paper trail of every change a company forgets it made. Second, that a finding only matters once it's tied to business risk; a CVE means nothing to a decision-maker until it's "$20K a year and a SHIELD Act exposure."</p>
+      </div>
+      <div class="proj-facts"></div>
+    </div>
+    <div class="win-foot"><span class="tap"><a href="index.html#work">Back to Work</a></span><span class="cap">Hand-troweled plaster</span><span class="tap"><a href="air-gapped-llm.html">Next project</a></span></div>
+  </article>
+</main>
 </body>
 </html>

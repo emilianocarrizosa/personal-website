@@ -1,151 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light">
-    <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#F3F3F3" media="(prefers-color-scheme: light)">
-    <title>Secure Cross-Platform OS Migration - Emiliano Carrizosa</title>
-    <meta name="description" content="A zero-data-loss Windows-to-Linux migration with full-disk encryption added in the same window. Case study by Emiliano Carrizosa.">
-    <link rel="canonical" href="https://emilianocar.com/os-migration.html">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Emiliano Carrizosa">
-    <meta property="og:title" content="Secure Cross-Platform OS Migration">
-    <meta property="og:description" content="A zero-data-loss Windows-to-Linux migration with full-disk encryption added in the same window. Case study by Emiliano Carrizosa.">
-    <meta property="og:url" content="https://emilianocar.com/os-migration.html">
-    <meta property="og:image" content="https://emilianocar.com/og-image.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Secure Cross-Platform OS Migration">
-    <meta name="twitter:description" content="A zero-data-loss Windows-to-Linux migration with full-disk encryption added in the same window. Case study by Emiliano Carrizosa.">
-    <meta name="twitter:image" content="https://emilianocar.com/og-image.png">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/bento.css">
-    <link rel="stylesheet" href="css/project.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Secure Cross-Platform OS Migration - Emiliano Carrizosa</title>
+<meta name="description" content="A zero-data-loss Windows-to-Linux migration with full-disk encryption added in the same window. Case study by Emiliano Carrizosa.">
+<link rel="canonical" href="https://emilianocar.com/os-migration.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#1E1915">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Emiliano Carrizosa">
+<meta property="og:title" content="Secure Cross-Platform OS Migration">
+<meta property="og:description" content="A zero-data-loss Windows-to-Linux migration with full-disk encryption added in the same window. Case study by Emiliano Carrizosa.">
+<meta property="og:url" content="https://emilianocar.com/os-migration.html">
+<meta property="og:image" content="https://emilianocar.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Secure Cross-Platform OS Migration">
+<meta name="twitter:description" content="A zero-data-loss Windows-to-Linux migration with full-disk encryption added in the same window. Case study by Emiliano Carrizosa.">
+<meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="css/site.css">
 </head>
-<body>
-    <!-- Fixed Navigation -->
-    <a class="skip" href="#main">Skip to content</a>
-
-    <header class="top">
-        <div class="top-in">
-            <a class="back" href="index.html"><span aria-hidden="true">←</span> Home</a>
-            <nav aria-label="Primary">
-                <a href="work.html" aria-current="page">Work</a>
-                <a href="about.html">About</a>
-                <a href="experience.html">Experience</a>
-                <a href="services.html">Services</a>
-                <a href="skills.html">Skills</a>
-                <a href="writing.html">Writing</a>
-            </nav>
-        </div>
-    </header>
-
-    <main id="main" class="page proj">
-        <!-- Project Header -->
-        <div class="project-header">
-            <a href="work.html" class="back-link">← Back to Work</a>
-            <h1 class="project-title">Secure Cross-Platform OS Migration</h1>
-            <p class="project-subtitle">Windows to Linux with Zero Data Loss and Full Encryption</p>
-            <div class="project-meta">
-                September 2025 :: 
-                <span class="tag">#migration</span>
-                <span class="tag">#encryption</span>
-                <span class="tag">#linux</span>
-                <span class="tag">#system-administration</span>
-            </div>
-        </div>
-
-        <div class="content">
-            <h2>Overview</h2>
-            <p>
-                I migrated my main machine from Windows 10 to Arch Linux with zero data loss, and used the
-                migration window to add full-disk encryption at the same time. Migrations are where things go
-                wrong — destructive operations destroy data permanently, hardware refuses to cooperate, and a
-                failed cutover means downtime and expensive recovery. The whole point was to do a high-risk
-                transition deliberately enough that none of that happened.
-            </p>
-
-            <h2>How I Did It</h2>
-
-            <div class="phase-card">
-                <h4>1 · Plan and back up</h4>
-                <p>
-                    Before touching anything destructive, I inventoried the data, apps, and configs to preserve,
-                    identified Windows-only software that would need Linux alternatives or a VM, then made a
-                    verified, encrypted backup to external storage (VeraCrypt) with a rollback plan. The rule:
-                    no irreversible step until the backup is proven good.
-                </p>
-            </div>
-
-            <div class="phase-card">
-                <h4>2 · Install with encryption from the start</h4>
-                <p>
-                    A custom partition layout with separate boot, root, and home, then LUKS full-disk encryption
-                    deployed during the install — passphrase at boot, encrypted swap so nothing leaks to memory
-                    dumps, and GRUB configured with the right initramfs hooks for an encrypted root. Doing
-                    encryption now meant it didn't need to be a second project later.
-                </p>
-            </div>
-
-            <div class="phase-card">
-                <h4>3 · Make the hardware work</h4>
-                <p>
-                    This was the messy part. The MSI GS66 Stealth needed NVIDIA proprietary drivers and Optimus
-                    GPU switching configured by hand for sane laptop power management, plus TLP for battery life.
-                    Several USB-creation tools produced media that wouldn't boot before I found one that did —
-                    the kind of friction that's invisible until you hit it.
-                </p>
-            </div>
-
-            <div class="phase-card">
-                <h4>4 · Restore, harden, verify</h4>
-                <p>
-                    Restored data from the encrypted backup, set up the desktop and dev environment, kept a
-                    VirtualBox Windows VM for the few apps that needed it, then hardened: default-deny firewall,
-                    AppArmor profiles, Firejail for risky software. Last step was confirming every critical file
-                    came across intact — verifying zero data loss rather than assuming it.
-                </p>
-            </div>
-
-            <h2>Results</h2>
-            <div class="section-box success">
-                <p>Zero data loss — every critical file preserved and verified.</p>
-                <p>Planned window, no surprise downtime.</p>
-                <p>All hardware functional, including discrete GPU and power management.</p>
-                <p>Security improved in the same pass via full-disk encryption.</p>
-            </div>
-
-            <h2>What I Took From It</h2>
-            <p>
-                The migration succeeded because of the boring parts: a thorough pre-flight audit, a backup I
-                actually trusted, and validating each phase before moving to the next so errors couldn't
-                compound. If I did it again I'd test the boot media on the target hardware first and line up the
-                Windows-app alternatives earlier. The same methodology scales straight up to fleet and server
-                migrations — and folding encryption into the migration window is how you get a security upgrade
-                without standing up a separate project for it.
-            </p>
-            <div class="section-box info">
-                <h4>Evidence &amp; availability</h4>
-                <p>
-                    Built and run on my own hardware, so there's nothing client-confidential here — which means
-                    I can show the working parts. Configuration, scripts, and a full walkthrough are available on
-                    request.
-                    <!-- When a public repo is ready, add it here, e.g.: see the code at github.com/USER/REPO -->
-                </p>
-            </div>
-        </div>
-    </main>
-    <!-- Footer -->
-    <footer class="foot">
-        <span>© 2026 Emiliano Carrizosa · New York, NY</span>
-        <a href="work.html">← Back to Work</a>
-    </footer>
-
+<body class="page theme-plaster">
+<a class="skip" href="#main">Skip to the write-up</a>
+<main id="main" class="sheet">
+  <article class="win win--page" aria-labelledby="h-title">
+    <div class="win-head"><div><h1 id="h-title">Secure Cross-Platform OS Migration</h1><p class="win-sub">Windows to Linux with Zero Data Loss and Full Encryption</p></div><span class="tap"><a href="index.html#work">Close</a></span></div>
+    <div class="proj-grid">
+      <div class="proj-meta"><p>September 2025</p><p class="tags-line">migration, encryption, linux, system administration</p></div>
+      <div class="proj-main">
+<h2>Overview</h2><p>I migrated my main machine from Windows 10 to Arch Linux with zero data loss, and used the migration window to add full-disk encryption at the same time. Migrations are where things go wrong — destructive operations destroy data permanently, hardware refuses to cooperate, and a failed cutover means downtime and expensive recovery. The whole point was to do a high-risk transition deliberately enough that none of that happened.</p><h2>How I Did It</h2><div class="layer"><h3>1 · Plan and back up</h3><p>Before touching anything destructive, I inventoried the data, apps, and configs to preserve, identified Windows-only software that would need Linux alternatives or a VM, then made a verified, encrypted backup to external storage (VeraCrypt) with a rollback plan. The rule: no irreversible step until the backup is proven good.</p></div><div class="layer"><h3>2 · Install with encryption from the start</h3><p>A custom partition layout with separate boot, root, and home, then LUKS full-disk encryption deployed during the install — passphrase at boot, encrypted swap so nothing leaks to memory dumps, and GRUB configured with the right initramfs hooks for an encrypted root. Doing encryption now meant it didn't need to be a second project later.</p></div><div class="layer"><h3>3 · Make the hardware work</h3><p>This was the messy part. The MSI GS66 Stealth needed NVIDIA proprietary drivers and Optimus GPU switching configured by hand for sane laptop power management, plus TLP for battery life. Several USB-creation tools produced media that wouldn't boot before I found one that did — the kind of friction that's invisible until you hit it.</p></div><div class="layer"><h3>4 · Restore, harden, verify</h3><p>Restored data from the encrypted backup, set up the desktop and dev environment, kept a VirtualBox Windows VM for the few apps that needed it, then hardened: default-deny firewall, AppArmor profiles, Firejail for risky software. Last step was confirming every critical file came across intact — verifying zero data loss rather than assuming it.</p></div><h2>Results</h2><div class="box"><p>Zero data loss — every critical file preserved and verified.</p><p>Planned window, no surprise downtime.</p><p>All hardware functional, including discrete GPU and power management.</p><p>Security improved in the same pass via full-disk encryption.</p></div><h2>What I Took From It</h2><p>The migration succeeded because of the boring parts: a thorough pre-flight audit, a backup I actually trusted, and validating each phase before moving to the next so errors couldn't compound. If I did it again I'd test the boot media on the target hardware first and line up the Windows-app alternatives earlier. The same methodology scales straight up to fleet and server migrations — and folding encryption into the migration window is how you get a security upgrade without standing up a separate project for it.</p>
+      </div>
+      <div class="proj-facts"><section><h2 class="item">Evidence &amp; availability</h2><p>Built and run on my own hardware, so there's nothing client-confidential here — which means I can show the working parts. Configuration, scripts, and a full walkthrough are available on request. <!-- When a public repo is ready, add it here, e.g.: see the code at github.com/USER/REPO --></p><p><a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a></p></section></div>
+    </div>
+    <div class="win-foot"><span class="tap"><a href="index.html#work">Back to Work</a></span><span class="cap">Hand-troweled plaster</span><span class="tap"><a href="grapheneos.html">Next project</a></span></div>
+  </article>
+</main>
 </body>
 </html>

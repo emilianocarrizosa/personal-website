@@ -1,149 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light">
-    <meta name="theme-color" content="#161616" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#F3F3F3" media="(prefers-color-scheme: light)">
-    <title>Multi-Layer Endpoint Security Architecture - Emiliano Carrizosa</title>
-    <meta name="description" content="A defense-in-depth Linux workstation — user compartmentalization, sandboxing, browser hardening, and network controls. Case study by Emiliano Carrizosa.">
-    <link rel="canonical" href="https://emilianocar.com/endpoint-security.html">
-    <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Emiliano Carrizosa">
-    <meta property="og:title" content="Multi-Layer Endpoint Security">
-    <meta property="og:description" content="A defense-in-depth Linux workstation — user compartmentalization, sandboxing, browser hardening, and network controls. Case study by Emiliano Carrizosa.">
-    <meta property="og:url" content="https://emilianocar.com/endpoint-security.html">
-    <meta property="og:image" content="https://emilianocar.com/og-image.png">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Multi-Layer Endpoint Security">
-    <meta name="twitter:description" content="A defense-in-depth Linux workstation — user compartmentalization, sandboxing, browser hardening, and network controls. Case study by Emiliano Carrizosa.">
-    <meta name="twitter:image" content="https://emilianocar.com/og-image.png">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/bento.css">
-    <link rel="stylesheet" href="css/project.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Multi-Layer Endpoint Security Architecture - Emiliano Carrizosa</title>
+<meta name="description" content="A defense-in-depth Linux workstation — user compartmentalization, sandboxing, browser hardening, and network controls. Case study by Emiliano Carrizosa.">
+<link rel="canonical" href="https://emilianocar.com/endpoint-security.html">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#1E1915">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Emiliano Carrizosa">
+<meta property="og:title" content="Multi-Layer Endpoint Security">
+<meta property="og:description" content="A defense-in-depth Linux workstation — user compartmentalization, sandboxing, browser hardening, and network controls. Case study by Emiliano Carrizosa.">
+<meta property="og:url" content="https://emilianocar.com/endpoint-security.html">
+<meta property="og:image" content="https://emilianocar.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Multi-Layer Endpoint Security">
+<meta name="twitter:description" content="A defense-in-depth Linux workstation — user compartmentalization, sandboxing, browser hardening, and network controls. Case study by Emiliano Carrizosa.">
+<meta name="twitter:image" content="https://emilianocar.com/og-image.png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="css/site.css">
 </head>
-<body>
-    <!-- Fixed Navigation -->
-    <a class="skip" href="#main">Skip to content</a>
-
-    <header class="top">
-        <div class="top-in">
-            <a class="back" href="index.html"><span aria-hidden="true">←</span> Home</a>
-            <nav aria-label="Primary">
-                <a href="work.html" aria-current="page">Work</a>
-                <a href="about.html">About</a>
-                <a href="experience.html">Experience</a>
-                <a href="services.html">Services</a>
-                <a href="skills.html">Skills</a>
-                <a href="writing.html">Writing</a>
-            </nav>
-        </div>
-    </header>
-
-    <main id="main" class="page proj">
-        <!-- Project Header -->
-        <div class="project-header">
-            <a href="work.html" class="back-link">← Back to Work</a>
-            <h1 class="project-title">Multi-Layer Endpoint Security Architecture</h1>
-            <p class="project-subtitle">Defense-in-Depth System Hardening for Business Workstations</p>
-            <div class="project-meta">
-                November 2025 :: 
-                <span class="tag">#endpoint-security</span>
-                <span class="tag">#hardening</span>
-                <span class="tag">#defense-in-depth</span>
-                <span class="tag">#sandboxing</span>
-            </div>
-        </div>
-
-        <div class="content">
-            <h2>Overview</h2>
-            <p>
-                I hardened a Linux workstation using defense-in-depth, on the principle that a single
-                compromised endpoint shouldn't hand an attacker everything. A typical single-profile machine
-                has no internal boundaries — one bad browser session or stolen credential reaches every file
-                and every account. I built several independent layers so that when one fails, the others are
-                still standing.
-            </p>
-
-            <h2>The Layers</h2>
-
-            <div class="layer-card">
-                <h4>User compartmentalization</h4>
-                <p>
-                    Separate profiles for separate contexts — Admin (the only profile with sudo), Work,
-                    Personal, and an Experimental profile for untrusted software — each with its own home
-                    directory, credentials, and browser sessions. A compromise in one doesn't cross into the
-                    others.
-                </p>
-            </div>
-
-            <div class="layer-card">
-                <h4>Application sandboxing (Firejail)</h4>
-                <p>
-                    Browsers and other high-risk apps run with restricted filesystem access. If a browser is
-                    fully compromised, the malware is boxed into the sandbox — no reach into documents, other
-                    apps, or the rest of the system.
-                </p>
-            </div>
-
-            <div class="layer-card">
-                <h4>Browser hardening (arkenfox)</h4>
-                <p>
-                    A hardened Firefox profile: WebRTC disabled to stop IP leaks, first-party isolation and
-                    fingerprinting resistance against cross-site tracking, DNS-over-HTTPS, HTTPS-only, telemetry
-                    off, and a deliberately minimal extension set (uBlock Origin plus container tabs).
-                </p>
-            </div>
-
-            <div class="layer-card">
-                <h4>Network &amp; storage</h4>
-                <p>
-                    ProtonVPN with a kill switch so a dropped tunnel doesn't leak traffic, a default-deny UFW
-                    firewall, and LUKS full-disk encryption with encrypted swap carried over from my OS
-                    migration work.
-                </p>
-            </div>
-
-            <h2>Stack</h2>
-            <div class="tech-specs">
-                <h4>Platform</h4>
-                <p>Arch Linux, hardened configuration</p>
-                <p>Firejail sandboxing with custom profiles</p>
-                <p>Firefox + arkenfox user.js</p>
-                <p>ProtonVPN (kill switch) · UFW · LUKS full-disk encryption</p>
-            </div>
-
-            <h2>What I Took From It</h2>
-            <p>
-                The real lesson was about restraint. My first pass at arkenfox hardening was aggressive enough
-                that it quietly broke everyday workflows — and security that gets in the way is security people
-                turn off. I ended up writing custom overrides that kept the protection while letting the work
-                happen, which is the actual job: making the secure path the usable one. These are software
-                versions of mobile isolation concepts (Android's per-app sandboxes and profiles); a laptop
-                can't match hardware-backed verified boot, but the compartmentalization gets you most of the way.
-            </p>
-            <div class="section-box info">
-                <h4>Evidence &amp; availability</h4>
-                <p>
-                    Built and run on my own hardware, so there's nothing client-confidential here — which means
-                    I can show the working parts. Configuration, scripts, and a full walkthrough are available on
-                    request.
-                    <!-- When a public repo is ready, add it here, e.g.: see the code at github.com/USER/REPO -->
-                </p>
-            </div>
-        </div>
-    </main>
-    <!-- Footer -->
-    <footer class="foot">
-        <span>© 2026 Emiliano Carrizosa · New York, NY</span>
-        <a href="work.html">← Back to Work</a>
-    </footer>
-
+<body class="page theme-plaster">
+<a class="skip" href="#main">Skip to the write-up</a>
+<main id="main" class="sheet">
+  <article class="win win--page" aria-labelledby="h-title">
+    <div class="win-head"><div><h1 id="h-title">Multi-Layer Endpoint Security Architecture</h1><p class="win-sub">Defense-in-Depth System Hardening for Business Workstations</p></div><span class="tap"><a href="index.html#work">Close</a></span></div>
+    <div class="proj-grid">
+      <div class="proj-meta"><p>November 2025</p><p class="tags-line">endpoint security, hardening, defense in depth, sandboxing</p></div>
+      <div class="proj-main">
+<h2>Overview</h2><p>I hardened a Linux workstation using defense-in-depth, on the principle that a single compromised endpoint shouldn't hand an attacker everything. A typical single-profile machine has no internal boundaries — one bad browser session or stolen credential reaches every file and every account. I built several independent layers so that when one fails, the others are still standing.</p><h2>The Layers</h2><div class="layer"><h3>User compartmentalization</h3><p>Separate profiles for separate contexts — Admin (the only profile with sudo), Work, Personal, and an Experimental profile for untrusted software — each with its own home directory, credentials, and browser sessions. A compromise in one doesn't cross into the others.</p></div><div class="layer"><h3>Application sandboxing (Firejail)</h3><p>Browsers and other high-risk apps run with restricted filesystem access. If a browser is fully compromised, the malware is boxed into the sandbox — no reach into documents, other apps, or the rest of the system.</p></div><div class="layer"><h3>Browser hardening (arkenfox)</h3><p>A hardened Firefox profile: WebRTC disabled to stop IP leaks, first-party isolation and fingerprinting resistance against cross-site tracking, DNS-over-HTTPS, HTTPS-only, telemetry off, and a deliberately minimal extension set (uBlock Origin plus container tabs).</p></div><div class="layer"><h3>Network &amp; storage</h3><p>ProtonVPN with a kill switch so a dropped tunnel doesn't leak traffic, a default-deny UFW firewall, and LUKS full-disk encryption with encrypted swap carried over from my OS migration work.</p></div><h2>What I Took From It</h2><p>The real lesson was about restraint. My first pass at arkenfox hardening was aggressive enough that it quietly broke everyday workflows — and security that gets in the way is security people turn off. I ended up writing custom overrides that kept the protection while letting the work happen, which is the actual job: making the secure path the usable one. These are software versions of mobile isolation concepts (Android's per-app sandboxes and profiles); a laptop can't match hardware-backed verified boot, but the compartmentalization gets you most of the way.</p>
+      </div>
+      <div class="proj-facts"><section><h2 class="item">Stack</h2><p>Arch Linux, hardened configuration</p><p>Firejail sandboxing with custom profiles</p><p>Firefox + arkenfox user.js</p><p>ProtonVPN (kill switch) · UFW · LUKS full-disk encryption</p></section><section><h2 class="item">Evidence &amp; availability</h2><p>Built and run on my own hardware, so there's nothing client-confidential here — which means I can show the working parts. Configuration, scripts, and a full walkthrough are available on request. <!-- When a public repo is ready, add it here, e.g.: see the code at github.com/USER/REPO --></p><p><a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a></p></section></div>
+    </div>
+    <div class="win-foot"><span class="tap"><a href="index.html#work">Back to Work</a></span><span class="cap">Hand-troweled plaster</span><span class="tap"><a href="os-migration.html">Next project</a></span></div>
+  </article>
+</main>
 </body>
 </html>

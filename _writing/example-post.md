@@ -1,6 +1,7 @@
 ---
 title: How I checked a login system for tamper evidence
 date: 2026-10-11
+category: tech
 summary: A sample post that shows every formatting option available on the Writing page. Safe to delete.
 tags: example, security, notes
 draft: true
