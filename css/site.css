@@ -275,7 +275,7 @@ pre code{font-size:inherit}
 .js .js-only{display:inline-flex}
 
 @media (prefers-reduced-motion:reduce){
-  .js body,.js .band{animation:none}
+  .js body{animation:none}
   .win::backdrop,.win.is-closing::backdrop{animation:none}
 }
 @media print{
@@ -340,4 +340,5 @@ pre code{font-size:inherit}
   .cat-mid{grid-area:mid}
   .cat-prev{grid-area:prev}.cat-next{grid-area:next}
 }
-@media (prefers-reduced-motion:reduce){.js body,.js .band{animation:none}}
+/* a fade is not movement, so it stays for people who asked for reduced motion, just quicker */
+@media (prefers-reduced-motion:reduce){.js body:not(.home){animation:none}.js .band{animation-duration:.5s;animation-delay:calc(var(--i,0) * 80ms)}}
