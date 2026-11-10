@@ -275,7 +275,7 @@ pre code{font-size:inherit}
 .js .js-only{display:inline-flex}
 
 @media (prefers-reduced-motion:reduce){
-  .js body{animation:none}
+  .js body,.js .band{animation:none}
   .win::backdrop,.win.is-closing::backdrop{animation:none}
 }
 @media print{
@@ -321,7 +321,11 @@ pre code{font-size:inherit}
 
 /* ---------- One calm entrance: the page comes up out of the white wall, once ---------- */
 @keyframes page-in{from{opacity:0}to{opacity:1}}
-.js body{animation:page-in 1s ease-out backwards}
+.js body:not(.home){animation:page-in 1s ease-out backwards}
+/* home: the eight bands come up one after another, top to bottom */
+.js .band{animation:page-in .9s ease-out backwards;animation-delay:calc(var(--i,0) * 140ms + 120ms)}
+.band:nth-child(1){--i:0}.band:nth-child(2){--i:1}.band:nth-child(3){--i:2}.band:nth-child(4){--i:3}
+.band:nth-child(5){--i:4}.band:nth-child(6){--i:5}.band:nth-child(7){--i:6}.band:nth-child(8){--i:7}
 
 /* ---------- Catalogue navigation at the foot of each project ---------- */
 .cat-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:0 24px;margin:8px 40px 0;padding:18px 0 20px;border-top:1px solid var(--rule)}
@@ -336,3 +340,4 @@ pre code{font-size:inherit}
   .cat-mid{grid-area:mid}
   .cat-prev{grid-area:prev}.cat-next{grid-area:next}
 }
+@media (prefers-reduced-motion:reduce){.js body,.js .band{animation:none}}
