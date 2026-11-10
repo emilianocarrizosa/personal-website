@@ -136,7 +136,7 @@ def post_page(p):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/site.css?v=2026111017">
 </head>
 <body class="page theme-zellige">
 <a class="skip" href="#main">Skip to the article</a>
@@ -221,7 +221,7 @@ def subscribe_page(posts):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/site.css?v=2026111017">
 </head>
 <body class="page theme-zellige">
 <a class="skip" href="#main">Skip to the page</a>
