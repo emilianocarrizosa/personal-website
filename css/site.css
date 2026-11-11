@@ -37,6 +37,8 @@ html:has(dialog[open]){overflow:hidden}
 .band:not(.band--top){counter-increment:room}
 .band-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;margin-top:12px;font:400 19px/1.25 var(--serif);letter-spacing:.005em}
 .band:not(.band--top) .band-title::before{content:counter(room,decimal-leading-zero);font-size:14px;opacity:.55;font-variant-numeric:tabular-nums}
+.band:not(.band--top) .band-title{display:grid;grid-template-columns:auto 1fr;gap:0 10px;align-items:baseline}
+.band:not(.band--top) .band-sub{grid-column:2}
 .band-sub{display:inline;margin:0;font-size:14.5px;font-style:italic;opacity:.72;letter-spacing:0}
 /* masthead: the name, set large, with a short line at the right */
 .band--top{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:0 28px;align-items:start;margin-bottom:8px}
@@ -47,17 +49,22 @@ html:has(dialog[open]){overflow:hidden}
 .wall-text{grid-column:1/-1;margin:28px 0 0;padding-top:14px;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:14px;line-height:1.2;letter-spacing:.01em}
 .wall-text a{display:inline-block;padding:10px 2px}
 
-/* where each picture hangs (wide screens): rectangles of different shapes, fitted together */
+/* where each picture hangs (wide screens): a symmetric modular grid, every edge on a grid line */
 .band--top{grid-row:1}
 @media (min-width:760px){
-  .band--work{grid-column:1/7;grid-row:2/4;--ar:4/5}
-  .band--about{grid-column:7/13;grid-row:2;--ar:16/9}
-  .band--experience{grid-column:7/13;grid-row:3;--ar:21/9}
-  .band--services{grid-column:1/5;grid-row:4;--ar:4/5}
-  .band--skills{grid-column:5/8;grid-row:4;margin-top:70px;--ar:1}
-  .band--writing{grid-column:8/13;grid-row:4;margin-top:20px;--ar:3/2}
-  .band--contact{grid-column:1/13;grid-row:5;--ar:5/1}
-  .wall-text{grid-row:6}
+  .bands{grid-template-rows:auto repeat(9,92px) auto}
+  .band:not(.band--top){align-self:stretch;display:flex;flex-direction:column;min-height:0}
+  .band:not(.band--top) .band-h{flex:1 1 0;min-height:0;display:flex}
+  .band:not(.band--top) .band-link{flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+  .band:not(.band--top) .band-img{flex:1 1 0;min-height:0;aspect-ratio:auto}
+  .band--work{grid-column:4/10;grid-row:2/8}
+  .band--about{grid-column:1/4;grid-row:2/4}
+  .band--experience{grid-column:10/13;grid-row:2/4}
+  .band--services{grid-column:1/4;grid-row:4/8}
+  .band--skills{grid-column:10/13;grid-row:4/8}
+  .band--writing{grid-column:1/7;grid-row:8/11}
+  .band--contact{grid-column:7/13;grid-row:8/11}
+  .wall-text{grid-row:11}
 }
 
 /* each tile: base colour, picture and horizontal crop */
@@ -88,7 +95,7 @@ html:has(dialog[open]){overflow:hidden}
   .band--writing{--ar:3/2}.band--contact{--ar:3/1}
   .mast-tag{margin:10px 0 0}
   .band-title{margin-top:9px;font-size:17px}
-  .band:not(.band--top) .band-title{flex-direction:column;gap:1px}
+  .band:not(.band--top) .band-title{display:flex;flex-direction:column;gap:1px}
   .wall-text{font-size:13px}
 }
 
