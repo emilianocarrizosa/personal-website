@@ -149,9 +149,9 @@ def post_page(p, newer=None, older=None):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css?v=2026111127">
+<link rel="stylesheet" href="/css/site.css?v=2026111128">
 <script>(function(d){{var r=false,m=null;try{{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}}catch(e){{}}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))}})(document.documentElement)</script>
-<script src="/js/motion.js?v=2026111127" defer></script>
+<script src="/js/motion.js?v=2026111128" defer></script>
 </head>
 <body class="page theme-zellige">
 <a class="skip" href="#main">Skip to the article</a>
@@ -174,16 +174,44 @@ def post_page(p, newer=None, older=None):
 
 
 # ---------------------------------------------------------------- list inside index.html
+# While there are no published posts, show a placeholder layout (lorem ipsum) so the section can be judged.
+# It disappears by itself as soon as the first real post is published. Set to False for the plain
+# "First article coming soon" message instead.
+PLACEHOLDER = True
+_LOREM = [
+    ("Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+     "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."),
+    ("Duis aute irure dolor in reprehenderit in voluptate",
+     "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+    ("Nemo enim ipsam voluptatem quia voluptas sit",
+     "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit."),
+]
+
+
+def placeholder_markup():
+    out = []
+    for i, (t, s) in enumerate(_LOREM):
+        lead = " post--lead" if i == 0 else ""
+        out.append(f'<article class="post post--ph{lead}" data-cat="tech" data-year="2026" data-search="lorem ipsum">'
+                   f'<div class="when">Month 00, 0000</div>'
+                   f'<div><h3>{t}</h3><p>{s}</p>'
+                   f'<p class="by"><em>0 min read</em> · Kind</p></div></article>')
+    return "\n".join(out)
+
+
 def list_markup(posts):
     if not posts:
+        if PLACEHOLDER:
+            return placeholder_markup()
         return ('<div class="w-empty-state"><h3>First article coming soon</h3>'
                 '<p>I’m starting to write about IT, security and the things I’m learning along the way. '
                 'Check back soon, or follow along with the <a href="subscribe.html">RSS feed</a>.</p></div>')
     out = []
-    for p in posts:
+    for i, p in enumerate(posts):
         hay = " ".join([p["title"], p["summary"], CATEGORIES[p["cat"]], " ".join(p["tags"])]).lower()
         label = f"Draft · {fmt_date(p['date'])}" if p["draft"] else fmt_date(p["date"])
-        out.append(f'<article class="post" data-cat="{p["cat"]}" data-year="{p["date"].year}" data-search="{esc(hay, quote=True)}">'
+        lead = " post--lead" if i == 0 and len(posts) > 1 else ""
+        out.append(f'<article class="post{lead}" data-cat="{p["cat"]}" data-year="{p["date"].year}" data-search="{esc(hay, quote=True)}">'
                    f'<div class="when">{label}</div>'
                    f'<div><h3><a href="writing/{p["slug"]}.html">{esc(p["title"])}</a></h3><p>{esc(p["summary"])}</p>'
                    f'<p class="by"><em>{p["minutes"]} min read</em> · {CATEGORIES[p["cat"]]}</p></div></article>')
@@ -239,9 +267,9 @@ def subscribe_page(posts):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css?v=2026111127">
+<link rel="stylesheet" href="/css/site.css?v=2026111128">
 <script>(function(d){{var r=false,m=null;try{{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}}catch(e){{}}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))}})(document.documentElement)</script>
-<script src="/js/motion.js?v=2026111127" defer></script>
+<script src="/js/motion.js?v=2026111128" defer></script>
 </head>
 <body class="page theme-zellige">
 <a class="skip" href="#main">Skip to the page</a>
