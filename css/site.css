@@ -137,9 +137,10 @@ img{max-width:100%}
 .beyond .sub{margin:0 0 14px}
 .beyond-grid{display:grid;grid-template-columns:minmax(0,280px) 1fr;gap:0 30px;align-items:end}
 .snap{margin:0}
-.beyond-text{display:grid;align-content:end}
+.beyond-text{display:flex;flex-direction:column;justify-content:space-between;align-self:stretch}
+.beyond-copy p{margin:0 0 10px}
 .snap img{display:block;width:100%;height:auto;border:1px solid #000}
-.snap-cap{margin:0;font-style:italic;display:inline-block;justify-self:start;padding-top:7px;border-top:1px solid #000;min-width:56px}
+.snap-cap{margin:0;font-style:italic;display:inline-block;align-self:flex-start;padding-top:7px;border-top:1px solid #000;min-width:56px}
 .after-lead{margin-bottom:18px!important}
 
 /* Services / Skills */
