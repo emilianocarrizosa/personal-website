@@ -24,11 +24,11 @@ img{max-width:100%}
 .win-body:focus-visible{outline-offset:-3px}
 
 /* ---------- Home: an editorial spread. Squares hung on a quiet wall, staggered, with room around each ---------- */
-.bands{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:64px 28px;align-items:start;max-width:1280px;margin:0 auto;padding:64px clamp(24px,6.9vw,88px) 36px;background:var(--wall)}
+.bands{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:40px 28px;align-items:start;max-width:1280px;margin:0 auto;padding:64px clamp(24px,6.9vw,88px) 36px;background:var(--wall)}
 .band{position:relative;min-width:0}
 .band-h{margin:0;font:inherit}
 .band-link{position:relative;z-index:1;display:block;color:inherit;text-decoration:none;outline:0}
-.band-img{position:relative;display:block;aspect-ratio:var(--ar,1);background-color:var(--bg);background-image:var(--img),var(--lqip,none);background-repeat:no-repeat,no-repeat;background-size:cover,cover;background-position:var(--px,50%) 50%,50% 50%}
+.band-img{position:relative;display:block;aspect-ratio:var(--ar,1);background-color:var(--bg);background-image:var(--img),var(--lqip,none);background-repeat:no-repeat,no-repeat;background-size:cover,cover;background-position:var(--px,50%) var(--py,50%),50% 50%}
 .band-link:focus-visible .band-img{outline:3px solid var(--link);outline-offset:3px}
 /* caption under each picture: number, title, then the material in italics */
 html{scrollbar-gutter:stable}
@@ -47,25 +47,27 @@ html:has(dialog[open]){overflow:hidden}
 .wall-text{grid-column:1/-1;margin:28px 0 0;padding-top:14px;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:14px;line-height:1.2;letter-spacing:.01em}
 .wall-text a{display:inline-block;padding:10px 2px}
 
-/* where each picture hangs (wide screens) */
+/* where each picture hangs (wide screens): rectangles of different shapes, fitted together */
+.band--top{grid-row:1}
 @media (min-width:760px){
-  .band--work{grid-column:1/6}
-  .band--about{grid-column:7/10;margin-top:110px}
-  .band--experience{grid-column:10/13}
-  .band--services{grid-column:2/5}
-  .band--skills{grid-column:7/10;margin-top:90px}
-  .band--writing{grid-column:1/7;--ar:4/3}
-  .band--contact{grid-column:9/12;margin-top:130px}
+  .band--work{grid-column:1/7;grid-row:2/4;--ar:4/5}
+  .band--about{grid-column:7/13;grid-row:2;--ar:16/9}
+  .band--experience{grid-column:7/13;grid-row:3;--ar:21/9}
+  .band--services{grid-column:1/5;grid-row:4;--ar:4/5}
+  .band--skills{grid-column:5/8;grid-row:4;margin-top:70px;--ar:1}
+  .band--writing{grid-column:8/13;grid-row:4;margin-top:20px;--ar:3/2}
+  .band--contact{grid-column:1/13;grid-row:5;--ar:5/1}
+  .wall-text{grid-row:6}
 }
 
 /* each tile: base colour, picture and horizontal crop */
-.band--work{--bg:#EDE6DA;--img:url(../images/materials/plaster-band.webp)}
+.band--work{--bg:#EDE6DA;--img:url(../images/materials/plaster-page.webp)}
 .band--about{--bg:#B7C7AE;--img:url(../images/materials/celadon-band.webp)}
 .band--experience{--bg:#A9B9C8;--img:url(../images/materials/azulejo-band.webp);--px:40%}
 .band--services{--bg:#E0A878;--img:url(../images/materials/kakiemon-band.webp);--px:78%}
 .band--skills{--bg:#6F685F;--img:url(../images/materials/talavera-tile.webp)}
 .band--writing{--bg:#B56F76;--img:url(../images/materials/zellige-band.webp)}
-.band--contact{--bg:#E3CFAE;--img:url(../images/materials/sandstone-band.webp)}
+.band--contact{--bg:#E3CFAE;--img:url(../images/materials/sandstone-band.webp);--py:55%}
 
 /* tiny blurred previews that show while each band photo loads */
 .band--top{--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAAAwAwCdASogAA0APrVKnkonJCKhsAgA4BaJZACdAGFVQghIAPZgpfd2ww5inIbJFeSwiYLoa9sItfpkQy4BUPCQGuAqX6fMfSPtn8eZAOnNkllb+GxJHmuqO1tDl17Nf6RNAI1KeCRu++uVRO2ywxe8KwmV3Sq/GNO3bQA1huP0Mxl6p3H/s7e3fnrZcnsobhwoBWmt4ra4Wi0vm6O0dPBG4qbmEyfDcAA=)}
@@ -78,11 +80,13 @@ html:has(dialog[open]){overflow:hidden}
 
 
 @media (max-width:759px){
-  .bands{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 14px;padding:28px 18px 24px}
-  .band--top,.band--work,.band--writing{grid-column:1/-1}
-  .band--top{display:block;margin-bottom:0}
+  .bands{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 14px;padding:28px 18px 24px}
+  .band--top{grid-column:1/-1;display:block;margin-bottom:0}
+  .band--work,.band--about,.band--experience,.band--writing,.band--contact{grid-column:1/-1}
+  .band--work{--ar:3/4}.band--about{--ar:16/9}.band--experience{--ar:21/9}
+  .band--services{--ar:4/5}.band--skills{--ar:1;margin-top:34px}
+  .band--writing{--ar:3/2}.band--contact{--ar:3/1}
   .mast-tag{margin:10px 0 0}
-  .band--writing{--ar:4/3}
   .band-title{margin-top:9px;font-size:17px}
   .band:not(.band--top) .band-title{flex-direction:column;gap:1px}
   .wall-text{font-size:13px}
@@ -331,7 +335,7 @@ pre code{font-size:inherit}
 .band-img::after{content:"";position:absolute;inset:0;background:var(--wall);opacity:0;pointer-events:none;transition:opacity .16s ease}
 /* bridge the gaps between tiles so crossing one never drops the spotlight */
 @media (hover:hover){
-  .band:not(.band--top)::before{content:"";position:absolute;inset:-16px -14px;z-index:0}
+  .band:not(.band--top)::before{content:"";position:absolute;inset:-20px -14px;z-index:0}
   .bands:has(.band:not(.band--top):hover) .band:not(:hover) .band-img::after{opacity:.62}
 }
 .bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible)) .band-img::after{opacity:.62}
