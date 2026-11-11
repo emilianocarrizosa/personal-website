@@ -80,8 +80,14 @@ def parse(path: Path):
     slug = re.sub(r"[^a-z0-9-]+", "-", (meta.get("slug") or path.stem).lower()).strip("-")
     tags = [re.sub(r"[^a-z0-9-]+", "-", t.strip().lower()).strip("-")
             for t in meta.get("tags", "").split(",") if t.strip()]
+    # editorial extras: {{pull: a line to set large}} on its own line, {{note: a margin note}} inline
+    body = re.sub(r"^\{\{pull:\s*(.+?)\}\}\s*$", lambda m: '\n<aside class="pull" role="note">' + m.group(1) + '</aside>\n', body, flags=re.M)
+    body = re.sub(r"\{\{note:\s*(.+?)\}\}", lambda m: '<span class="note" role="note">' + m.group(1) + '</span>', body)
     md = markdown.Markdown(extensions=["extra", "sane_lists", "smarty"])
     content = md.convert(body)
+    # an image with a title becomes a numbered figure: ![alt](/path.png "Caption")
+    content = re.sub(r'<p><img ([^>]*?)\s*title="([^"]*)"([^>]*?)\s*/?></p>',
+                     lambda m: f'<figure><img {m.group(1)} {m.group(3)}><figcaption>{m.group(2)}</figcaption></figure>'.replace("  ", " "), content)
     plain = re.sub(r"<[^>]+>", " ", content)
     plain = html.unescape(re.sub(r"\s+", " ", plain)).strip()
     words = len(plain.split())
@@ -149,15 +155,17 @@ def post_page(p, newer=None, older=None):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css?v=2026111128">
+<link rel="stylesheet" href="/css/site.css?v=2026111131">
 <script>(function(d){{var r=false,m=null;try{{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}}catch(e){{}}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))}})(document.documentElement)</script>
-<script src="/js/motion.js?v=2026111128" defer></script>
+<script src="/js/motion.js?v=2026111131" defer></script>
+<script src="/js/read.js?v=2026111131" defer></script>
 </head>
 <body class="page theme-zellige">
+<div class="read-bar" aria-hidden="true"><span></span></div>
 <a class="skip" href="#main">Skip to the article</a>
 <main id="main" class="sheet sheet--narrow">
   <article class="win win--page win--article" aria-labelledby="h-post">
-    <div class="win-head"><div><h1 id="h-post">{esc(p['title'])}</h1>{sub}</div><span class="tap"><a href="/#writing">Close</a></span></div>
+    <div class="win-head"><div><p class="kicker">{CATEGORIES[p["cat"]]}</p><h1 id="h-post">{esc(p['title'])}</h1>{sub}</div><span class="tap"><a href="/#writing">Close</a></span></div>
     {standfirst}
     {glance}
     <div class="prose">
@@ -267,9 +275,9 @@ def subscribe_page(posts):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css?v=2026111128">
+<link rel="stylesheet" href="/css/site.css?v=2026111131">
 <script>(function(d){{var r=false,m=null;try{{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}}catch(e){{}}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))}})(document.documentElement)</script>
-<script src="/js/motion.js?v=2026111128" defer></script>
+<script src="/js/motion.js?v=2026111131" defer></script>
 </head>
 <body class="page theme-zellige">
 <a class="skip" href="#main">Skip to the page</a>

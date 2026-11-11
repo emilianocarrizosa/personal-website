@@ -9,6 +9,11 @@ Posts appear in the **Writing** window on the home page (and get their own page 
    - `tags:` optional, comma separated (searchable)
    - `draft: true` while it's unfinished; remove the line (or set `false`) to publish.
 3. Put images in `images/writing/` and reference them as `![Alt text](/images/writing/name.png)`.
+   Editorial extras (all optional):
+   - `{{pull: One sentence to set large.}}` on its own line makes a pull quote.
+   - `{{note: A short aside.}}` at the end of a paragraph makes a margin note (beside the text on wide screens).
+   - `![Alt text](/images/writing/name.png "Caption")` (with a caption in quotes) makes a numbered figure.
+   - A line with just `---` makes a section break. The first letter of every article is a drop cap automatically.
 4. Build:  `pip install markdown` (once), then `python3 _tools/build_writing.py`
    Preview drafts locally with `--include-drafts` (never commit that build).
 5. Commit `_writing/`, `writing/`, `index.html`, `feed.xml`, `sitemap.xml`, `images/writing/` and push.

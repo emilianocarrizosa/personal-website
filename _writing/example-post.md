@@ -13,7 +13,11 @@ This is a **sample draft** to show how an article looks. It is marked `draft: tr
 
 Paragraphs are plain text. You can add [links](https://emilianocar.com), *emphasis*, **strong text** and `inline code`. Straight "quotes" become curly ones automatically.
 
-> A blockquote is good for a line you want to pull out, or for quoting another source.
+> A blockquote is for quoting another source.
+
+{{pull: A pull quote sets one sentence from the piece large between paragraphs.}}
+
+A margin note sits beside the text on wide screens. Use it for an aside or a source.{{note: Like this one. It drops in under the paragraph on a phone.}}
 
 ### A smaller heading
 
@@ -48,7 +52,7 @@ def verify(chain):
 
 ## An image
 
-![Dashboard screenshot from the access control prototype](/images/PrototypeDashboard.png)
+![Dashboard screenshot from the access control prototype](/images/PrototypeDashboard.png "The audit dashboard from the access control prototype.")
 
 ---
 
