@@ -131,6 +131,7 @@ img{max-width:100%}
 .portrait{float:right;width:156px;margin:2px 0 10px 22px}
 .portrait img{display:block;width:156px;height:auto;border:1px solid #000}
 .portrait figcaption{margin-top:5px;font-style:italic}
+.portrait--snap,.portrait--snap img{width:190px}
 .lead{margin:0 0 12px}
 .after-lead{margin-bottom:18px!important}
 
@@ -247,6 +248,7 @@ pre code{font-size:inherit}
   .about-grid{grid-template-columns:1fr;gap:16px 0}
   .portrait{float:none;margin:0 0 16px;width:132px}
   .portrait img{width:132px}
+  .portrait--snap,.portrait--snap img{width:150px}
   .two-col{grid-template-columns:1fr;gap:0}
   .skills-grid{grid-template-columns:repeat(2,1fr);gap:0 16px}
   .cta-row{flex-direction:column;align-items:flex-start;gap:0}
