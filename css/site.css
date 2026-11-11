@@ -17,7 +17,6 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;background:var(--wall);color:#000;font:16px/1.45 var(--serif)}
 [hidden]{display:none!important}
 a{color:#000;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
-a:hover{text-decoration-thickness:2px}
 img{max-width:100%}
 .sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .skip{position:absolute;left:8px;top:-80px;z-index:100;padding:10px 14px;background:#fff;color:#000;border:1px solid #000}
@@ -279,10 +278,6 @@ pre code{font-size:inherit}
 .js-only{display:none}
 .js .js-only{display:inline-flex}
 
-@media (prefers-reduced-motion:reduce){
-  .js body{animation:none}
-  .win::backdrop,.win.is-closing::backdrop{animation:none}
-}
 @media print{
   .bands,.skip,.win::backdrop,.win-actions,.win-foot{display:none!important}
   html,body{background:#fff}
@@ -326,7 +321,10 @@ pre code{font-size:inherit}
 
 /* ---------- One calm entrance: the page comes up out of the white wall, once ---------- */
 @keyframes page-in{from{opacity:0}to{opacity:1}}
-.js body:not(.home){animation:page-in 1s ease-out backwards}
+/* Motion switch: 'off' (chosen, or the system's Reduce Motion) removes every fade and transition */
+html[data-motion="off"] *,html[data-motion="off"] *::before,html[data-motion="off"] *::after{animation:none!important;transition:none!important}
+html[data-motion="off"] ::view-transition-group(*),html[data-motion="off"] ::view-transition-old(*),html[data-motion="off"] ::view-transition-new(*){animation:none!important}
+[hidden]{display:none!important}
 /* home: the eight bands come up one after another, top to bottom */
 .js .band{animation:page-in .9s ease-out backwards;animation-delay:calc(var(--i,0) * 140ms + 120ms)}
 .band:nth-child(1){--i:0}.band:nth-child(2){--i:1}.band:nth-child(3){--i:2}.band:nth-child(4){--i:3}
@@ -345,5 +343,25 @@ pre code{font-size:inherit}
   .cat-mid{grid-area:mid}
   .cat-prev{grid-area:prev}.cat-next{grid-area:next}
 }
-/* a fade is not movement, so it stays for people who asked for reduced motion, just quicker */
-@media (prefers-reduced-motion:reduce){.js body:not(.home){animation:none}.js .band{animation-duration:.5s;animation-delay:calc(var(--i,0) * 80ms)}}
+
+/* ---------- Soft fade between pages (browsers that support cross-document view transitions) ---------- */
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.45s;animation-timing-function:ease}
+
+/* ---------- Finishing details ---------- */
+::selection{background:#1A1511;color:#F7F5F0}
+.win-body,.win-scroll{scrollbar-width:thin;scrollbar-color:#9a958c transparent}
+a{transition:text-underline-offset .3s ease,text-decoration-thickness .3s ease}
+a:hover{text-decoration-thickness:1px;text-underline-offset:.32em}
+.band-sub{display:block;margin-top:1px;font-size:13px;font-style:italic;line-height:1.25;letter-spacing:0}
+.hide-phone{display:inline}
+@media (max-width:759px){.hide-phone{display:none}}
+@media (max-height:700px){.band-sub{display:none}}
+.sec-nav{margin:26px 0 0}
+.nojs .sec-nav{display:none}
+@media print{.sec-nav,.cat-nav{display:none!important}}
+.win .standfirst{margin:0 40px 6px;max-width:62ch;font-size:19px;font-style:italic;line-height:1.45}
+@media (max-width:759px){.win .standfirst{margin:0 20px 6px}}
+.win--article .win-head h1{font-size:32px;line-height:1.15}
+.js-only>span[aria-hidden]+button{margin-left:.45em}
+.wall-text .js-only,.win-foot .js-only{margin-left:.45em;align-items:baseline}

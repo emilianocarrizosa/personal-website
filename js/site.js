@@ -8,7 +8,7 @@
 
   var KEYS = ['name', 'work', 'about', 'experience', 'services', 'skills', 'writing', 'contact'];
   var PARENT = { resume: 'experience', colophon: 'contact' };   // windows that open on top of another one
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var still = function () { return document.documentElement.getAttribute('data-motion') === 'off'; };   // set by the motion switch
   var base = location.pathname + location.search;
   var bandFor = {};
   var lastFocus = null;
@@ -74,7 +74,7 @@
     d.classList.remove('is-closing');
     d.getAnimations().forEach(function (a) { a.cancel(); });
     if (!d.animate) return;
-    fade(d, 0, 1, reduce.matches ? 120 : 380);
+    fade(d, 0, 1, still() ? 0 : 380);
   }
   function closeDlg(d) {
     if (!d.open || d._closing) return;
@@ -85,7 +85,7 @@
       d._closeTok = null; d._byUs = true; if (d.open) d.close(); d._closing = false; d.classList.remove('is-closing');
       d.getAnimations().forEach(function (a) { a.cancel(); });   // drop the faded-out state so the next open starts clean
     };
-    if (reduce.matches || !d.animate) { fin(); return; }
+    if (still() || !d.animate) { fin(); return; }
     d.classList.add('is-closing');
     d.getAnimations().forEach(function (a) { a.cancel(); });
     var anim = d.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 280, easing: EASE, fill: 'forwards' });
@@ -119,6 +119,16 @@
         if (f && f.focus) f.focus({ preventScroll: true });
       }
     });
+  });
+  document.addEventListener('click', function (e) {                    // Previous / Next inside a window: swap sections, keep one Back to home
+    var a = e.target.closest && e.target.closest('a[data-hop]');
+    if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    if (backing) return;
+    var key = a.getAttribute('data-hop');
+    lastFocus = lastFocus || bandFor[key] && bandFor[key].querySelector('.band-link');
+    history.replaceState(history.state, '', '#' + key);
+    sync();
   });
   document.addEventListener('click', function (e) {
     var c = e.target.closest && e.target.closest('[data-close]');
