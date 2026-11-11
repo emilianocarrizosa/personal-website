@@ -131,8 +131,15 @@ img{max-width:100%}
 .portrait{float:right;width:156px;margin:2px 0 10px 22px}
 .portrait img{display:block;width:156px;height:auto;border:1px solid #000}
 .portrait figcaption{margin-top:5px;font-style:italic}
-.portrait--snap,.portrait--snap img{width:190px}
 .lead{margin:0 0 12px}
+/* Beyond the résumé: an editorial spread, large photo left, text column right */
+.beyond{margin-top:30px;padding-top:12px;border-top:1px solid #000}
+.beyond .sub{margin:0 0 14px}
+.beyond-grid{display:grid;grid-template-columns:minmax(0,280px) 1fr;gap:0 30px;align-items:end}
+.snap{margin:0}
+.beyond-text{display:grid;align-content:end}
+.snap img{display:block;width:100%;height:auto;border:1px solid #000}
+.snap-cap{margin:0;font-style:italic;display:inline-block;justify-self:start;padding-top:7px;border-top:1px solid #000;min-width:56px}
 .after-lead{margin-bottom:18px!important}
 
 /* Services / Skills */
@@ -248,7 +255,7 @@ pre code{font-size:inherit}
   .about-grid{grid-template-columns:1fr;gap:16px 0}
   .portrait{float:none;margin:0 0 16px;width:132px}
   .portrait img{width:132px}
-  .portrait--snap,.portrait--snap img{width:150px}
+  .beyond-grid{grid-template-columns:1fr;gap:10px 0}.snap{max-width:300px}
   .two-col{grid-template-columns:1fr;gap:0}
   .skills-grid{grid-template-columns:repeat(2,1fr);gap:0 16px}
   .cta-row{flex-direction:column;align-items:flex-start;gap:0}
