@@ -300,13 +300,12 @@ pre code{font-size:inherit}
 .win--colophon .row-main p{margin:0}
 /* spotlight: the band under the cursor (or keyboard focus) stays at full strength,
    the others recede under a wash of the wall colour. Nothing moves. */
-.band::after{content:"";position:absolute;inset:0;z-index:0;background:var(--wall);opacity:0;pointer-events:none;transition:opacity .45s ease .12s}
+.band::after{content:"";position:absolute;inset:0;z-index:0;background:var(--wall);opacity:0;pointer-events:none;transition:opacity .16s ease}
 .band-link{z-index:1}
 /* bridge the gaps between bands so crossing one never drops the spotlight */
 @media (hover:hover){.band::before{content:"";position:absolute;inset:-4px 0;z-index:0}}
-/* fades in fast, lets go slowly (and after a beat) */
-@media (hover:hover){.bands:has(.band:hover) .band:not(:hover)::after{opacity:.62;transition:opacity .2s ease}}
-.bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible))::after{opacity:.62;transition:opacity .2s ease}
+@media (hover:hover){.bands:has(.band:hover) .band:not(:hover)::after{opacity:.62}}
+.bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible))::after{opacity:.62}
 html[data-motion="off"] .band::after{transition:none}
 /* long pages keep their title in view */
 .win--page .win-head{position:sticky;top:0;z-index:5;background:#fff}
