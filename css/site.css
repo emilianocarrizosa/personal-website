@@ -298,10 +298,13 @@ pre code{font-size:inherit}
 .win--colophon{width:min(640px,calc(100vw - 24px))}
 .win--colophon .row{grid-template-columns:110px 1fr;padding-bottom:8px}
 .win--colophon .row-main p{margin:0}
-/* a soft lift when a band is hovered (pointer devices only) */
-.band::after{content:"";position:absolute;inset:0;z-index:0;background:#fff;opacity:0;pointer-events:none;transition:opacity .5s ease}
+/* spotlight: the band under the cursor (or keyboard focus) stays at full strength,
+   the others recede under a wash of the wall colour. Nothing moves. */
+.band::after{content:"";position:absolute;inset:0;z-index:0;background:var(--wall);opacity:0;pointer-events:none;transition:opacity .5s ease}
 .band-link{z-index:1}
-@media (hover:hover){.band:hover::after{opacity:.1}}
+@media (hover:hover){.bands:has(.band:hover) .band:not(:hover)::after{opacity:.26}}
+.bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible))::after{opacity:.26}
+html[data-motion="off"] .band::after{transition:none}
 /* long pages keep their title in view */
 .win--page .win-head{position:sticky;top:0;z-index:5;background:#fff}
 /* project "at a glance" strip */
