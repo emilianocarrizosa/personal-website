@@ -120,16 +120,53 @@
       }
     });
   });
-  document.addEventListener('click', function (e) {                    // Previous / Next inside a window: swap sections, keep one Back to home
+  function hop(key) {                                      // swap one section window for another; keep a single Back to home
+    if (backing || !key || key === currentKey()) return;
+    lastFocus = lastFocus || (bandFor[key] && bandFor[key].querySelector('.band-link'));
+    history.replaceState(history.state, '', '#' + key);
+    sync();
+  }
+  function room(step) {                                    // move to the next / previous room while a section window is open
+    var i = KEYS.indexOf(currentKey()), j = i + step;
+    if (i > -1 && j >= 0 && j < KEYS.length) hop(KEYS[j]);
+  }
+  document.addEventListener('click', function (e) {        // Previous / Next links inside a window
     var a = e.target.closest && e.target.closest('a[data-hop]');
     if (!a || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
-    if (backing) return;
-    var key = a.getAttribute('data-hop');
-    lastFocus = lastFocus || bandFor[key] && bandFor[key].querySelector('.band-link');
-    history.replaceState(history.state, '', '#' + key);
-    sync();
+    hop(a.getAttribute('data-hop'));
   });
+  document.addEventListener('keydown', function (e) {      // 1-8 open a room, arrow keys turn the page
+    if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+    var t = e.target, tag = t && t.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (t && t.isContentEditable)) return;
+    var cur = currentKey();
+    if (PARENT[cur]) return;                                // a stacked window (résumé, Colophon) keeps the keys to itself
+    if (/^[1-8]$/.test(e.key)) {
+      var key = KEYS[+e.key - 1];
+      e.preventDefault();
+      if (cur) hop(key); else go(key, bandFor[key] && bandFor[key].querySelector('.band-link'));
+    } else if (cur && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+      e.preventDefault();
+      room(e.key === 'ArrowRight' ? 1 : -1);
+    }
+  });
+  (function () {                                           // swipe sideways on a phone to turn the page
+    var x0, y0, t0, ok = false;
+    dialogs.forEach(function (d) {
+      if (KEYS.indexOf(d.id) < 0) return;
+      d.addEventListener('touchstart', function (e) {
+        ok = e.touches.length === 1 && !(e.target.closest && e.target.closest('.tbl-wrap, input, textarea'));
+        if (ok) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); }
+      }, { passive: true });
+      d.addEventListener('touchend', function (e) {
+        if (!ok || !e.changedTouches.length) return;
+        ok = false;
+        var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+        if (Math.abs(dx) > 80 && Math.abs(dx) > 2.5 * Math.abs(dy) && Date.now() - t0 < 700) room(dx < 0 ? 1 : -1);
+      }, { passive: true });
+    });
+  })();
   document.addEventListener('click', function (e) {
     var c = e.target.closest && e.target.closest('[data-close]');
     if (c) { e.preventDefault(); back(); }

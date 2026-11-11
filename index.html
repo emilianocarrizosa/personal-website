@@ -25,12 +25,12 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preload" href="fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css?v=2026111118">
+<link rel="preload" href="fonts/newsreader-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css?v=2026111119">
 <script>document.documentElement.className='js'</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Emiliano Carrizosa","url":"https://emilianocar.com/","jobTitle":"IT & Support Professional","address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY","addressCountry":"US"},"sameAs":["https://linkedin.com/in/emilianocar"]}</script>
-<script>(function(d){var r=false,m=null;try{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}catch(e){}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))})(document.documentElement)</script>
-<script src="js/motion.js?v=2026111118" defer></script>
+<script>(function(d){var r=false,m=null;try{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}catch(e){}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'));try{if(/\/(index\.html)?$/.test(location.pathname)){if(sessionStorage.getItem('seen'))d.classList.add('seen');else sessionStorage.setItem('seen','1')}}catch(e){}})(document.documentElement)</script>
+<script src="js/motion.js?v=2026111119" defer></script>
 </head>
 <body class="home">
 <a class="skip" href="#bands">Skip to the sections</a>
@@ -140,7 +140,7 @@
 <dialog class="win win--contact" id="contact" aria-labelledby="h-contact">
   <div class="win-head"><div><h2 id="h-contact">Contact</h2></div><div class="win-actions"><span class="tap"><button type="button" class="link" data-close>Close</button></span></div></div>
   <div class="win-scroll"><div class="win-body" tabindex="0">
-<h3>Let’s talk</h3><p>Open to IT, systems and analyst roles, administrative and operations roles, consulting, and select freelance work.</p><div class="contact-row"><span>Email</span><div><a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a></div></div><div class="contact-row"><span>LinkedIn</span><div><a href="https://linkedin.com/in/emilianocar" rel="me noopener">linkedin.com/in/emilianocar</a></div></div><div class="contact-row"><span>Based in</span><div>New York, NY</div></div><div class="contact-row"><span>Languages</span><div>English, Spanish</div></div><div class="contact-actions"><a class="btn" href="mailto:emiliano.carrizosa@proton.me">Send an email</a><button type="button" class="btn js-only" id="copy-email" data-email="emiliano.carrizosa@proton.me">Copy email</button><span class="copy-status" id="copy-status" role="status" aria-live="polite"></span></div><nav class="cat-nav sec-nav" aria-label="Sections"><a class="cat-prev" rel="prev" href="#writing" data-hop="writing"><span class="cat-k">Previous</span><span class="cat-t">Writing</span></a><p class="cat-mid">Room 8 of 8</p><span></span></nav>
+<h3>Let’s talk</h3><p>Open to IT, systems and analyst roles, administrative and operations roles, consulting, and select freelance work.</p><div class="contact-row"><span>Email</span><div><a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a></div></div><div class="contact-row"><span>LinkedIn</span><div><a href="https://linkedin.com/in/emilianocar" rel="me noopener">linkedin.com/in/emilianocar</a></div></div><div class="contact-row"><span>Based in</span><div>New York, NY</div></div><div class="contact-row"><span>Languages</span><div>English, Spanish</div></div><div class="contact-actions"><a class="btn" href="mailto:emiliano.carrizosa@proton.me">Send an email</a><button type="button" class="btn js-only" id="copy-email" data-email="emiliano.carrizosa@proton.me">Copy email</button><a class="btn" href="emiliano-carrizosa.vcf" download>Add to contacts</a><span class="copy-status" id="copy-status" role="status" aria-live="polite"></span></div><nav class="cat-nav sec-nav" aria-label="Sections"><a class="cat-prev" rel="prev" href="#writing" data-hop="writing"><span class="cat-k">Previous</span><span class="cat-t">Writing</span></a><p class="cat-mid">Room 8 of 8</p><span></span></nav>
   </div></div>
   <div class="win-foot"><span class="cap">Carved sandstone · American Southwest</span><span class="tap"><a href="#colophon" data-key="colophon">Colophon</a></span></div>
 </dialog>
@@ -153,7 +153,9 @@
     <h3 class="sub" style="margin-top:12px">Type</h3>
     <p>Set in Newsreader, an open-source typeface (SIL Open Font License) served from this site.</p>
     <h3 class="sub" style="margin-top:12px">Build</h3>
-    <p>Written by hand in plain HTML, CSS and a little JavaScript. No frameworks, no analytics, no cookies.</p>
+    <p>Written by hand in plain HTML, CSS and a little JavaScript. No frameworks, no analytics, no cookies. The one setting you can change, motion, is remembered on your device and goes nowhere else.</p>
+    <h3 class="sub" style="margin-top:12px">Keys</h3>
+    <p>Press 1 to 8 to open a room, the left and right arrow keys to move between rooms, and Esc to close. On a phone, swipe sideways.</p>
   </div></div>
   <div class="win-foot"><span class="cap">Hand-troweled plaster</span><span class="tap"></span></div>
 </dialog>
@@ -167,6 +169,6 @@
   <div class="win-foot"><span class="cap only-desktop">One page, PDF</span><a class="btn only-phone" style="flex:1" href="resume/Emiliano_Carrizosa_Resume.pdf" download>Download PDF</a><span class="tap only-desktop"><button type="button" class="link" data-close>Close</button></span></div>
 </dialog>
 
-<script src="js/site.js?v=2026111118" defer></script>
+<script src="js/site.js?v=2026111119" defer></script>
 </body>
 </html>
