@@ -155,10 +155,10 @@ def post_page(p, newer=None, older=None):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css?v=2026111133">
+<link rel="stylesheet" href="/css/site.css?v=2026111135">
 <script>(function(d){{var r=false,m=null;try{{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}}catch(e){{}}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))}})(document.documentElement)</script>
-<script src="/js/motion.js?v=2026111133" defer></script>
-<script src="/js/read.js?v=2026111133" defer></script>
+<script src="/js/motion.js?v=2026111135" defer></script>
+<script src="/js/read.js?v=2026111135" defer></script>
 </head>
 <body class="page theme-zellige">
 <div class="read-bar" aria-hidden="true"><span></span></div>
@@ -275,9 +275,9 @@ def subscribe_page(posts):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css?v=2026111133">
+<link rel="stylesheet" href="/css/site.css?v=2026111135">
 <script>(function(d){{var r=false,m=null;try{{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}}catch(e){{}}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))}})(document.documentElement)</script>
-<script src="/js/motion.js?v=2026111133" defer></script>
+<script src="/js/motion.js?v=2026111135" defer></script>
 </head>
 <body class="page theme-zellige">
 <a class="skip" href="#main">Skip to the page</a>
