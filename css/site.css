@@ -302,8 +302,8 @@ pre code{font-size:inherit}
    the others recede under a wash of the wall colour. Nothing moves. */
 .band::after{content:"";position:absolute;inset:0;z-index:0;background:var(--wall);opacity:0;pointer-events:none;transition:opacity .5s ease}
 .band-link{z-index:1}
-@media (hover:hover){.bands:has(.band:hover) .band:not(:hover)::after{opacity:.26}}
-.bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible))::after{opacity:.26}
+@media (hover:hover){.bands:has(.band:hover) .band:not(:hover)::after{opacity:.62}}
+.bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible))::after{opacity:.62}
 html[data-motion="off"] .band::after{transition:none}
 /* long pages keep their title in view */
 .win--page .win-head{position:sticky;top:0;z-index:5;background:#fff}
