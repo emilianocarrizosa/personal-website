@@ -307,6 +307,9 @@ pre code{font-size:inherit}
 @media (hover:hover){.bands:has(.band:hover) .band:not(:hover)::after{opacity:.62}}
 .bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible))::after{opacity:.62}
 html[data-motion="off"] .band::after{transition:none}
+/* experience duties read as a list: a hairline marker, hanging indent, a little air between */
+#experience .org~p{position:relative;padding-left:20px;margin-top:8px}
+#experience .org~p::before{content:"";position:absolute;left:1px;top:.72em;width:9px;height:1px;background:currentColor;opacity:.5}
 /* long pages keep their title in view */
 .win--page .win-head{position:sticky;top:0;z-index:5;background:#fff}
 /* project "at a glance" strip */
