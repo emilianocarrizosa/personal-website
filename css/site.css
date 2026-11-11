@@ -2,9 +2,8 @@
    Home: eight stacked material bands; every section opens in a plain "window" (<dialog>).
    Inner pages (projects, posts, 404) use the same window, sitting on a material background. */
 
-@font-face{font-family:"Newsreader";font-weight:400;font-style:normal;font-display:swap;src:url(../fonts/newsreader-400.woff2) format("woff2")}
-@font-face{font-family:"Newsreader";font-weight:400;font-style:italic;font-display:swap;src:url(../fonts/newsreader-400-italic.woff2) format("woff2")}
-@font-face{font-family:"Newsreader";font-weight:600 700;font-style:normal;font-display:swap;src:url(../fonts/newsreader-600.woff2) format("woff2")}
+@font-face{font-family:"Newsreader";font-weight:400 700;font-style:normal;font-display:swap;src:url(../fonts/newsreader-var.woff2) format("woff2")}
+@font-face{font-family:"Newsreader";font-weight:400 700;font-style:italic;font-display:swap;src:url(../fonts/newsreader-var-italic.woff2) format("woff2")}
 
 :root{
   --ink:#1A1511; --wall:#F7F5F0; --sep:#F7F5F0; --link:#0b3d91;
@@ -14,7 +13,7 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{margin:0;background:var(--wall);color:#000;font:16px/1.45 var(--serif)}
+body{margin:0;background:var(--wall);color:#000;font:16px/1.45 var(--serif);font-optical-sizing:auto}
 [hidden]{display:none!important}
 a{color:#000;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
 img{max-width:100%}
@@ -110,7 +109,8 @@ img{max-width:100%}
 .win li{text-wrap:pretty}
 
 /* date | content rows (Work, Experience, Writing) */
-.row{display:grid;grid-template-columns:150px 1fr;gap:0 32px;padding:0 0 20px}
+.row{display:grid;grid-template-columns:150px 1fr;gap:0 32px;padding:0 0 18px}
+.row+.row,.post:not([hidden])~.post:not([hidden]){padding-top:18px;border-top:1px solid var(--rule)}   /* a hairline between entries, like a label rail */
 .row-main{max-width:62ch}
 .row-meta{padding-top:3px;font-variant-numeric:lining-nums tabular-nums}
 .row-meta em{display:block;margin-top:1px}
@@ -365,3 +365,11 @@ a:hover{text-decoration-thickness:1px;text-underline-offset:.32em}
 .win--article .win-head h1{font-size:32px;line-height:1.15}
 .js-only>span[aria-hidden]+button{margin-left:.45em}
 .wall-text .js-only,.win-foot .js-only{margin-left:.45em;align-items:baseline}
+
+/* ---------- Every window opens with its top edge in the same place ---------- */
+@media (min-width:760px){
+  dialog.win{margin:clamp(20px,6vh,60px) auto auto;max-height:min(830px,calc(100vh - clamp(20px,6vh,60px) - 20px));max-height:min(830px,calc(100dvh - clamp(20px,6vh,60px) - 20px))}
+}
+/* the home entrance plays once per browser session */
+.seen .band{animation:none!important}
+dialog.win:focus,dialog.win:focus-visible{outline:none}   /* the window itself is not a control; its buttons and links keep their rings */

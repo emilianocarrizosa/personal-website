@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Carrizosa;Emiliano;;;
+FN:Emiliano Carrizosa
+TITLE:IT Support & Security
+EMAIL;TYPE=INTERNET:emiliano.carrizosa@proton.me
+URL:https://emilianocar.com/
+URL;TYPE=LinkedIn:https://linkedin.com/in/emilianocar
+ADR;TYPE=WORK:;;;New York;NY;;United States
+END:VCARD
