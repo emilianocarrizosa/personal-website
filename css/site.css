@@ -23,30 +23,49 @@ img{max-width:100%}
 :focus-visible{outline:3px solid var(--link);outline-offset:2px}
 .win-body:focus-visible{outline-offset:-3px}
 
-/* ---------- Home: the bands, hung inside a white gallery margin ---------- */
-.bands{position:relative;display:flex;flex-direction:column;gap:8px;height:100vh;height:100dvh;min-height:520px;padding:20px 20px 52px;background:var(--wall);overflow:hidden}
-.band{position:relative;flex:1 1 0%;min-height:0;background-color:var(--bg);background-image:var(--img),var(--lqip,none);background-repeat:no-repeat,no-repeat;
-  background-size:max(1440px,100%) auto,cover;background-position:50% var(--py),50% 50%}
+/* ---------- Home: an editorial spread. Squares hung on a quiet wall, staggered, with room around each ---------- */
+.bands{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:64px 28px;align-items:start;max-width:1280px;margin:0 auto;padding:64px clamp(24px,6.9vw,88px) 36px;background:var(--wall)}
+.band{position:relative;min-width:0}
 .band-h{margin:0;font:inherit}
-.band-link{position:absolute;inset:0;z-index:1;display:flex;align-items:center;justify-content:flex-start;padding:0 0 0 16px;text-decoration:none;color:inherit;outline:0}
-.band-link:focus-visible{outline:3px solid #fff;outline-offset:-3px;box-shadow:inset 0 0 0 6px #000}
-/* the title is a museum wall label: a small white card, black type */
-.band-title{position:relative;display:inline-block;max-width:calc(100% - 32px);padding:7px 16px 6px;background:#fff;border:1px solid #000;color:#000;font:400 17px/1.2 var(--serif);letter-spacing:.01em}
-.band-link:hover .band-title{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
-
-/* wall text: a caption line hung in the bottom margin, like the small type beside a gallery door */
-.wall-text{position:absolute;left:20px;right:20px;bottom:0;height:52px;margin:0;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:14px;line-height:1.2;letter-spacing:.01em}
+.band-link{position:relative;z-index:1;display:block;color:inherit;text-decoration:none;outline:0}
+.band-img{position:relative;display:block;aspect-ratio:var(--ar,1);background-color:var(--bg);background-image:var(--img),var(--lqip,none);background-repeat:no-repeat,no-repeat;background-size:cover,cover;background-position:var(--px,50%) 50%,50% 50%}
+.band-link:focus-visible .band-img{outline:3px solid var(--link);outline-offset:3px}
+/* caption under each picture: number, title, then the material in italics */
+html{scrollbar-gutter:stable}
+html:has(dialog[open]){overflow:hidden}
+.bands{counter-reset:room}
+.band:not(.band--top){counter-increment:room}
+.band-title{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;margin-top:12px;font:400 19px/1.25 var(--serif);letter-spacing:.005em}
+.band:not(.band--top) .band-title::before{content:counter(room,decimal-leading-zero);font-size:14px;opacity:.55;font-variant-numeric:tabular-nums}
+.band-sub{display:inline;margin:0;font-size:14.5px;font-style:italic;opacity:.72;letter-spacing:0}
+/* masthead: the name, set large, with a short line at the right */
+.band--top{grid-column:1/-1;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:0 28px;align-items:start;margin-bottom:8px}
+.band--top .band-h{grid-column:1/9}
+.band--top .band-title{display:block;margin:0;font:400 clamp(44px,5.6vw,72px)/1 var(--serif);letter-spacing:-.02em}
+.mast-tag{grid-column:10/13;margin:10px 0 0;font-style:italic;line-height:1.35}
+/* the caption line at the foot of the wall */
+.wall-text{grid-column:1/-1;margin:28px 0 0;padding-top:14px;border-top:1px solid #000;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:14px;line-height:1.2;letter-spacing:.01em}
 .wall-text a{display:inline-block;padding:10px 2px}
 
-/* each band: base colour, picture and vertical crop */
-.band--top{--bg:#C58F7D;--img:url(../images/materials/iznik-band.webp);--py:30%}
-.band--work{--bg:#EDE6DA;--img:url(../images/materials/plaster-band.webp);--py:50%}
-.band--about{--bg:#B7C7AE;--img:url(../images/materials/celadon-band.webp);--py:45%}
-.band--experience{--bg:#A9B9C8;--img:url(../images/materials/azulejo-band.webp);--py:45%}
-.band--services{--bg:#E0A878;--img:url(../images/materials/kakiemon-band.webp);--py:78%}
-.band--skills{--bg:#6F685F;--img:url(../images/materials/talavera-tile.webp);background-image:var(--img);background-size:auto 100%;background-repeat:repeat-x;background-position:50% 50%}
-.band--writing{--bg:#B56F76;--img:url(../images/materials/zellige-band.webp);--py:50%}
-.band--contact{--bg:#E3CFAE;--img:url(../images/materials/sandstone-band.webp);--py:50%}
+/* where each picture hangs (wide screens) */
+@media (min-width:760px){
+  .band--work{grid-column:1/6}
+  .band--about{grid-column:7/10;margin-top:110px}
+  .band--experience{grid-column:10/13}
+  .band--services{grid-column:2/5}
+  .band--skills{grid-column:7/10;margin-top:90px}
+  .band--writing{grid-column:1/7;--ar:4/3}
+  .band--contact{grid-column:9/12;margin-top:130px}
+}
+
+/* each tile: base colour, picture and horizontal crop */
+.band--work{--bg:#EDE6DA;--img:url(../images/materials/plaster-band.webp)}
+.band--about{--bg:#B7C7AE;--img:url(../images/materials/celadon-band.webp)}
+.band--experience{--bg:#A9B9C8;--img:url(../images/materials/azulejo-band.webp);--px:40%}
+.band--services{--bg:#E0A878;--img:url(../images/materials/kakiemon-band.webp);--px:78%}
+.band--skills{--bg:#6F685F;--img:url(../images/materials/talavera-tile.webp)}
+.band--writing{--bg:#B56F76;--img:url(../images/materials/zellige-band.webp)}
+.band--contact{--bg:#E3CFAE;--img:url(../images/materials/sandstone-band.webp)}
 
 /* tiny blurred previews that show while each band photo loads */
 .band--top{--lqip:url(data:image/webp;base64,UklGRrQAAABXRUJQVlA4IKgAAAAwAwCdASogAA0APrVKnkonJCKhsAgA4BaJZACdAGFVQghIAPZgpfd2ww5inIbJFeSwiYLoa9sItfpkQy4BUPCQGuAqX6fMfSPtn8eZAOnNkllb+GxJHmuqO1tDl17Nf6RNAI1KeCRu++uVRO2ywxe8KwmV3Sq/GNO3bQA1huP0Mxl6p3H/s7e3fnrZcnsobhwoBWmt4ra4Wi0vm6O0dPBG4qbmEyfDcAA=)}
@@ -59,19 +78,14 @@ img{max-width:100%}
 
 
 @media (max-width:759px){
-  .bands{gap:6px;padding:12px 12px 44px}
-  .wall-text{left:12px;right:12px;height:44px;font-size:13px}
-  .band{background-size:760px auto,cover}
-  .band--skills{background-size:auto 100%}
-  .band-link{padding-left:10px}
-  .band-title{padding:6px 12px 5px;font-size:16px}
-  .band--top{--img:url(../images/materials/iznik-band-sm.webp)}
-  .band--work{--img:url(../images/materials/plaster-band-sm.webp)}
-  .band--about{--img:url(../images/materials/celadon-band-sm.webp)}
-  .band--experience{--img:url(../images/materials/azulejo-band-sm.webp)}
-  .band--services{--img:url(../images/materials/kakiemon-band-sm.webp)}
-  .band--writing{--img:url(../images/materials/zellige-band-sm.webp)}
-  .band--contact{--img:url(../images/materials/sandstone-band-sm.webp)}
+  .bands{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 14px;padding:28px 18px 24px}
+  .band--top,.band--work,.band--writing{grid-column:1/-1}
+  .band--top{display:block;margin-bottom:0}
+  .mast-tag{margin:10px 0 0}
+  .band--writing{--ar:4/3}
+  .band-title{margin-top:9px;font-size:17px}
+  .band:not(.band--top) .band-title{flex-direction:column;gap:1px}
+  .wall-text{font-size:13px}
 }
 
 /* ---------- The window ---------- */
@@ -286,8 +300,6 @@ pre code{font-size:inherit}
 }
 
 /* ---------- No JavaScript: windows become ordinary sections below the bands ---------- */
-.nojs .bands{height:auto;min-height:0}
-.nojs .band{min-height:96px}
 .nojs dialog.win{display:flex;position:static;margin:24px auto;max-height:none}
 .nojs .win-scroll::after,.nojs [data-close],.nojs .w-tools,.nojs .w-pager{display:none}
 .nojs .win-body{overflow:visible}
@@ -314,15 +326,16 @@ pre code{font-size:inherit}
 .win--colophon{width:min(640px,calc(100vw - 24px))}
 .win--colophon .row{grid-template-columns:110px 1fr;padding-bottom:8px}
 .win--colophon .row-main p{margin:0}
-/* spotlight: the band under the cursor (or keyboard focus) stays at full strength,
+/* spotlight: the picture under the cursor (or keyboard focus) stays at full strength,
    the others recede under a wash of the wall colour. Nothing moves. */
-.band::after{content:"";position:absolute;inset:0;z-index:0;background:var(--wall);opacity:0;pointer-events:none;transition:opacity .16s ease}
-.band-link{z-index:1}
-/* bridge the gaps between bands so crossing one never drops the spotlight */
-@media (hover:hover){.band::before{content:"";position:absolute;inset:-4px 0;z-index:0}}
-@media (hover:hover){.bands:has(.band:hover) .band:not(:hover)::after{opacity:.62}}
-.bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible))::after{opacity:.62}
-html[data-motion="off"] .band::after{transition:none}
+.band-img::after{content:"";position:absolute;inset:0;background:var(--wall);opacity:0;pointer-events:none;transition:opacity .16s ease}
+/* bridge the gaps between tiles so crossing one never drops the spotlight */
+@media (hover:hover){
+  .band:not(.band--top)::before{content:"";position:absolute;inset:-16px -14px;z-index:0}
+  .bands:has(.band:not(.band--top):hover) .band:not(:hover) .band-img::after{opacity:.62}
+}
+.bands:has(.band-link:focus-visible) .band:not(:has(.band-link:focus-visible)) .band-img::after{opacity:.62}
+html[data-motion="off"] .band-img::after{transition:none}
 /* experience duties read as a list: a hairline marker, hanging indent, a little air between */
 #experience .org~p{position:relative;padding-left:20px;margin-top:8px}
 #experience .org~p::before{content:"";position:absolute;left:1px;top:.72em;width:9px;height:1px;background:currentColor;opacity:.5}
@@ -377,10 +390,8 @@ html[data-motion="off"] ::view-transition-group(*),html[data-motion="off"] ::vie
 .win-body,.win-scroll{scrollbar-width:thin;scrollbar-color:#9a958c transparent}
 a{transition:text-underline-offset .3s ease,text-decoration-thickness .3s ease}
 a:hover{text-decoration-thickness:1px;text-underline-offset:.32em}
-.band-sub{display:block;margin-top:1px;font-size:13px;font-style:italic;line-height:1.25;letter-spacing:0}
 .hide-phone{display:inline}
 @media (max-width:759px){.hide-phone{display:none}}
-@media (max-height:700px){.band-sub{display:none}}
 .sec-nav{margin:26px 0 0}
 .nojs .sec-nav{display:none}
 @media print{.sec-nav,.cat-nav{display:none!important}}
