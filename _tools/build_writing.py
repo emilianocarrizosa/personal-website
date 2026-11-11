@@ -97,18 +97,31 @@ def fmt_date(d):
 
 
 # ---------------------------------------------------------------- post page
-def post_page(p):
+def post_page(p, newer=None, older=None):
     url = f"{SITE}/writing/{p['slug']}.html"
     img = p["image"]
     if img.startswith("/"):
         img = SITE + img
     img = img or DEFAULT_IMAGE
     title, desc = esc(p["title"], quote=True), esc(p["summary"], quote=True)
-    meta = f"{fmt_date(p['date'])} · {p['minutes']} min read · {CATEGORIES[p['cat']]}"
+    glance = (f'<dl class="glance"><div><dt>Published</dt><dd>{fmt_date(p["date"])}</dd></div>'
+              f'<div><dt>Kind</dt><dd>{CATEGORIES[p["cat"]]}</dd></div>'
+              f'<div><dt>Reading time</dt><dd>{p["minutes"]} min</dd></div>')
     if p["updated"] and p["updated"] > p["date"]:
-        meta += f" · Updated {fmt_date(p['updated'])}"
-    if p["draft"]:
-        meta = "DRAFT · " + meta
+        glance += f'<div><dt>Updated</dt><dd>{fmt_date(p["updated"])}</dd></div>'
+    glance += "</dl>"
+    sub = '<p class="win-sub"><em>Draft, not published</em></p>' if p["draft"] else ""
+    standfirst = f'<p class="standfirst">{esc(p["summary"])}</p>' if p["summary"] else ""
+
+    def cell(q, rel, label):
+        if not q:
+            return "<span></span>"
+        return (f'<a class="cat-{rel}" rel="{rel}" href="/writing/{q["slug"]}.html"><span class="cat-k">{label}</span>'
+                f'<span class="cat-t">{esc(q["title"])}</span></a>')
+    nav = ""
+    if newer or older:
+        nav = (f'<nav class="cat-nav" aria-label="More writing">{cell(older, "prev", "Earlier")}'
+               f'<p class="cat-mid"><a href="/#writing">All writing</a></p>{cell(newer, "next", "Later")}</nav>')
     robots = '\n<meta name="robots" content="noindex">' if p["draft"] else ""
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -136,18 +149,23 @@ def post_page(p):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css?v=2026111017">
+<link rel="stylesheet" href="/css/site.css?v=2026111118">
+<script>(function(d){{var r=false,m=null;try{{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}}catch(e){{}}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))}})(document.documentElement)</script>
+<script src="/js/motion.js?v=2026111118" defer></script>
 </head>
 <body class="page theme-zellige">
 <a class="skip" href="#main">Skip to the article</a>
 <main id="main" class="sheet sheet--narrow">
-  <article class="win win--page" aria-labelledby="h-post">
-    <div class="win-head"><div><h1 id="h-post">{esc(p['title'])}</h1><p class="win-sub"><em>{esc(meta)}</em></p></div><span class="tap"><a href="/#writing">Close</a></span></div>
+  <article class="win win--page win--article" aria-labelledby="h-post">
+    <div class="win-head"><div><h1 id="h-post">{esc(p['title'])}</h1>{sub}</div><span class="tap"><a href="/#writing">Close</a></span></div>
+    {standfirst}
+    {glance}
     <div class="prose">
 {p['content']}
     </div>
     <div class="prose-end"><p>Thoughts or corrections? <a href="mailto:emiliano.carrizosa@proton.me">Send me an email</a>.</p></div>
-    <div class="win-foot"><span class="tap"><a href="/#writing">All writing</a></span><span class="cap">{CAPTION}</span><span class="tap"><a href="/subscribe.html">RSS feed</a></span></div>
+    {nav}
+    <div class="win-foot"><span class="tap"><a href="/#writing">All writing</a></span><span class="cap">{CAPTION}</span><span class="tap"><a href="/subscribe.html">RSS feed</a><span class="js-only"><span aria-hidden="true">·</span><button type="button" class="link" data-motion-toggle hidden>Motion: on</button></span></span></div>
   </article>
 </main>
 </body>
@@ -221,7 +239,9 @@ def subscribe_page(posts):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/site.css?v=2026111017">
+<link rel="stylesheet" href="/css/site.css?v=2026111118">
+<script>(function(d){{var r=false,m=null;try{{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}}catch(e){{}}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))}})(document.documentElement)</script>
+<script src="/js/motion.js?v=2026111118" defer></script>
 </head>
 <body class="page theme-zellige">
 <a class="skip" href="#main">Skip to the page</a>
@@ -313,8 +333,10 @@ def main():
     for f in OUT.glob("*.html"):                       # prune only files this script made
         if MARKER in f.read_text(encoding="utf-8", errors="ignore")[:400]:
             f.unlink()
-    for p in shown:
-        (OUT / f"{p['slug']}.html").write_text(post_page(p), encoding="utf-8")
+    for i, p in enumerate(shown):                      # shown is newest first
+        newer = shown[i - 1] if i > 0 else None
+        older = shown[i + 1] if i + 1 < len(shown) else None
+        (OUT / f"{p['slug']}.html").write_text(post_page(p, newer, older), encoding="utf-8")
     inject_index(shown)
 
     public = [p for p in shown if not p["draft"]]

@@ -24,7 +24,9 @@
 <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="fonts/newsreader-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css?v=2026111017">
+<link rel="stylesheet" href="css/site.css?v=2026111118">
+<script>(function(d){var r=false,m=null;try{r=matchMedia('(prefers-reduced-motion: reduce)').matches;m=localStorage.getItem('motion')}catch(e){}d.setAttribute('data-motion',m==='on'||m==='off'?m:(r?'off':'on'))})(document.documentElement)</script>
+<script src="js/motion.js?v=2026111118" defer></script>
 </head>
 <body class="page theme-plaster">
 <a class="skip" href="#main">Skip to the write-up</a>
@@ -45,7 +47,7 @@
       <div class="proj-facts"><section><h2 class="item">Stack</h2><dl><dt>Backend</dt><dd>Python (FastAPI) · PostgreSQL (ACID audit tables)</dd><dt>Audit</dt><dd>append-only tables with cryptographic hash verification</dd><dt>Cache</dt><dd>Redis (sessions, permission lookups)</dd><dt>Crypto</dt><dd>AES-256 at rest · TLS 1.3 in transit · JWT with refresh</dd><dt>Frontend</dt><dd>React</dd></dl></section><section><h2 class="item">Evidence &amp; availability</h2><p>This is a prototype built on synthetic data — there are no real client details to protect, so a live walkthrough of the working build is available on request. <!-- When a public repo / demo is ready, add it here, e.g.: try the demo at github.com/USER/REPO --></p><p><a href="mailto:emiliano.carrizosa@proton.me">emiliano.carrizosa@proton.me</a></p></section></div>
     </div>
     <nav class="cat-nav" aria-label="More work"><a class="cat-prev" rel="prev" href="hunter-training-simulator.html"><span class="cat-k">Previous</span><span class="cat-t">Hunter Visitors Center Training Simulator</span></a><p class="cat-mid">No. 2 of 8<a href="index.html#work">All work</a></p><a class="cat-next" rel="next" href="operational-security-assessment.html"><span class="cat-k">Next</span><span class="cat-t">Infrastructure Security Audit</span></a></nav>
-    <div class="win-foot"><span class="cap">Hand-troweled plaster</span><span class="tap"></span></div>
+    <div class="win-foot"><span class="cap">Hand-troweled plaster</span><span class="tap"><button type="button" class="link" data-motion-toggle hidden>Motion: on</button></span></div>
   </article>
 </main>
 </body>
