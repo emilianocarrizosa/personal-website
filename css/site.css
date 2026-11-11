@@ -26,7 +26,7 @@ img{max-width:100%}
 .win-body:focus-visible{outline-offset:-3px}
 
 /* ---------- Home: the bands, hung inside a white gallery margin ---------- */
-.bands{position:relative;display:flex;flex-direction:column;gap:8px;height:100vh;height:100dvh;min-height:520px;padding:20px;background:var(--wall);overflow:hidden}
+.bands{position:relative;display:flex;flex-direction:column;gap:8px;height:100vh;height:100dvh;min-height:520px;padding:20px 20px 52px;background:var(--wall);overflow:hidden}
 .band{position:relative;flex:1 1 0%;min-height:0;background-color:var(--bg);background-image:var(--img),var(--lqip,none);background-repeat:no-repeat,no-repeat;
   background-size:max(1440px,100%) auto,cover;background-position:50% var(--py),50% 50%}
 .band-h{margin:0;font:inherit}
@@ -35,6 +35,10 @@ img{max-width:100%}
 /* the title is a museum wall label: a small white card, black type */
 .band-title{position:relative;display:inline-block;max-width:calc(100% - 32px);padding:7px 16px 6px;background:#fff;border:1px solid #000;color:#000;font:400 17px/1.2 var(--serif);letter-spacing:.01em}
 .band-link:hover .band-title{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
+
+/* wall text: a caption line hung in the bottom margin, like the small type beside a gallery door */
+.wall-text{position:absolute;left:20px;right:20px;bottom:0;height:52px;margin:0;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:14px;line-height:1.2;letter-spacing:.01em}
+.wall-text a{display:inline-block;padding:10px 2px}
 
 /* each band: base colour, picture and vertical crop */
 .band--top{--bg:#C58F7D;--img:url(../images/materials/iznik-band.webp);--py:30%}
@@ -57,7 +61,8 @@ img{max-width:100%}
 
 
 @media (max-width:759px){
-  .bands{gap:6px;padding:12px}
+  .bands{gap:6px;padding:12px 12px 44px}
+  .wall-text{left:12px;right:12px;height:44px;font-size:13px}
   .band{background-size:760px auto,cover}
   .band--skills{background-size:auto 100%}
   .band-link{padding-left:10px}

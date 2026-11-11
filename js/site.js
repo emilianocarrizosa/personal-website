@@ -91,8 +91,14 @@
     var anim = d.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 280, easing: EASE, fill: 'forwards' });
     anim.finished.then(fin, function () {});
   }
+  var baseTitle = document.title;
+  function setTitle(key) {                                 // the tab names the open section, so history and bookmarks read well
+    var h = key && key !== 'name' && $('h-' + key);
+    document.title = h ? h.textContent.trim() + ' — Emiliano Carrizosa' : baseTitle;
+  }
   function sync() {
     var key = currentKey(), want = wanted(key);
+    setTitle(key);
     dialogs.forEach(function (d) { if (d.open && want.indexOf(d.id) < 0) closeDlg(d); });
     want.forEach(function (id) { openDlg($(id)); });
   }
